@@ -20,6 +20,7 @@ public enum State {
 
     NOT_AVAILABLE,
     AVAILABLE,
-    LOST
+    LOST,
+    ABC
 
 }
