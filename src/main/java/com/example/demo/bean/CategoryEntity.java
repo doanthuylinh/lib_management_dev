@@ -41,9 +41,6 @@ public class CategoryEntity implements Serializable {
     @Column(name = "category_name")
     private String categoryName;
 
-    @OneToMany(mappedBy = "CategoryEntity")
-    private Set<BookEntity> bookEntities;
-
     public Integer getCategoryId() {
         return categoryId;
     }

@@ -40,9 +40,6 @@ public class TransactionTypeEntity implements Serializable {
 
     @Column(name = "transaction_type_name")
     private String transactionTypeName;
-    
-    @OneToMany(mappedBy = "TransactionTypeEntity")
-    private Set<TransactionEntity> transactionEntities;
 
     public Integer getTransactionTypeId() {
         return transactionTypeId;

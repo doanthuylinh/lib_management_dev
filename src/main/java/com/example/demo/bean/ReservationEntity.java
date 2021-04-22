@@ -59,15 +59,9 @@ public class ReservationEntity implements Serializable {
     @Column(name = "created_time")
     private LocalDateTime createdTime;
     
-    @OneToMany(mappedBy = "ReservationEntity")
-    private Set<TransactionEntity> transactionEntities;
-    
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity userEntity;
-    
-    @OneToMany(mappedBy = "ReservationEntity")
-    private Set<ReservationDetailsEntity> reservationDetailsEntities;
 
     public Integer getReservationId() {
         return reservationId;

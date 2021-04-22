@@ -39,10 +39,10 @@ public class TransactionEntity implements Serializable {
     @Column(name = "transaction_id")
     private Integer transactionId;
 
-    @Column(name = "transaction_type_id")
+    @Column(name = "transaction_type_id", insertable = false, updatable = false)
     private Integer transactionTypeId;
 
-    @Column(name = "reservation_id")
+    @Column(name = "reservation_id", insertable = false, updatable = false)
     private Integer reservationId;
 
     @Column(name = "money")

@@ -56,9 +56,6 @@ public class UserEntity implements Serializable {
 
     @Column(name = "role")
     protected Character role;
-    
-    @OneToMany(mappedBy = "UserEntity")
-    private Set<ReservationEntity> reservationEntities;
 
     public Integer getUserId() {
         return userId;
