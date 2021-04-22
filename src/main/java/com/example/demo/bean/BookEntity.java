@@ -67,16 +67,13 @@ public class BookEntity implements Serializable {
 
     @Column(name = "price")
     private Double price;
-
-    @OneToMany(mappedBy = "BookEntity")
-    private Set<BookItemEntity> bookItemEntities;
     
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity categoryEntity;
     
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", insertable = false, updatable = false)
     private DepartmentEntity departmentEntity;
 
     public Integer getBookId() {

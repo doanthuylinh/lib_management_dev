@@ -40,9 +40,6 @@ public class DepartmentEntity implements Serializable {
 
     @Column(name = "department_name")
     private String departmentName;
-    
-    @OneToMany(mappedBy = "DepartmentEntity")
-    private Set<BookEntity> bookEntities;
 
     public Integer getDepartmentId() {
         return departmentId;

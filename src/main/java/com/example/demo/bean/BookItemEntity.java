@@ -57,11 +57,8 @@ public class BookItemEntity {
     private State state;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", insertable=false, updatable=false)
     private BookEntity bookEntity;
-
-    @OneToOne(mappedBy = "BookItemEntity")
-    private ReservationDetailsEntity reservationDetailsEntity;
     
     public Integer getBookItemId() {
         return bookItemId;
