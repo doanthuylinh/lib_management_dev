@@ -64,10 +64,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // Prevent request from another domain.
                 .authorizeRequests()
+                // User
                 .antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
+                // Book
                 .antMatchers(HttpMethod.GET, "/api/book/{bookId}", "/api/getbookbyname", "/api/getbookbyauthor", "/api/getbookbycategory",
-                        "/api/getbookbypublicationdate", "/api/getbookitembybarcode", "/api/getlistbookitembybookid", "/api/ebook/{bookId}", "/api/ebook-list",
-                        "/api/categories-list", "/api/departments-list").permitAll()
+                        "/api/getbookbypublicationdate", "/api/search").permitAll()
+                // Book item
+                .antMatchers(HttpMethod.GET, "/api/getbookitembybarcode", "/api/getlistbookitembybookid").permitAll()
+                // Category
+                .antMatchers(HttpMethod.GET, "/api/categories-list", "/api/departments-list").permitAll()
+                // Department
+                .antMatchers(HttpMethod.GET, "/api/departments-list").permitAll()
+                // Heath check
                 .antMatchers(HttpMethod.GET, "/api", "/api/ping").permitAll()
                 .anyRequest().authenticated();
         // Except for the API(s) above, all other requests must be verified before access.
