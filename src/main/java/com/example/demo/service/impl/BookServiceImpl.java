@@ -175,5 +175,21 @@ public class BookServiceImpl implements BookService {
         LOGGER.info("----------getBookByPublicationDate END----------");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by publication date" }));
     }
+    
+    public ResultBean searchBook(String query) throws ApiValidateException {
+    	LOGGER.info("--- Search Book START ---");
 
+        // Check whether publication date is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
+        }
+
+        List<BookEntity> entity = bookDao.searchBook(query);
+        if (Objects.isNull(entity)) {
+            return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
+        }
+
+        LOGGER.info("--- Search Book END ---");
+        return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
+    }
 }

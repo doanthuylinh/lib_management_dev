@@ -46,7 +46,7 @@ public interface BookDao {
      * @param bookAythor
      * @return
      */
-    public List<BookEntity> getBookByAuthor(String bookAuthor);
+    public List<BookEntity> getBookByAuthor(String author);
 
     /**
      * getBookByCategory
@@ -71,5 +71,12 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> getBookByPublicationDate(String publicationDate);
+    
+    /**
+     * 
+     * @param query
+     * @return
+     */
+    public List<BookEntity> searchBook(String query);
 
 }
