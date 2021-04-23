@@ -31,8 +31,6 @@ public class BookItemResponse extends BookResponse {
     private String dateAddedToLibrary;
     @JsonProperty("location")
     private String location;
-    @JsonProperty("rent_cost")
-    private Double rentCost;
     @JsonProperty("state")
     private Integer state;
 
@@ -95,13 +93,12 @@ public class BookItemResponse extends BookResponse {
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
             String publicationDate, String thumbnail, Double price, Integer bookItemId, String barcode, String dateOfPurchase, String dateAddedToLibrary,
             String location, Double rentCost, Integer state) {
-        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, price);
+        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price);
         this.bookItemId = bookItemId;
         this.barcode = barcode;
         this.dateOfPurchase = dateOfPurchase;
         this.dateAddedToLibrary = dateAddedToLibrary;
         this.location = location;
-        this.rentCost = rentCost;
         this.state = state;
     }
 
@@ -111,8 +108,8 @@ public class BookItemResponse extends BookResponse {
     }
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double price) {
-        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, price);
+            String publicationDate, String thumbnail, Double rentCost, Double price) {
+        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price);
         // TODO Auto-generated constructor stub
     }
 

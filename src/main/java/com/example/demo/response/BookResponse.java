@@ -39,6 +39,8 @@ public class BookResponse {
     protected String publicationDate;
     @JsonProperty("thumbnail")
     protected String thumbnail;
+    @JsonProperty("rent_code")
+    protected Double rentCost;
     @JsonProperty("price")
     protected Double price;
 
@@ -123,7 +125,7 @@ public class BookResponse {
     }
 
     public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double price) {
+            String publicationDate, String thumbnail, Double rentCost, Double price) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
@@ -134,6 +136,7 @@ public class BookResponse {
         this.departmentName = departmentName;
         this.publicationDate = publicationDate;
         this.thumbnail = thumbnail;
+        this.rentCost = rentCost;
         this.price = price;
     }
 

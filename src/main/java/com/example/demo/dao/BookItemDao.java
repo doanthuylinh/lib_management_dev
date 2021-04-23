@@ -37,4 +37,6 @@ public interface BookItemDao {
     * @return
     */
     public List<BookItemResponse> getListBookItemByBookId(Integer bookId);
+    
+    public long countBook(Integer bookId);
 }

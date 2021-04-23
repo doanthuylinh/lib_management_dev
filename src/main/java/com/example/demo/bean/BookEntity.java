@@ -64,6 +64,9 @@ public class BookEntity implements Serializable {
 
     @Column(name = "thumbnail")
     private String thumbnail;
+    
+    @Column(name = "rent_cost")
+    private Double rentCost;
 
     @Column(name = "price")
     private Double price;
@@ -157,7 +160,7 @@ public class BookEntity implements Serializable {
     }
 
     public BookEntity(Integer bookId, String bookName, String description, String language, String author, Integer categoryId, Integer departmentId,
-            String publicationDate, String thumbnail, Double price) {
+            String publicationDate, String thumbnail, Double rentCost, Double price) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
@@ -168,6 +171,7 @@ public class BookEntity implements Serializable {
         this.departmentId = departmentId;
         this.publicationDate = publicationDate;
         this.thumbnail = thumbnail;
+        this.rentCost = rentCost;
         this.price = price;
     }
 

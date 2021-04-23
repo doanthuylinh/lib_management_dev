@@ -165,4 +165,14 @@ public class BookItemDaoImpl implements BookItemDao {
         return entity;
     }
 
+	@Override
+	public long countBook(Integer bookId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
+//    public long countBook(Integer bookId) {
+//    	
+//    }
+
 }
