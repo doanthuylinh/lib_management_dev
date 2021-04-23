@@ -36,5 +36,7 @@ public class ConstantColumn {
     public final static String CATEGORY_NAME = "category_name";
     public final static String PUBLICATION_DATE = "publication_date";
     
+    public final static String QUERY_SEARCH = "query";
+    
     public final static String BARCODE = "barcode";
 }

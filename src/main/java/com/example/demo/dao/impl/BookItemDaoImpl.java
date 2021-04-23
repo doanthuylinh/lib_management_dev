@@ -57,10 +57,9 @@ public class BookItemDaoImpl implements BookItemDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate, ");
         sql.append("    bie.barcode, ");
@@ -122,10 +121,9 @@ public class BookItemDaoImpl implements BookItemDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate, ");
         sql.append("    bie.barcode, ");

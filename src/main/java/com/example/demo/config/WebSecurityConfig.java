@@ -63,11 +63,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // Prevent request from another domain.
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
+                .authorizeRequests()
+                // User
+                .antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
+                // Book
                 .antMatchers(HttpMethod.GET, "/api/book/{bookId}", "/api/getbookbyname", "/api/getbookbyauthor", "/api/getbookbycategory",
-                        "/api/getbookbypublicationdate", "/api/getbookitembybarcode", "/api/getlistbookitembybookid", "/api/ebook/{bookId}", "/api/ebook-list",
-                        "/api/categories-list", "/api/departments-list")
-                .permitAll().anyRequest().authenticated();
+                        "/api/getbookbypublicationdate", "/api/search").permitAll()
+                // Book item
+                .antMatchers(HttpMethod.GET, "/api/getbookitembybarcode", "/api/getlistbookitembybookid").permitAll()
+                // Category
+                .antMatchers(HttpMethod.GET, "/api/categories-list", "/api/departments-list").permitAll()
+                // Department
+                .antMatchers(HttpMethod.GET, "/api/departments-list").permitAll()
+                // Heath check
+                .antMatchers(HttpMethod.GET, "/api", "/api/ping").permitAll()
+                .anyRequest().authenticated();
         // Except for the API(s) above, all other requests must be verified before access.
         // Add another class of Filter to check JSON Web Tokens.
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
