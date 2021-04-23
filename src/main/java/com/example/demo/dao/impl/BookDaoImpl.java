@@ -58,10 +58,9 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate) ");
         sql.append(" FROM ");
@@ -69,7 +68,7 @@ public class BookDaoImpl implements BookDao {
         sql.append(" INNER JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department = de.departmentId ");
+        sql.append("    be.department_id = de.departmentId ");
         sql.append("  INNER JOIN ");
         sql.append("    BookTypeEntity bte ");
         sql.append(" ON ");
@@ -107,10 +106,9 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate) ");
         sql.append(" FROM ");
@@ -149,7 +147,7 @@ public class BookDaoImpl implements BookDao {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<BookEntity> getBookByAuthor(String bookAuthor) {
+    public List<BookEntity> getBookByAuthor(String author) {
         LOGGER.info("----------getBookByAuthor START----------");
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT new com.example.demo.response.BookResponse(");
@@ -157,10 +155,9 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate) ");
         sql.append(" FROM ");
@@ -168,7 +165,7 @@ public class BookDaoImpl implements BookDao {
         sql.append(" INNER JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department = de.departmentId ");
+        sql.append("    be.departmentId = de.departmentId ");
         sql.append("  INNER JOIN ");
         sql.append("    BookTypeEntity bte ");
         sql.append(" ON ");
@@ -178,10 +175,10 @@ public class BookDaoImpl implements BookDao {
         sql.append(" ON ");
         sql.append("    be.category = ce.categoryId ");
         sql.append(" WHERE ");
-        sql.append("    be.bookAuthor = :bookAuthor ");
+        sql.append("    be.author = :author ");
 
         Query query = this.entityManager.createQuery(sql.toString());
-        query.setParameter("bookAuthor", bookAuthor);
+        query.setParameter("author", author);
         List<BookEntity> entity = null;
         entity = query.getResultList();
         LOGGER.info("----------getBookByAuthor END----------");
@@ -238,10 +235,9 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
         sql.append("    bte.bookTypeName, ");
         sql.append("    be.publicationDate) ");
         sql.append(" FROM ");
@@ -284,26 +280,22 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.bookName, ");
         sql.append("    be.description, ");
         sql.append("    be.language, ");
-        sql.append("    be.bookAuthor, ");
+        sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    be.quantity, ");
-        sql.append("    bte.bookTypeName, ");
-        sql.append("    be.publicationDate) ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
         sql.append(" INNER JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department = de.departmentId ");
-        sql.append("  INNER JOIN ");
-        sql.append("    BookTypeEntity bte ");
-        sql.append(" ON ");
-        sql.append("    be.bookType = bte.bookTypeId ");
-        sql.append("  INNER JOIN ");
+        sql.append("    be.departmentId = de.departmentId ");
+        sql.append(" INNER JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
-        sql.append("    be.category = ce.categoryId ");
+        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
         sql.append("    be.publicationDate = :publicationDate ");
 
@@ -312,6 +304,49 @@ public class BookDaoImpl implements BookDao {
         List<BookEntity> entity = null;
         entity = query.getResultList();
         LOGGER.info("----------getBookByPublicationDate END----------");
+        return entity;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<BookEntity> searchBook(String q) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT new com.example.demo.response.BookResponse(");
+        sql.append("    be.bookId, ");
+        sql.append("    be.bookName, ");
+        sql.append("    be.description, ");
+        sql.append("    be.language, ");
+        sql.append("    be.author, ");
+        sql.append("    ce.categoryName, ");
+        sql.append("    de.departmentName, ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price) ");
+        sql.append(" FROM ");
+        sql.append("    BookEntity be ");
+        sql.append(" LEFT JOIN ");
+        sql.append("    DepartmentEntity de ");
+        sql.append(" ON ");
+        sql.append("    be.departmentId = de.departmentId ");
+        sql.append(" LEFT JOIN ");
+        sql.append("    CategoryEntity ce ");
+        sql.append(" ON ");
+        sql.append("    be.categoryId = ce.categoryId ");
+        sql.append(" WHERE ");
+        sql.append(" be.bookName LIKE :searchKey ");
+        sql.append(" OR ");
+        sql.append(" be.author LIKE :searchKey ");
+        sql.append(" OR ");
+        sql.append(" be.description LIKE :searchKey");
+        sql.append(" OR ");
+        sql.append(" ce.categoryName LIKE :searchKey");
+        sql.append(" OR ");
+        sql.append(" de.departmentName LIKE :searchKey");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("searchKey", "%" + q + "%");
+        List<BookEntity> entity = null;
+        entity = query.getResultList();
+        
         return entity;
     }
 

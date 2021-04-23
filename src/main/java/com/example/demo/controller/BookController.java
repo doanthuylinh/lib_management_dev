@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ResultBean;
 import com.example.demo.service.BookService;
 import com.example.demo.utils.ApiValidateException;
+import com.example.demo.utils.ResponseUtils;
 
 /**
  * [OVERVIEW] Book Controller.
@@ -146,5 +148,23 @@ public class BookController {
         }
         LOGGER.info("----------getBookByPublicationDate END----------");
         return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> searchBook(@RequestParam("q") String query) {
+    	LOGGER.info("--- Search Book START with query: " + query);
+    	
+    	ResultBean resultBean = null;
+    	try {
+    		resultBean = bookService.searchBook(query);
+    	} catch (ApiValidateException e) {
+    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+    	
+    	LOGGER.info("--- Search book END ---");
+    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 }

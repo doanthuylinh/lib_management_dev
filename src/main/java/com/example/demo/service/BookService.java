@@ -63,4 +63,12 @@ public interface BookService {
     * @throws ApiValidateException
     */
     public ResultBean getBookByPublicationDate(String publicationDate) throws ApiValidateException;
+    
+    /**
+     * 
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    public ResultBean searchBook(String data) throws ApiValidateException;
 }
