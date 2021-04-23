@@ -109,4 +109,11 @@ public class DataUtils {
         }
         return null;
     }
+    
+    public static boolean isNullOrEmpty(String data) throws ApiValidateException {
+        if (data == null || data.trim().isEmpty()) {
+        	return true;
+        }
+        return false;
+    }
 }
