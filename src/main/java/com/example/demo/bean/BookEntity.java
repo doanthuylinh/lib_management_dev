@@ -42,50 +42,62 @@ public class BookEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     @SerializedName("book_id")
+    @JsonProperty("book_id")
     private Integer bookId;
 
     @Column(name = "book_name")
     @SerializedName("book_name")
+    @JsonProperty("book_name")
     private String bookName;
 
     @Column(name = "description")
     @SerializedName("description")
+    @JsonProperty("description")
     private String description;
 
     @Column(name = "language")
     @SerializedName("language")
+    @JsonProperty("language")
     private String language;
 
     @Column(name = "author")
     @SerializedName("author")
+    @JsonProperty("author")
     private String author;
 
     @Column(name = "category_id")
     @SerializedName("category_id")
+    @JsonProperty("category_id")
     private Integer categoryId;
 
     @Column(name = "department_id")
     @SerializedName("department_id")
+    @JsonProperty("department_id")
     private Integer departmentId;
 
     @Column(name = "publication_date")
     @SerializedName("publication_date")
+    @JsonProperty("publication_date")
     private String publicationDate;
 
     @Column(name = "thumbnail")
     @SerializedName("thumbnail")
+    @JsonProperty("thumbnail")
     private String thumbnail;
 
     @Column(name = "rent_cost")
     @SerializedName("rent_cost")
+    @JsonProperty("rent_cost")
     private Double rentCost;
 
     @Column(name = "price")
     @SerializedName("price")
+    @JsonProperty("price")
     private Double price;
 
     @Column(name = "create_date")
     @SerializedName("create_date")
+    @JsonProperty("create_date")
     private Date createDate;
 
     @ManyToOne
