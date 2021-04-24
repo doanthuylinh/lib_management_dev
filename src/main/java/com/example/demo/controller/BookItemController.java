@@ -63,7 +63,7 @@ public class BookItemController {
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
-    @RequestMapping(value = "/countBookItem", method = RequestMethod.GET)
+    @RequestMapping(value = "/bookitem/count", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> countBookItem(@RequestParam("bookId") Integer bookId) {
         LOGGER.info("----------countBookItem START----------");
         ResultBean resultBean = null;
