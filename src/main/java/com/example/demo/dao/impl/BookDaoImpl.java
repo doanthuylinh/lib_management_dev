@@ -48,6 +48,26 @@ public class BookDaoImpl implements BookDao {
 
     private static final Logger LOGGER = LogManager.getLogger(BookDaoImpl.class);
 
+    @Override
+    public BookEntity getBookEntityById(Integer bookId) {
+    	StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    BookEntity be ");
+        sql.append(" WHERE ");
+        sql.append("    be.bookId = :bookId ");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookId", bookId);
+        BookEntity entity = null;
+        try {
+            entity = (BookEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        LOGGER.info("----------getBookById END----------");
+        return entity;
+    }
+    
     /**
      * getBookById
      * @author: LinhDT

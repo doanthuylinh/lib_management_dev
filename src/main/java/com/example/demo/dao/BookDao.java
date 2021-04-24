@@ -24,6 +24,8 @@ import com.example.demo.response.BookResponse;
 */
 public interface BookDao {
 
+	public BookEntity getBookEntityById(Integer bookId);
+	
     /**
      * getBookById
      * @author: LinhDT

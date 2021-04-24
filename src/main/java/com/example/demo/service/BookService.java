@@ -73,4 +73,6 @@ public interface BookService {
     public ResultBean searchBook(String data) throws ApiValidateException;
     
     public ResultBean addBook(String data) throws ApiValidateException;
+    
+    public ResultBean updateBook(String data) throws ApiValidateException;
 }

@@ -195,9 +195,10 @@ public class BookServiceImpl implements BookService {
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
     
-    public void updateBook(String data) throws ApiValidateException {
+    public ResultBean updateBook(String data) throws ApiValidateException {
     	JsonObject json = new Gson().fromJson(data, JsonObject.class);
 		
+    	Integer bookId = DataUtils.getAsIntegerByJson(json, "book_id");
 		String bookName = DataUtils.getAsStringByJson(json, "book_name");
 		String description = DataUtils.getAsStringByJson(json, "description");
 		String language = DataUtils.getAsStringByJson(json, "language");
@@ -209,7 +210,7 @@ public class BookServiceImpl implements BookService {
 		Double price = DataUtils.getAsDoubleByJson(json, "price");
 		Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
 
-		BookEntity book = new BookEntity();
+		BookEntity book = bookDao.getBookEntityById(bookId);
 		book.setBookName(bookName);
 		book.setDescription(description);
 		book.setLanguage(language);
@@ -221,7 +222,7 @@ public class BookServiceImpl implements BookService {
 		book.setPrice(price);
 		book.setRentCost(rentCost);
 		
-		bookDao.updateBook(book);
+		return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
     }
 
 	@Override
