@@ -32,10 +32,7 @@ public class HealthCheckController {
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public ResponseEntity<ResultBean> ping() throws InterruptedException {
 		LOGGER.info("-----Some one PING me-----");
-	
-		
 		ResultBean result = new ResultBean("200", "pong");
-		
 		return new ResponseEntity<ResultBean>(result, HttpStatus.OK);
 	}
 }
