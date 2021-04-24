@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.bean.BookItemEntity;
 import com.example.demo.dao.BookItemDao;
 import com.example.demo.response.BookItemResponse;
 
@@ -175,5 +176,12 @@ public class BookItemDaoImpl implements BookItemDao {
         
         Long count = (Long) query.getSingleResult();
 		return count;
+	}
+	
+	@Override
+	public BookItemEntity updateBookItem(BookItemEntity entity) {
+		this.entityManager.merge(entity);
+		
+		return entity;
 	}
 }
