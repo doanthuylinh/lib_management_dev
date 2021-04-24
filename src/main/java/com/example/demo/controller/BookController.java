@@ -150,7 +150,7 @@ public class BookController {
         return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/book/search", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> searchBook(@RequestParam("q") String query) {
     	LOGGER.info("--- Search Book START with query: " + query);
     	
@@ -166,5 +166,47 @@ public class BookController {
     	
     	LOGGER.info("--- Search book END ---");
     	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
+    
+    @RequestMapping(value = "/book", method = RequestMethod.PUT)
+    public ResponseEntity<ResultBean> updateBook(@RequestBody String data) {
+    	LOGGER.info("--- Update book START ---");
+    	
+    	ResultBean resultBean = null;
+    	try {
+    		resultBean = bookService.updateBook(data);
+    	} catch (ApiValidateException e) {
+    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+    	
+    	LOGGER.info("--- Update book END ---");
+    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
+    
+    
+    @RequestMapping(value = "/book", method = RequestMethod.POST)
+    public ResponseEntity<ResultBean> addBook(@RequestBody String data) {
+    	LOGGER.info("--- Update book START ---");
+    	
+    	ResultBean resultBean = null;
+    	try {
+    		resultBean = bookService.addBook(data);
+    	} catch (ApiValidateException e) {
+    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+    	
+    	LOGGER.info("--- Update book END ---");
+    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
+    
+    @RequestMapping(value = "/book", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> getBook(@RequestParam("from") Integer from, @RequestParam("limit") Integer limit) {
+    	return null;
     }
 }

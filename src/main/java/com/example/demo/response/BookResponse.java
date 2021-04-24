@@ -6,6 +6,8 @@
 
 package com.example.demo.response;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -39,8 +41,12 @@ public class BookResponse {
     protected String publicationDate;
     @JsonProperty("thumbnail")
     protected String thumbnail;
+    @JsonProperty("rent_code")
+    protected Double rentCost;
     @JsonProperty("price")
     protected Double price;
+    @JsonProperty("create_date")
+    protected Date createDate;
 
     public Integer getBookId() {
         return bookId;
@@ -121,9 +127,25 @@ public class BookResponse {
     public void setPrice(Double price) {
         this.price = price;
     }
+    
+    public Double getRentCost() {
+		return rentCost;
+	}
 
-    public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double price) {
+	public void setRentCost(Double rentCost) {
+		this.rentCost = rentCost;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
+            String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
@@ -134,7 +156,9 @@ public class BookResponse {
         this.departmentName = departmentName;
         this.publicationDate = publicationDate;
         this.thumbnail = thumbnail;
+        this.rentCost = rentCost;
         this.price = price;
+        this.createDate = createDate;
     }
 
     public BookResponse() {

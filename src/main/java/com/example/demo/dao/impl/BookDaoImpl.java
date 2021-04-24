@@ -15,6 +15,7 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +42,32 @@ public class BookDaoImpl implements BookDao {
     @PersistenceContext
     @Autowired
     private EntityManager entityManager;
+    
+//    @Autowired
+//    private Session session;
 
     private static final Logger LOGGER = LogManager.getLogger(BookDaoImpl.class);
 
+    @Override
+    public BookEntity getBookEntityById(Integer bookId) {
+    	StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    BookEntity be ");
+        sql.append(" WHERE ");
+        sql.append("    be.bookId = :bookId ");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookId", bookId);
+        BookEntity entity = null;
+        try {
+            entity = (BookEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        LOGGER.info("----------getBookById END----------");
+        return entity;
+    }
+    
     /**
      * getBookById
      * @author: LinhDT
@@ -320,7 +344,9 @@ public class BookDaoImpl implements BookDao {
         sql.append("    de.departmentName, ");
         sql.append("    be.publicationDate, ");
         sql.append("    be.thumbnail, ");
-        sql.append("    be.price) ");
+        sql.append("	be.rentCost, ");
+        sql.append("    be.price, ");
+        sql.append("    be.createDate) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
         sql.append(" LEFT JOIN ");
@@ -349,5 +375,19 @@ public class BookDaoImpl implements BookDao {
         
         return entity;
     }
+
+	@Override
+	public BookEntity updateBook(BookEntity entity) {
+		this.entityManager.merge(entity);
+		
+		return entity;
+	}
+	
+	@Override
+	public BookEntity addBook(BookEntity entity) {
+		this.entityManager.persist(entity);
+		
+		return entity;
+	}
 
 }

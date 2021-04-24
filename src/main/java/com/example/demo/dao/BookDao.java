@@ -24,6 +24,8 @@ import com.example.demo.response.BookResponse;
 */
 public interface BookDao {
 
+	public BookEntity getBookEntityById(Integer bookId);
+	
     /**
      * getBookById
      * @author: LinhDT
@@ -78,5 +80,9 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> searchBook(String query);
+    
+    public BookEntity updateBook(BookEntity entity);
+    
+    public BookEntity addBook(BookEntity entity);
 
 }

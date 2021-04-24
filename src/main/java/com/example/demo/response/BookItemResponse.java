@@ -6,6 +6,8 @@
 
 package com.example.demo.response;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -31,8 +33,6 @@ public class BookItemResponse extends BookResponse {
     private String dateAddedToLibrary;
     @JsonProperty("location")
     private String location;
-    @JsonProperty("rent_cost")
-    private Double rentCost;
     @JsonProperty("state")
     private Integer state;
 
@@ -94,14 +94,13 @@ public class BookItemResponse extends BookResponse {
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
             String publicationDate, String thumbnail, Double price, Integer bookItemId, String barcode, String dateOfPurchase, String dateAddedToLibrary,
-            String location, Double rentCost, Integer state) {
-        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, price);
+            String location, Double rentCost, Date createDate, Integer state) {
+        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price, createDate);
         this.bookItemId = bookItemId;
         this.barcode = barcode;
         this.dateOfPurchase = dateOfPurchase;
         this.dateAddedToLibrary = dateAddedToLibrary;
         this.location = location;
-        this.rentCost = rentCost;
         this.state = state;
     }
 
@@ -111,8 +110,8 @@ public class BookItemResponse extends BookResponse {
     }
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double price) {
-        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, price);
+            String publicationDate, String thumbnail, Double rentCost, Date createDate, Double price) {
+        super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price, createDate);
         // TODO Auto-generated constructor stub
     }
 

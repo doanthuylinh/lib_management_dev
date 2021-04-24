@@ -7,6 +7,7 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * [OVERVIEW] Book Entity.
@@ -39,36 +42,54 @@ public class BookEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
+    @JsonProperty("book_id")
     private Integer bookId;
-
+    
     @Column(name = "book_name")
+    @JsonProperty("book_name")
     private String bookName;
 
     @Column(name = "description")
+    @JsonProperty("description")
     private String description;
 
     @Column(name = "language")
+    @JsonProperty("language")
     private String language;
 
     @Column(name = "author")
+    @JsonProperty("author")
     private String author;
 
     @Column(name = "category_id")
+    @JsonProperty("category_id")
     private Integer categoryId;
 
     @Column(name = "department_id")
+    @JsonProperty("department_id")
     private Integer departmentId;
 
     @Column(name = "publication_date")
+    @JsonProperty("publication_date")
     private String publicationDate;
 
     @Column(name = "thumbnail")
+    @JsonProperty("thumbnail")
     private String thumbnail;
+    
+    @Column(name = "rent_cost")
+    @JsonProperty("rent_cost")
+    private Double rentCost;
 
     @Column(name = "price")
+    @JsonProperty("price")
     private Double price;
     
-    @ManyToOne
+    @Column(name = "create_date")
+    @JsonProperty("create_date")
+    private Date createDate;
+
+	@ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity categoryEntity;
     
@@ -124,7 +145,15 @@ public class BookEntity implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public Integer getDepartmentId() {
+    public Double getRentCost() {
+		return rentCost;
+	}
+
+	public void setRentCost(Double rentCost) {
+		this.rentCost = rentCost;
+	}
+
+	public Integer getDepartmentId() {
         return departmentId;
     }
 
@@ -155,9 +184,17 @@ public class BookEntity implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
+    
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date datetime) {
+		this.createDate = datetime;
+	}
 
     public BookEntity(Integer bookId, String bookName, String description, String language, String author, Integer categoryId, Integer departmentId,
-            String publicationDate, String thumbnail, Double price) {
+            String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
@@ -168,7 +205,9 @@ public class BookEntity implements Serializable {
         this.departmentId = departmentId;
         this.publicationDate = publicationDate;
         this.thumbnail = thumbnail;
+        this.rentCost = rentCost;
         this.price = price;
+        this.createDate = createDate;
     }
 
     public BookEntity() {
