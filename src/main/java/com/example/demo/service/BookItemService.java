@@ -38,4 +38,6 @@ public interface BookItemService {
      * @throws ApiValidateException
      */
     public ResultBean countBookItem(Integer bookId) throws ApiValidateException;
+    
+    public ResultBean addBookItem(String data) throws ApiValidateException;
 }

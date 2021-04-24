@@ -77,4 +77,20 @@ public class BookItemController {
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
 
     }
+    
+    public ResponseEntity<ResultBean> addBookItem(@RequestBody String data) {
+    	LOGGER.info("----------addBookItem START----------");
+    	ResultBean resultBean = null;
+    	try {
+            resultBean = bookItemService.addBookItem(data);
+        } catch (ApiValidateException e) {
+        	resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+    	
+    	LOGGER.info("----------addBookItem END----------");
+    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
 }
