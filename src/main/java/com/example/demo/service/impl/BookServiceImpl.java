@@ -6,9 +6,11 @@
 
 package com.example.demo.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,7 +181,7 @@ public class BookServiceImpl implements BookService {
     public ResultBean searchBook(String query) throws ApiValidateException {
     	LOGGER.info("--- Search Book START ---");
 
-        // Check whether publication date is null.
+        // Check whether query is null.
         if (DataUtils.isNullOrEmpty(query)) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
         }
@@ -192,4 +194,82 @@ public class BookServiceImpl implements BookService {
         LOGGER.info("--- Search Book END ---");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
+    
+    public void updateBook(String data) throws ApiValidateException {
+    	JsonObject json = new Gson().fromJson(data, JsonObject.class);
+		
+		String bookName = DataUtils.getAsStringByJson(json, "book_name");
+		String description = DataUtils.getAsStringByJson(json, "description");
+		String language = DataUtils.getAsStringByJson(json, "language");
+		String author = DataUtils.getAsStringByJson(json, "author");
+		Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
+		Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
+		String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
+		String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
+		Double price = DataUtils.getAsDoubleByJson(json, "price");
+		Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
+
+		BookEntity book = new BookEntity();
+		book.setBookName(bookName);
+		book.setDescription(description);
+		book.setLanguage(language);
+		book.setAuthor(author);
+		book.setCategoryId(categoryId);
+		book.setDepartmentId(departmentId);
+		book.setPublicationDate(publicationDate);
+		book.setThumbnail(thumbnail);
+		book.setPrice(price);
+		book.setRentCost(rentCost);
+		
+		bookDao.updateBook(book);
+    }
+
+	@Override
+	public ResultBean addBook(String data) throws ApiValidateException {
+		if (DataUtils.isNullOrEmpty(data)) {
+			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
+		}
+		
+		JsonObject json = new Gson().fromJson(data, JsonObject.class);
+		
+		String bookName = DataUtils.getAsStringByJson(json, "book_name");
+		String description = DataUtils.getAsStringByJson(json, "description");
+		String language = DataUtils.getAsStringByJson(json, "language");
+		String author = DataUtils.getAsStringByJson(json, "author");
+		Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
+		Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
+		String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
+		String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
+		Double price = DataUtils.getAsDoubleByJson(json, "price");
+		Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
+		
+		if (DataUtils.isNullOrEmpty(bookName)) {
+			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "book_name"));
+		}
+		
+		if (DataUtils.isNullOrEmpty(description)) {
+			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "description"));
+		}
+		
+		if (DataUtils.isNullOrEmpty(author)) {
+			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "author"));
+		}
+		
+		BookEntity book = new BookEntity();
+		book.setBookName(bookName);
+		book.setDescription(description);
+		book.setLanguage(language);
+		book.setAuthor(author);
+		book.setCategoryId(categoryId);
+		book.setDepartmentId(departmentId);
+		book.setPublicationDate(publicationDate);
+		book.setThumbnail(thumbnail);
+		book.setPrice(price);
+		book.setRentCost(rentCost);
+		book.setCreateDate(new Date());
+		
+		bookDao.addBook(book);
+		
+		return new ResultBean(book, "201", MessageUtils.getMessage("MSG02", "book"));
+	}
 }

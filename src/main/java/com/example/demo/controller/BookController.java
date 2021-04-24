@@ -167,4 +167,42 @@ public class BookController {
     	LOGGER.info("--- Search book END ---");
     	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
+    
+//    @RequestMapping(value = "/book", method = RequestMethod.PUT)
+//    public ResponseEntity<ResultBean> updateBook(@RequestBody String data) {
+//    	LOGGER.info("--- Update book START ---");
+//    	
+//    	ResultBean resultBean = null;
+//    	try {
+//    		resultBean = bookService.searchBook(data);
+//    	} catch (ApiValidateException e) {
+//    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            resultBean = new ResultBean("500", "Internal server error");
+//        }
+//    	
+//    	LOGGER.info("--- Update book END ---");
+//    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+//    }
+    
+    
+    @RequestMapping(value = "/book", method = RequestMethod.POST)
+    public ResponseEntity<ResultBean> addBook(@RequestBody String data) {
+    	LOGGER.info("--- Update book START ---");
+    	
+    	ResultBean resultBean = null;
+    	try {
+    		resultBean = bookService.addBook(data);
+    	} catch (ApiValidateException e) {
+    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+    	
+    	LOGGER.info("--- Update book END ---");
+    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
+    
 }

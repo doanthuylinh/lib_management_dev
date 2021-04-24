@@ -325,7 +325,8 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.publicationDate, ");
         sql.append("    be.thumbnail, ");
         sql.append("	be.rentCost, ");
-        sql.append("    be.price) ");
+        sql.append("    be.price, ");
+        sql.append("    be.createDate) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
         sql.append(" LEFT JOIN ");
@@ -354,5 +355,19 @@ public class BookDaoImpl implements BookDao {
         
         return entity;
     }
+
+	@Override
+	public BookEntity updateBook(BookEntity entity) {
+		this.entityManager.merge(entity);
+		
+		return entity;
+	}
+	
+	@Override
+	public BookEntity addBook(BookEntity entity) {
+		this.entityManager.persist(entity);
+		
+		return entity;
+	}
 
 }

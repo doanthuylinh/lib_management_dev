@@ -78,5 +78,9 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> searchBook(String query);
+    
+    public BookEntity updateBook(BookEntity entity);
+    
+    public BookEntity addBook(BookEntity entity);
 
 }
