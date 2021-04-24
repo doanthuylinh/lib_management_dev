@@ -112,4 +112,10 @@ public class BookItemServiceImpl implements BookItemService {
     	Long count = bookItemDao.countBookItem(bookId);
     	return new ResultBean(count, "200", MessageUtils.getMessage("MSG01", new Object[] { "countBookItem by book ID" }));
     }
+
+	@Override
+	public ResultBean addBookItem(String data) throws ApiValidateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
