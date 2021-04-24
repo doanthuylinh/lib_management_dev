@@ -71,11 +71,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/getbookbypublicationdate", "/api/book/search", "/api/book").permitAll()
                 // Book item
                 .antMatchers("/api/getlistbookitembybookid/{bookId}",
-                		"/api/countBookItem", "/api/bookitem").permitAll()
+                		"/api/bookitem/count", "/api/bookitem").permitAll()
                 // Category
-                .antMatchers(HttpMethod.GET, "/api/categories-list", "/api/departments-list").permitAll()
+                .antMatchers("/api/categories-list", "/api/category").permitAll()
                 // Department
-                .antMatchers(HttpMethod.GET, "/api/departments-list").permitAll()
+                .antMatchers("/api/departments-list", "/api/department").permitAll()
                 // Heath check
                 .antMatchers(HttpMethod.GET, "/api", "/api/ping").permitAll()
                 .anyRequest().authenticated();
