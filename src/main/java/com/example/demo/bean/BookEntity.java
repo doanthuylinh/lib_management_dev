@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * [OVERVIEW] Book Entity.
@@ -42,51 +43,51 @@ public class BookEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    @JsonProperty("book_id")
+    @SerializedName("book_id")
     private Integer bookId;
     
     @Column(name = "book_name")
-    @JsonProperty("book_name")
+    @SerializedName("book_name")
     private String bookName;
 
     @Column(name = "description")
-    @JsonProperty("description")
+    @SerializedName("description")
     private String description;
 
     @Column(name = "language")
-    @JsonProperty("language")
+    @SerializedName("language")
     private String language;
 
     @Column(name = "author")
-    @JsonProperty("author")
+    @SerializedName("author")
     private String author;
 
     @Column(name = "category_id")
-    @JsonProperty("category_id")
+    @SerializedName("category_id")
     private Integer categoryId;
 
     @Column(name = "department_id")
-    @JsonProperty("department_id")
+    @SerializedName("department_id")
     private Integer departmentId;
 
     @Column(name = "publication_date")
-    @JsonProperty("publication_date")
+    @SerializedName("publication_date")
     private String publicationDate;
 
     @Column(name = "thumbnail")
-    @JsonProperty("thumbnail")
+    @SerializedName("thumbnail")
     private String thumbnail;
     
     @Column(name = "rent_cost")
-    @JsonProperty("rent_cost")
+    @SerializedName("rent_cost")
     private Double rentCost;
 
     @Column(name = "price")
-    @JsonProperty("price")
+    @SerializedName("price")
     private Double price;
     
     @Column(name = "create_date")
-    @JsonProperty("create_date")
+    @SerializedName("create_date")
     private Date createDate;
 
 	@ManyToOne
