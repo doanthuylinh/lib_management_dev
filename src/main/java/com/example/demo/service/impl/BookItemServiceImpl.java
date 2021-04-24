@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.bean.BookItemEntity;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.dao.BookItemDao;
 import com.example.demo.response.BookItemResponse;
@@ -24,6 +25,7 @@ import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
 import com.example.demo.utils.Regex;
+import com.example.demo.utils.ValidateUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -115,7 +117,19 @@ public class BookItemServiceImpl implements BookItemService {
 
 	@Override
 	public ResultBean addBookItem(String data) throws ApiValidateException {
-		// TODO Auto-generated method stub
-		return null;
+		BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
+		
+		ValidateUtils.validateAddBookItem(bookItem);
+		
+		return new ResultBean(bookItemDao.addBookItem(bookItem), "201", MessageUtils.getMessage("MSG02", "bookItem"));
+	}
+
+	@Override
+	public ResultBean updateBookItem(String data) throws ApiValidateException {
+		BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
+		
+		ValidateUtils.validateUpdateBookItem(bookItem);
+		
+		return new ResultBean(bookItemDao.updateBookItem(bookItem), "201", MessageUtils.getMessage("MSG04", "bookItem"));
 	}
 }

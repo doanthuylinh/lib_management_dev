@@ -184,4 +184,11 @@ public class BookItemDaoImpl implements BookItemDao {
 		
 		return entity;
 	}
+
+	@Override
+	public BookItemEntity addBookItem(BookItemEntity entity) {
+		this.entityManager.persist(entity);
+		
+		return entity;
+	}
 }

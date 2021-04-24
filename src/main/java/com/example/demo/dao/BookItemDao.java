@@ -42,4 +42,6 @@ public interface BookItemDao {
     public long countBookItem(Integer bookId);
     
     public BookItemEntity updateBookItem(BookItemEntity entity);
+    
+    public BookItemEntity addBookItem(BookItemEntity entity);
 }

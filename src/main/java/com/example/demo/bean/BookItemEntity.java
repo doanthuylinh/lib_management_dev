@@ -9,11 +9,16 @@ package com.example.demo.bean;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * [OVERVIEW] Book Item Entity.
@@ -32,28 +37,33 @@ public class BookItemEntity {
 
     @Id
     @Column(name = "book_item_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SerializedName("book_item_id")
     private Integer bookItemId;
 
     @Column(name = "barcode")
+    @SerializedName("barcode")
     private String barcode;
 
     @Column(name = "book_id")
+    @SerializedName("book_id")
     private Integer bookId;
 
     @Column(name = "date_of_purchase")
+    @SerializedName("date_of_purchase")
     private String dateOfPurchase;
 
     @Column(name = "date_added_to_library")
+    @SerializedName("date_added_to_library")
     private String dateAddedToLibrary;
 
     @Column(name = "location")
+    @SerializedName("location")
     private String location;
 
-    @Column(name = "rent_cost")
-    private Double rentCost;
-
     @Enumerated
-    @Column(columnDefinition = "int")
+    @Column(name = "state", columnDefinition = "int")
+    @SerializedName("state")
     private State state;
 
     @ManyToOne
@@ -108,14 +118,6 @@ public class BookItemEntity {
         this.location = location;
     }
 
-    public Double getRentCost() {
-        return rentCost;
-    }
-
-    public void setRentCost(Double rentCost) {
-        this.rentCost = rentCost;
-    }
-
     public State getState() {
         return state;
     }
@@ -136,8 +138,7 @@ public class BookItemEntity {
         this.bookEntity = bookEntity;
     }
 
-    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location,
-            Double rentCost, State state) {
+    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location, State state) {
         super();
         this.bookItemId = bookItemId;
         this.barcode = barcode;
@@ -145,7 +146,6 @@ public class BookItemEntity {
         this.dateOfPurchase = dateOfPurchase;
         this.dateAddedToLibrary = dateAddedToLibrary;
         this.location = location;
-        this.rentCost = rentCost;
         this.state = state;
     }
 
