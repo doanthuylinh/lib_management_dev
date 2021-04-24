@@ -20,7 +20,11 @@ import com.example.demo.bean.ResultBean;
 import com.example.demo.dao.CategoryDao;
 import com.example.demo.service.CategoryService;
 import com.example.demo.utils.ApiValidateException;
+import com.example.demo.utils.ConstantColumn;
+import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 /**
  * [OVERVIEW] Category Service.
@@ -31,6 +35,7 @@ import com.example.demo.utils.MessageUtils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/17      LinhDT       	  Create new
+ * 002       1.1       2021/04/24      LinhDT             Create Add Category
 */
 @Service
 @Transactional
@@ -56,5 +61,40 @@ public class CategoryServiceImpl implements CategoryService {
         }
         LOGGER.info("----------getListCategories END----------");
         return new ResultBean(listEntity, "200", MessageUtils.getMessage("MSG01", new Object[] { "list of categories" }));
+    }
+
+    /**
+     * addCategory
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    @Override
+    public ResultBean addCategory(String data) throws ApiValidateException {
+        if (DataUtils.isNullOrEmpty(data)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
+        }
+
+        JsonObject json = new Gson().fromJson(data, JsonObject.class);
+
+        String categoryName = DataUtils.getAsStringByJson(json, ConstantColumn.CATEGORY_NAME);
+
+        if (DataUtils.isNullOrEmpty(categoryName)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { "Category name" }));
+        }
+
+        // Check if category exists in DB, if yes throw a message.
+        CategoryEntity categoryEntity = categoryDao.getCategoryByCategoryName(categoryName);
+        if (!Objects.isNull(categoryEntity)) {
+            throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { "Category name" }));
+        }
+
+        CategoryEntity category = new CategoryEntity();
+        category.setCategoryName(categoryName);
+
+        categoryDao.addCategory(category);
+
+        return new ResultBean(category, "200", MessageUtils.getMessage("MSG02", ConstantColumn.CATEGORY));
     }
 }

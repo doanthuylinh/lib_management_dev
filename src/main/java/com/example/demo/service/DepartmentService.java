@@ -18,6 +18,7 @@ import com.example.demo.utils.ApiValidateException;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/17      LinhDT             Create new
+ * 002       1.1       2021/04/24      LinhDT             Create Add Department
 */
 public interface DepartmentService {
 
@@ -28,4 +29,13 @@ public interface DepartmentService {
      * @throws ApiValidateException
      */
     public ResultBean getListDepartments() throws ApiValidateException;
+
+    /**
+     * addDepartment
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    public ResultBean addDepartment(String data) throws ApiValidateException;
 }

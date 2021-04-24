@@ -9,6 +9,7 @@ package com.example.demo.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,6 +31,7 @@ import com.example.demo.dao.CategoryDao;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/17      LinhDT       	  Create new
+ * 002       1.1       2021/04/24      LinhDT             Create Add Category
 */
 @Repository
 @Transactional
@@ -61,6 +63,47 @@ public class CategoryDaoImpl implements CategoryDao {
         List<CategoryEntity> entity = null;
         entity = query.getResultList();
         LOGGER.info("----------getListCategories END----------");
+        return entity;
+    }
+
+    /**
+     * addCategory
+     * @author: LinhDT
+     * @param categoryEntity
+     * @return
+     */
+    @Override
+    public CategoryEntity addCategory(CategoryEntity categoryEntity) {
+        LOGGER.info("----------addCategory START----------");
+        this.entityManager.persist(categoryEntity);
+        LOGGER.info("----------addCategory END----------");
+        return categoryEntity;
+    }
+
+    /**
+     * getCategoryByCategoryName
+     * @author: LinhDT
+     * @param categoryName
+     * @return
+     */
+    @Override
+    public CategoryEntity getCategoryByCategoryName(String categoryName) {
+        LOGGER.info("----------getCategoryByCategoryName START----------");
+        StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    CategoryEntity ce ");
+        sql.append(" WHERE ");
+        sql.append("    ce.categoryName = :categoryName ");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("categoryName", categoryName);
+        CategoryEntity entity = null;
+        try {
+            entity = (CategoryEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        LOGGER.info("----------getCategoryByCategoryName END----------");
         return entity;
     }
 }

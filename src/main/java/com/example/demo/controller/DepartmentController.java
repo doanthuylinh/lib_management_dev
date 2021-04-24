@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +58,28 @@ public class DepartmentController {
         }
         LOGGER.info("----------getListDepartments END----------");
         return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+    }
+    
+    /**
+     * addDepartment
+     * @author: LinhDT
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/department", method = RequestMethod.POST)
+    public ResponseEntity<ResultBean> addDepartment(@RequestBody String data) {
+        LOGGER.info("----------addDepartment START----------");
+        ResultBean resultBean = null;
+        try {
+            resultBean = departmentService.addDepartment(data);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+        LOGGER.info("----------addDepartment END----------");
+        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
     }
 
 }

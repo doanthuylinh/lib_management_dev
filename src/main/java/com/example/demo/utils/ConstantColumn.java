@@ -34,6 +34,8 @@ public class ConstantColumn {
     public final static String AUTHOR = "author";
     public final static String CATEGORY = "category";
     public final static String CATEGORY_NAME = "category_name";
+    public final static String DEPARTMENT = "department";
+    public final static String DEPARTMENT_NAME = "department_name";
     public final static String PUBLICATION_DATE = "publication_date";
     
     public final static String QUERY_SEARCH = "query";

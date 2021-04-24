@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,20 +78,20 @@ public class BookItemController {
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
 
     }
-    
+
     public ResponseEntity<ResultBean> addBookItem(@RequestBody String data) {
-    	LOGGER.info("----------addBookItem START----------");
-    	ResultBean resultBean = null;
-    	try {
+        LOGGER.info("----------addBookItem START----------");
+        ResultBean resultBean = null;
+        try {
             resultBean = bookItemService.addBookItem(data);
         } catch (ApiValidateException e) {
-        	resultBean = new ResultBean(e.getCode(), e.getMessage());
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             resultBean = new ResultBean("500", "Internal server error");
         }
-    	
-    	LOGGER.info("----------addBookItem END----------");
-    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
+        LOGGER.info("----------addBookItem END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 }
