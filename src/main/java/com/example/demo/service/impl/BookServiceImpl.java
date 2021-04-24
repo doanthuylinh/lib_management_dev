@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import com.example.demo.utils.ApiValidateException;
 import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
-import com.example.demo.utils.Regex;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -38,7 +36,7 @@ import com.google.gson.JsonObject;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
 */
 @Service
 @Transactional
@@ -68,22 +66,19 @@ public class BookServiceImpl implements BookService {
     /**
      * getBookByName
      * @author: LinhDT
-     * @param json
+     * @param query
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByName(String json) throws ApiValidateException {
+    public ResultBean getBookByName(String query) throws ApiValidateException {
         LOGGER.info("----------getBookByName START----------");
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
 
-        //Check whether book_name is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.BOOK_NAME)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.BOOK_NAME }));
+        // Check whether query is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
         }
 
-        String bookName = DataUtils.getAsStringByJson(jObject, ConstantColumn.BOOK_NAME);
-
-        BookResponse entity = bookDao.getBookByName(bookName);
+        BookResponse entity = bookDao.getBookByName(query);
 
         if (Objects.isNull(entity)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
@@ -94,24 +89,21 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
-     * getBookByAuthor
+     * getBooksByAuthor
      * @author: LinhDT
-     * @param json
+     * @param query
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByAuthor(String json) throws ApiValidateException {
+    public ResultBean getBooksByAuthor(String query) throws ApiValidateException {
         LOGGER.info("----------getBookByAuthor START----------");
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
 
-        //Check whether author is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.AUTHOR)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.AUTHOR }));
+        // Check whether query is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
         }
 
-        String author = DataUtils.getAsStringByJson(jObject, ConstantColumn.AUTHOR);
-
-        List<BookEntity> entity = bookDao.getBookByAuthor(author);
+        List<BookEntity> entity = bookDao.getBooksByAuthor(query);
         if (Objects.isNull(entity)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
@@ -121,24 +113,21 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
-     * getBookByCategory
+     * getBooksByCategory
      * @author: LinhDT
-     * @param json
+     * @param query
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByCategory(String json) throws ApiValidateException {
+    public ResultBean getBooksByCategory(String query) throws ApiValidateException {
         LOGGER.info("----------getBookByCategory START----------");
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
 
-        //Check whether category is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.CATEGORY)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.CATEGORY }));
+        // Check whether query is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
         }
 
-        String category = DataUtils.getAsStringByJson(jObject, ConstantColumn.CATEGORY);
-
-        List<BookEntity> entity = bookDao.getBookByCategory(category);
+        List<BookEntity> entity = bookDao.getBooksByCategory(query);
         if (Objects.isNull(entity)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
@@ -150,36 +139,36 @@ public class BookServiceImpl implements BookService {
     /**
      * getBookByPublicationDate
      * @author: LinhDT
-     * @param json
+     * @param query
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByPublicationDate(String json) throws ApiValidateException {
-        LOGGER.info("----------getBookByPublicationDate START----------");
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
+    public ResultBean getBookByPublicationDate(String query) throws ApiValidateException {
+        LOGGER.info("--- getBookByPublicationDate START ---");
 
-        // Check whether publication date is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PUBLICATION_DATE)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.PUBLICATION_DATE }));
+        // Check whether query is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
         }
 
-        // Get publication date and check validation.
-        String publicationDate = DataUtils.getAsStringByJson(jObject, ConstantColumn.PUBLICATION_DATE);
-        if (!publicationDate.matches(Regex.DATE_PATTERN)) {
-            throw new ApiValidateException("ERR10", MessageUtils.getMessage("ERR10", new Object[] { ConstantColumn.PUBLICATION_DATE }));
-        }
-
-        List<BookEntity> entity = bookDao.getBookByPublicationDate(publicationDate);
+        List<BookEntity> entity = bookDao.getBookByPublicationDate(query);
         if (Objects.isNull(entity)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
 
-        LOGGER.info("----------getBookByPublicationDate END----------");
+        LOGGER.info("--- getBookByPublicationDate END ---");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by publication date" }));
     }
-    
+
+    /**
+     * searchBook
+     * @author: LinhDT
+     * @param query
+     * @return
+     * @throws ApiValidateException
+     */
     public ResultBean searchBook(String query) throws ApiValidateException {
-    	LOGGER.info("--- Search Book START ---");
+        LOGGER.info("--- Search Book START ---");
 
         // Check whether query is null.
         if (DataUtils.isNullOrEmpty(query)) {
@@ -194,83 +183,83 @@ public class BookServiceImpl implements BookService {
         LOGGER.info("--- Search Book END ---");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
-    
-    public ResultBean updateBook(String data) throws ApiValidateException {
-    	JsonObject json = new Gson().fromJson(data, JsonObject.class);
-		
-    	Integer bookId = DataUtils.getAsIntegerByJson(json, "book_id");
-		String bookName = DataUtils.getAsStringByJson(json, "book_name");
-		String description = DataUtils.getAsStringByJson(json, "description");
-		String language = DataUtils.getAsStringByJson(json, "language");
-		String author = DataUtils.getAsStringByJson(json, "author");
-		Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
-		Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
-		String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
-		String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
-		Double price = DataUtils.getAsDoubleByJson(json, "price");
-		Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
 
-		BookEntity book = bookDao.getBookEntityById(bookId);
-		book.setBookName(bookName);
-		book.setDescription(description);
-		book.setLanguage(language);
-		book.setAuthor(author);
-		book.setCategoryId(categoryId);
-		book.setDepartmentId(departmentId);
-		book.setPublicationDate(publicationDate);
-		book.setThumbnail(thumbnail);
-		book.setPrice(price);
-		book.setRentCost(rentCost);
-		
-		return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
+    public ResultBean updateBook(String data) throws ApiValidateException {
+        JsonObject json = new Gson().fromJson(data, JsonObject.class);
+
+        Integer bookId = DataUtils.getAsIntegerByJson(json, "book_id");
+        String bookName = DataUtils.getAsStringByJson(json, "book_name");
+        String description = DataUtils.getAsStringByJson(json, "description");
+        String language = DataUtils.getAsStringByJson(json, "language");
+        String author = DataUtils.getAsStringByJson(json, "author");
+        Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
+        Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
+        String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
+        String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
+        Double price = DataUtils.getAsDoubleByJson(json, "price");
+        Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
+
+        BookEntity book = bookDao.getBookEntityById(bookId);
+        book.setBookName(bookName);
+        book.setDescription(description);
+        book.setLanguage(language);
+        book.setAuthor(author);
+        book.setCategoryId(categoryId);
+        book.setDepartmentId(departmentId);
+        book.setPublicationDate(publicationDate);
+        book.setThumbnail(thumbnail);
+        book.setPrice(price);
+        book.setRentCost(rentCost);
+
+        return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
     }
 
-	@Override
-	public ResultBean addBook(String data) throws ApiValidateException {
-		if (DataUtils.isNullOrEmpty(data)) {
-			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
-		}
-		
-		JsonObject json = new Gson().fromJson(data, JsonObject.class);
-		
-		String bookName = DataUtils.getAsStringByJson(json, "book_name");
-		String description = DataUtils.getAsStringByJson(json, "description");
-		String language = DataUtils.getAsStringByJson(json, "language");
-		String author = DataUtils.getAsStringByJson(json, "author");
-		Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
-		Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
-		String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
-		String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
-		Double price = DataUtils.getAsDoubleByJson(json, "price");
-		Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
-		
-		if (DataUtils.isNullOrEmpty(bookName)) {
-			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "book_name"));
-		}
-		
-		if (DataUtils.isNullOrEmpty(description)) {
-			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "description"));
-		}
-		
-		if (DataUtils.isNullOrEmpty(author)) {
-			throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "author"));
-		}
-		
-		BookEntity book = new BookEntity();
-		book.setBookName(bookName);
-		book.setDescription(description);
-		book.setLanguage(language);
-		book.setAuthor(author);
-		book.setCategoryId(categoryId);
-		book.setDepartmentId(departmentId);
-		book.setPublicationDate(publicationDate);
-		book.setThumbnail(thumbnail);
-		book.setPrice(price);
-		book.setRentCost(rentCost);
-		book.setCreateDate(new Date());
-		
-		bookDao.addBook(book);
-		
-		return new ResultBean(book, "201", MessageUtils.getMessage("MSG02", "book"));
-	}
+    @Override
+    public ResultBean addBook(String data) throws ApiValidateException {
+        if (DataUtils.isNullOrEmpty(data)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
+        }
+
+        JsonObject json = new Gson().fromJson(data, JsonObject.class);
+
+        String bookName = DataUtils.getAsStringByJson(json, "book_name");
+        String description = DataUtils.getAsStringByJson(json, "description");
+        String language = DataUtils.getAsStringByJson(json, "language");
+        String author = DataUtils.getAsStringByJson(json, "author");
+        Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
+        Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
+        String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
+        String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
+        Double price = DataUtils.getAsDoubleByJson(json, "price");
+        Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
+
+        if (DataUtils.isNullOrEmpty(bookName)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "book_name"));
+        }
+
+        if (DataUtils.isNullOrEmpty(description)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "description"));
+        }
+
+        if (DataUtils.isNullOrEmpty(author)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "author"));
+        }
+
+        BookEntity book = new BookEntity();
+        book.setBookName(bookName);
+        book.setDescription(description);
+        book.setLanguage(language);
+        book.setAuthor(author);
+        book.setCategoryId(categoryId);
+        book.setDepartmentId(departmentId);
+        book.setPublicationDate(publicationDate);
+        book.setThumbnail(thumbnail);
+        book.setPrice(price);
+        book.setRentCost(rentCost);
+        book.setCreateDate(new Date());
+
+        bookDao.addBook(book);
+
+        return new ResultBean(book, "201", MessageUtils.getMessage("MSG02", "book"));
+    }
 }

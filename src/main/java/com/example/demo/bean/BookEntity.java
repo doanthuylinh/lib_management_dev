@@ -8,7 +8,6 @@ package com.example.demo.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,7 +42,7 @@ public class BookEntity implements Serializable {
     @Column(name = "book_id")
     @JsonProperty("book_id")
     private Integer bookId;
-    
+
     @Column(name = "book_name")
     @JsonProperty("book_name")
     private String bookName;
@@ -76,7 +74,7 @@ public class BookEntity implements Serializable {
     @Column(name = "thumbnail")
     @JsonProperty("thumbnail")
     private String thumbnail;
-    
+
     @Column(name = "rent_cost")
     @JsonProperty("rent_cost")
     private Double rentCost;
@@ -84,15 +82,15 @@ public class BookEntity implements Serializable {
     @Column(name = "price")
     @JsonProperty("price")
     private Double price;
-    
+
     @Column(name = "create_date")
     @JsonProperty("create_date")
     private Date createDate;
 
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity categoryEntity;
-    
+
     @ManyToOne
     @JoinColumn(name = "department_id", insertable = false, updatable = false)
     private DepartmentEntity departmentEntity;
@@ -146,14 +144,14 @@ public class BookEntity implements Serializable {
     }
 
     public Double getRentCost() {
-		return rentCost;
-	}
+        return rentCost;
+    }
 
-	public void setRentCost(Double rentCost) {
-		this.rentCost = rentCost;
-	}
+    public void setRentCost(Double rentCost) {
+        this.rentCost = rentCost;
+    }
 
-	public Integer getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
@@ -184,14 +182,14 @@ public class BookEntity implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
-    
-    public Date getCreateDate() {
-		return createDate;
-	}
 
-	public void setCreateDate(Date datetime) {
-		this.createDate = datetime;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date datetime) {
+        this.createDate = datetime;
+    }
 
     public BookEntity(Integer bookId, String bookName, String description, String language, String author, Integer categoryId, Integer departmentId,
             String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {

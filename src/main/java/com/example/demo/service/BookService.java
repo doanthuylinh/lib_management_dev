@@ -38,22 +38,22 @@ public interface BookService {
     public ResultBean getBookByName(String bookName) throws ApiValidateException;
 
     /**
-     * getBookByAuthor
+     * getBooksByAuthor
      * @author: LinhDT
      * @param author
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByAuthor(String author) throws ApiValidateException;
+    public ResultBean getBooksByAuthor(String author) throws ApiValidateException;
 
     /**
-     * getBookByCategory
+     * getBooksByCategory
      * @author: LinhDT
      * @param category
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBookByCategory(String category) throws ApiValidateException;
+    public ResultBean getBooksByCategory(String category) throws ApiValidateException;
 
     /**
     * getBookByPublicationDate
@@ -65,7 +65,8 @@ public interface BookService {
     public ResultBean getBookByPublicationDate(String publicationDate) throws ApiValidateException;
     
     /**
-     * 
+     * searchBook
+     * @author: LinhDT
      * @param data
      * @return
      * @throws ApiValidateException

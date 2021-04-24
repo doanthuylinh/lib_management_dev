@@ -24,22 +24,26 @@ import com.example.demo.response.BookItemResponse;
 public interface BookItemDao {
 
     /**
-     * getBookItemByBarcode
-     * @author: LinhDT
-     * @param barcode
-     * @return
-     */
-    public BookItemResponse getBookItemByBarcode(String barcode);
-
-    /**
     * getListBookItemByBookId
     * @author: LinhDT
     * @param bookId
     * @return
     */
-    public List<BookItemResponse> getListBookItemByBookId(Integer bookId);
-    
+    public List<BookItemEntity> getListBookItemByBookId(Integer bookId);
+
+    /**
+     * countBookItem
+     * @author: LinhDT
+     * @param bookId
+     * @return
+     */
     public long countBookItem(Integer bookId);
-    
+
+    /**
+     * updateBookItem
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
     public BookItemEntity updateBookItem(BookItemEntity entity);
 }

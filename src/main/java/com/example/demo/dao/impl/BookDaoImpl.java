@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2020 VNEXT TRAINING
+// � 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -15,7 +15,6 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,15 +41,16 @@ public class BookDaoImpl implements BookDao {
     @PersistenceContext
     @Autowired
     private EntityManager entityManager;
-    
-//    @Autowired
-//    private Session session;
+
+    //    @Autowired
+    //    private Session session;
 
     private static final Logger LOGGER = LogManager.getLogger(BookDaoImpl.class);
 
     @Override
     public BookEntity getBookEntityById(Integer bookId) {
-    	StringBuilder sql = new StringBuilder();
+        LOGGER.info("----------getBookById START----------");
+        StringBuilder sql = new StringBuilder();
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
         sql.append(" WHERE ");
@@ -67,7 +67,7 @@ public class BookDaoImpl implements BookDao {
         LOGGER.info("----------getBookById END----------");
         return entity;
     }
-    
+
     /**
      * getBookById
      * @author: LinhDT
@@ -85,22 +85,21 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    bte.bookTypeName, ");
-        sql.append("    be.publicationDate) ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price, ");
+        sql.append("    be.rentCost, ");
+        sql.append("    be.createDate) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department_id = de.departmentId ");
-        sql.append("  INNER JOIN ");
-        sql.append("    BookTypeEntity bte ");
-        sql.append(" ON ");
-        sql.append("    be.bookType = bte.bookTypeId ");
-        sql.append("  INNER JOIN ");
+        sql.append("    be.departmentId = de.departmentId ");
+        sql.append(" LEFT JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
-        sql.append("    be.category = ce.categoryId ");
+        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
         sql.append("    be.bookId = :bookId ");
 
@@ -133,22 +132,20 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    bte.bookTypeName, ");
-        sql.append("    be.publicationDate) ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price, ");
+        sql.append("    be.rentCost) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department = de.departmentId ");
-        sql.append("  INNER JOIN ");
-        sql.append("    BookTypeEntity bte ");
-        sql.append(" ON ");
-        sql.append("    be.bookType = bte.bookTypeId ");
-        sql.append("  INNER JOIN ");
+        sql.append("    be.departmentId = de.departmentId ");
+        sql.append(" LEFT JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
-        sql.append("    be.category = ce.categoryId ");
+        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
         sql.append("    be.bookName = :bookName ");
 
@@ -165,14 +162,14 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * getBookByAuthor
+     * getBooksByAuthor
      * @author: LinhDT
-     * @param bookAythor
+     * @param author
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<BookEntity> getBookByAuthor(String author) {
-        LOGGER.info("----------getBookByAuthor START----------");
+    public List<BookEntity> getBooksByAuthor(String author) {
+        LOGGER.info("----------getBooksByAuthor START----------");
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT new com.example.demo.response.BookResponse(");
         sql.append("    be.bookId, ");
@@ -182,22 +179,20 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    bte.bookTypeName, ");
-        sql.append("    be.publicationDate) ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price, ");
+        sql.append("    be.rentCost) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
         sql.append("    be.departmentId = de.departmentId ");
-        sql.append("  INNER JOIN ");
-        sql.append("    BookTypeEntity bte ");
-        sql.append(" ON ");
-        sql.append("    be.bookType = bte.bookTypeId ");
-        sql.append("  INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
-        sql.append("    be.category = ce.categoryId ");
+        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
         sql.append("    be.author = :author ");
 
@@ -205,7 +200,7 @@ public class BookDaoImpl implements BookDao {
         query.setParameter("author", author);
         List<BookEntity> entity = null;
         entity = query.getResultList();
-        LOGGER.info("----------getBookByAuthor END----------");
+        LOGGER.info("----------getBooksByAuthor END----------");
         return entity;
 
     }
@@ -237,15 +232,14 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * getBookByCategory
+     * getBooksByCategory
      * @author: LinhDT
-     * @param category
+     * @param categoryName
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<BookEntity> getBookByCategory(String categoryName) {
-        LOGGER.info("----------getBookByCategory START----------");
-
+    public List<BookEntity> getBooksByCategory(String categoryName) {
+        LOGGER.info("----------getBooksByCategory START----------");
         CategoryEntity categoryEntity = getCategoryByName(categoryName);
         Integer categoryId = null;
         try {
@@ -262,30 +256,28 @@ public class BookDaoImpl implements BookDao {
         sql.append("    be.author, ");
         sql.append("    ce.categoryName, ");
         sql.append("    de.departmentName, ");
-        sql.append("    bte.bookTypeName, ");
-        sql.append("    be.publicationDate) ");
+        sql.append("    be.publicationDate, ");
+        sql.append("    be.thumbnail, ");
+        sql.append("    be.price, ");
+        sql.append("    be.rentCost) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
-        sql.append("    be.department = de.departmentId ");
-        sql.append(" INNER JOIN ");
-        sql.append("    BookTypeEntity bte ");
-        sql.append(" ON ");
-        sql.append("    be.bookType = bte.bookTypeId ");
-        sql.append(" INNER JOIN ");
+        sql.append("    be.departmentId = de.departmentId ");
+        sql.append(" LEFT JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
-        sql.append("    be.category = ce.categoryId ");
+        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
-        sql.append("    be.category = :categoryId ");
+        sql.append("    be.categoryId = :categoryId ");
 
         Query query = this.entityManager.createQuery(sql.toString());
         query.setParameter("categoryId", categoryId);
         List<BookEntity> entity = null;
         entity = query.getResultList();
-        LOGGER.info("----------getBookByCategory END----------");
+        LOGGER.info("----------getBooksByCategory END----------");
         return entity;
     }
 
@@ -309,14 +301,15 @@ public class BookDaoImpl implements BookDao {
         sql.append("    de.departmentName, ");
         sql.append("    be.publicationDate, ");
         sql.append("    be.thumbnail, ");
-        sql.append("    be.price) ");
+        sql.append("    be.price, ");
+        sql.append("    be.rentCost) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    DepartmentEntity de ");
         sql.append(" ON ");
         sql.append("    be.departmentId = de.departmentId ");
-        sql.append(" INNER JOIN ");
+        sql.append(" LEFT JOIN ");
         sql.append("    CategoryEntity ce ");
         sql.append(" ON ");
         sql.append("    be.categoryId = ce.categoryId ");
@@ -330,7 +323,7 @@ public class BookDaoImpl implements BookDao {
         LOGGER.info("----------getBookByPublicationDate END----------");
         return entity;
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<BookEntity> searchBook(String q) {
         StringBuilder sql = new StringBuilder();
@@ -372,22 +365,19 @@ public class BookDaoImpl implements BookDao {
         query.setParameter("searchKey", "%" + q + "%");
         List<BookEntity> entity = null;
         entity = query.getResultList();
-        
         return entity;
     }
 
-	@Override
-	public BookEntity updateBook(BookEntity entity) {
-		this.entityManager.merge(entity);
-		
-		return entity;
-	}
-	
-	@Override
-	public BookEntity addBook(BookEntity entity) {
-		this.entityManager.persist(entity);
-		
-		return entity;
-	}
+    @Override
+    public BookEntity updateBook(BookEntity entity) {
+        this.entityManager.merge(entity);
+        return entity;
+    }
+
+    @Override
+    public BookEntity addBook(BookEntity entity) {
+        this.entityManager.persist(entity);
+        return entity;
+    }
 
 }

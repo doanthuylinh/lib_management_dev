@@ -22,22 +22,20 @@ import com.example.demo.utils.ApiValidateException;
 public interface BookItemService {
 
     /**
-     * getBookItemByBarcode
-     * @author: LinhDT
-     * @param barcode
-     * @return
-     * @throws ApiValidateException
-     */
-    public ResultBean getBookItemByBarcode(String barcode) throws ApiValidateException;
-
-    /**
      * getListBookItemByBookId
      * @author: LinhDT
      * @param bookId
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getListBookItemByBookId(String bookId) throws ApiValidateException;
+    public ResultBean getListBookItemByBookId(Integer bookId) throws ApiValidateException;
     
+    /**
+     * countBookItem
+     * @author: LinhDT
+     * @param bookId
+     * @return
+     * @throws ApiValidateException
+     */
     public ResultBean countBookItem(Integer bookId) throws ApiValidateException;
 }

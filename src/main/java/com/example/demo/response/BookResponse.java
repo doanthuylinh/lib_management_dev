@@ -41,7 +41,7 @@ public class BookResponse {
     protected String publicationDate;
     @JsonProperty("thumbnail")
     protected String thumbnail;
-    @JsonProperty("rent_code")
+    @JsonProperty("rent_cost")
     protected Double rentCost;
     @JsonProperty("price")
     protected Double price;
@@ -127,24 +127,24 @@ public class BookResponse {
     public void setPrice(Double price) {
         this.price = price;
     }
-    
+
     public Double getRentCost() {
-		return rentCost;
-	}
+        return rentCost;
+    }
 
-	public void setRentCost(Double rentCost) {
-		this.rentCost = rentCost;
-	}
+    public void setRentCost(Double rentCost) {
+        this.rentCost = rentCost;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
+    public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
             String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {
         super();
         this.bookId = bookId;
@@ -159,6 +159,22 @@ public class BookResponse {
         this.rentCost = rentCost;
         this.price = price;
         this.createDate = createDate;
+    }
+
+    public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
+            String publicationDate, String thumbnail, Double rentCost, Double price) {
+        super();
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.description = description;
+        this.language = language;
+        this.author = author;
+        this.categoryName = categoryName;
+        this.departmentName = departmentName;
+        this.publicationDate = publicationDate;
+        this.thumbnail = thumbnail;
+        this.rentCost = rentCost;
+        this.price = price;
     }
 
     public BookResponse() {

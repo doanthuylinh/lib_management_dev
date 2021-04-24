@@ -67,10 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // User
                 .antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
                 // Book
-                .antMatchers("/api/book/{bookId}", "/api/getbookbyname", "/api/getbookbyauthor", "/api/getbookbycategory",
+                .antMatchers("/api/book/{bookId}", "/api/getbookbyname", "/api/getbooksbyauthor", "/api/getbooksbycategory",
                         "/api/getbookbypublicationdate", "/api/book/search", "/api/book").permitAll()
                 // Book item
-                .antMatchers("/api/getbookitembybarcode", "/api/getlistbookitembybookid",
+                .antMatchers("/api/getlistbookitembybookid/{bookId}",
                 		"/api/countBookItem").permitAll()
                 // Category
                 .antMatchers(HttpMethod.GET, "/api/categories-list", "/api/departments-list").permitAll()

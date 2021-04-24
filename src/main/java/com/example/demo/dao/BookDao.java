@@ -24,8 +24,14 @@ import com.example.demo.response.BookResponse;
 */
 public interface BookDao {
 
-	public BookEntity getBookEntityById(Integer bookId);
-	
+    /**
+     * getBookEntityById
+     * @author: LinhDT
+     * @param bookId
+     * @return
+     */
+    public BookEntity getBookEntityById(Integer bookId);
+
     /**
      * getBookById
      * @author: LinhDT
@@ -45,10 +51,10 @@ public interface BookDao {
     /**
      * getBookByAuthor
      * @author: LinhDT
-     * @param bookAythor
+     * @param author
      * @return
      */
-    public List<BookEntity> getBookByAuthor(String author);
+    public List<BookEntity> getBooksByAuthor(String author);
 
     /**
      * getBookByCategory
@@ -56,7 +62,7 @@ public interface BookDao {
      * @param category
      * @return
      */
-    public List<BookEntity> getBookByCategory(String category);
+    public List<BookEntity> getBooksByCategory(String category);
 
     /**
      * getCategoryByName
@@ -73,16 +79,29 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> getBookByPublicationDate(String publicationDate);
-    
+
     /**
-     * 
+     * searchBook
+     * @author: LinhDT
      * @param query
      * @return
      */
     public List<BookEntity> searchBook(String query);
-    
+
+    /**
+     * updateBook
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
     public BookEntity updateBook(BookEntity entity);
-    
+
+    /**
+     * addBook
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
     public BookEntity addBook(BookEntity entity);
 
 }

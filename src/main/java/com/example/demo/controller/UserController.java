@@ -40,129 +40,122 @@ import com.example.demo.utils.MessageUtils;
 @RequestMapping(value = "/api")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserController.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
-	/**
-	 * addUser (registration)
-	 * 
-	 * @author: LinhDT
-	 * @param entity
-	 * @return
-	 */
-	@RequestMapping(value = "/user/registration", method = RequestMethod.POST, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResultBean> addUser(@RequestBody String entity) {
-		LOGGER.info("----------addUser START----------");
-		ResultBean resultBean = null;
-		try {
-			resultBean = userService.addUser(entity);
-		} catch (ApiValidateException e) {
-			return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"),
-					HttpStatus.BAD_REQUEST);
-		}
-		LOGGER.info("----------addUser END----------");
-		return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
-	}
+    /**
+     * addUser (registration)
+     * 
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/user/registration", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> addUser(@RequestBody String entity) {
+        LOGGER.info("----------addUser START----------");
+        ResultBean resultBean = null;
+        try {
+            resultBean = userService.addUser(entity);
+        } catch (ApiValidateException e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("----------addUser END----------");
+        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+    }
 
-	/**
-	 * updateUser
-	 * 
-	 * @author: LinhDT
-	 * @param entity
-	 * @return
-	 */
-	@RequestMapping(value = "/user", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResultBean> updateUser(@RequestBody String entity) {
-		LOGGER.info("----------updateUser START----------");
-		try {
-			userService.updateUser(entity);
-		} catch (ApiValidateException e) {
-			return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"),
-					HttpStatus.BAD_REQUEST);
-		}
+    /**
+     * updateUser
+     * 
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> updateUser(@RequestBody String entity) {
+        LOGGER.info("----------updateUser START----------");
+        try {
+            userService.updateUser(entity);
+        } catch (ApiValidateException e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+        }
 
-		LOGGER.info("----------updateUser END----------");
-		return new ResponseEntity<ResultBean>(new ResultBean("200", MessageUtils.getMessage("MSG04")), HttpStatus.OK);
-	}
+        LOGGER.info("----------updateUser END----------");
+        return new ResponseEntity<ResultBean>(new ResultBean("200", MessageUtils.getMessage("MSG04")), HttpStatus.OK);
+    }
 
-	/**
-	 * login
-	 * 
-	 * @author: LinhDT
-	 * @param entity
-	 * @return
-	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResultBean> login(@RequestBody String entity) {
-		LOGGER.info("----------login START----------");
-		Map<String, String> result = null;
-		try {
-			result = userService.login(entity);
-		} catch (ApiValidateException e) {
-			return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"),
-					HttpStatus.BAD_REQUEST);
-		}
-		LOGGER.info("----------login END----------");
-		return new ResponseEntity<ResultBean>(new ResultBean(result, "200", MessageUtils.getMessage("MSG03")),
-				HttpStatus.OK);
-	}
+    /**
+     * login
+     * 
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> login(@RequestBody String entity) {
+        LOGGER.info("----------login START----------");
+        Map<String, String> result = null;
+        try {
+            result = userService.login(entity);
+        } catch (ApiValidateException e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("----------login END----------");
+        return new ResponseEntity<ResultBean>(new ResultBean(result, "200", MessageUtils.getMessage("MSG03")), HttpStatus.OK);
+    }
 
-	/**
-	 * changePassword
-	 * 
-	 * @author: LinhDT
-	 * @param entity
-	 * @return
-	 */
-	@RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResultBean> changePassword(@RequestBody String entity) {
-		LOGGER.info("----------changePassword START----------");
+    /**
+     * changePassword
+     * 
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/changepassword", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> changePassword(@RequestBody String entity) {
+        LOGGER.info("----------changePassword START----------");
 
-		try {
-			userService.changePassword(entity);
-		} catch (ApiValidateException e) {
-			return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"),
-					HttpStatus.BAD_REQUEST);
-		}
+        try {
+            userService.changePassword(entity);
+        } catch (ApiValidateException e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+        }
 
-		LOGGER.info("----------changePassword END----------");
-		return new ResponseEntity<ResultBean>(new ResultBean("200", MessageUtils.getMessage("MSG04")), HttpStatus.OK);
-	}
+        LOGGER.info("----------changePassword END----------");
+        return new ResponseEntity<ResultBean>(new ResultBean("200", MessageUtils.getMessage("MSG04")), HttpStatus.OK);
+    }
 
-	/**
-	 * viewProfile
-	 * 
-	 * @author: LinhDT
-	 * @return
-	 */
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	@PreAuthorize("@appAuthorizer.authorize(authentication,'VIEW',this)")
-	public ResponseEntity<ResultBean> viewProfile() {
-		LOGGER.info("----------viewProfile START----------");
-		ResultBean entity = null;
-		try {
-			entity = userService.viewProfile();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<ResultBean>(entity, HttpStatus.BAD_REQUEST);
-		}
-		LOGGER.info("----------viewProfile END----------");
-		return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
-	}	
+    /**
+     * viewProfile
+     * 
+     * @author: LinhDT
+     * @return
+     */
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @PreAuthorize("@appAuthorizer.authorize(authentication,'VIEW',this)")
+    public ResponseEntity<ResultBean> viewProfile() {
+        LOGGER.info("----------viewProfile START----------");
+        ResultBean entity = null;
+        try {
+            entity = userService.viewProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(entity, HttpStatus.BAD_REQUEST);
+        }
+        LOGGER.info("----------viewProfile END----------");
+        return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+    }
 }

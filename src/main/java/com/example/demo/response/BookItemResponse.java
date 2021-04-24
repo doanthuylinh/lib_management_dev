@@ -76,14 +76,6 @@ public class BookItemResponse extends BookResponse {
         this.location = location;
     }
 
-    public Double getRentCost() {
-        return rentCost;
-    }
-
-    public void setRentCost(Double rentCost) {
-        this.rentCost = rentCost;
-    }
-
     public Integer getState() {
         return state;
     }
@@ -106,13 +98,12 @@ public class BookItemResponse extends BookResponse {
 
     public BookItemResponse() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
             String publicationDate, String thumbnail, Double rentCost, Date createDate, Double price) {
         super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price, createDate);
-        // TODO Auto-generated constructor stub
+
     }
 
 }

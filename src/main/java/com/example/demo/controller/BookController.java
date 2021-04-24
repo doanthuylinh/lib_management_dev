@@ -31,7 +31,7 @@ import com.example.demo.utils.ResponseUtils;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
 */
 @RestController
 @RequestMapping(value = "/api")
@@ -65,148 +65,172 @@ public class BookController {
     /**
      * getBookByName
      * @author: LinhDT
-     * @param bookName
+     * @param query
      * @return
      */
     @RequestMapping(value = "/getbookbyname", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBookByName(@RequestBody String bookName) {
+    public ResponseEntity<ResultBean> getBookByName(@RequestParam("q") String query) {
         LOGGER.info("----------getBookByName START----------");
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.getBookByName(bookName);
+            resultBean = bookService.getBookByName(query);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------getBookByName END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
-     * getBookByAuthor
+     * getBooksByAuthor
      * @author: LinhDT
-     * @param author
+     * @param query
      * @return
      */
-    @RequestMapping(value = "/getbookbyauthor", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBookByAuthor(@RequestBody String author) {
-        LOGGER.info("----------getBookByAuthor START----------");
+    @RequestMapping(value = "/getbooksbyauthor", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> getBooksByAuthor(@RequestParam("q") String query) {
+        LOGGER.info("----------getBooksByAuthor START with query: " + query);
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.getBookByAuthor(author);
+            resultBean = bookService.getBooksByAuthor(query);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean("500", "Internal server error");
         }
-        LOGGER.info("----------getBookByAuthor END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        LOGGER.info("----------getBooksByAuthor END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
      * getBookByCategory
      * @author: LinhDT
-     * @param category
+     * @param query
      * @return
      */
-    @RequestMapping(value = "/getbookbycategory", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBookByCategory(@RequestBody String category) {
-        LOGGER.info("----------getBookByCategory START----------");
+    @RequestMapping(value = "/getbooksbycategory", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> getBooksByCategory(@RequestParam("q") String query) {
+        LOGGER.info("----------Get Book By Category START with query: " + query);
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.getBookByCategory(category);
+            resultBean = bookService.getBooksByCategory(query);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean("500", "Internal server error");
         }
-        LOGGER.info("----------getBookByCategory END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        LOGGER.info("----------Get Book By Category END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
      * getBookByPublicationDate
      * @author: LinhDT
-     * @param publicationDate
+     * @param query
      * @return
      */
     @RequestMapping(value = "/getbookbypublicationdate", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBookByPublicationDate(@RequestBody String publicationDate) {
-        LOGGER.info("----------getBookByPublicationDate START----------");
+    public ResponseEntity<ResultBean> getBookByPublicationDate(@RequestParam("q") String query) {
+        LOGGER.info("----------get Book By Publication Date START with query: " + query);
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.getBookByPublicationDate(publicationDate);
+            resultBean = bookService.getBookByPublicationDate(query);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean("500", "Internal server error");
         }
-        LOGGER.info("----------getBookByPublicationDate END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        LOGGER.info("----------get Book By Publication Date END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
+
+    /**
+     * searchBook
+     * @author: LinhDT
+     * @param query
+     * @return
+     */
     @RequestMapping(value = "/book/search", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> searchBook(@RequestParam("q") String query) {
-    	LOGGER.info("--- Search Book START with query: " + query);
-    	
-    	ResultBean resultBean = null;
-    	try {
-    		resultBean = bookService.searchBook(query);
-    	} catch (ApiValidateException e) {
-    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        LOGGER.info("--- Search Book START with query: " + query);
+
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookService.searchBook(query);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             resultBean = new ResultBean("500", "Internal server error");
         }
-    	
-    	LOGGER.info("--- Search book END ---");
-    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
+        LOGGER.info("--- Search book END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
+
+    /**
+     * updateBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     */
     @RequestMapping(value = "/book", method = RequestMethod.PUT)
     public ResponseEntity<ResultBean> updateBook(@RequestBody String data) {
-    	LOGGER.info("--- Update book START ---");
-    	
-    	ResultBean resultBean = null;
-    	try {
-    		resultBean = bookService.updateBook(data);
-    	} catch (ApiValidateException e) {
-    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        LOGGER.info("--- Update book START ---");
+
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookService.updateBook(data);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             resultBean = new ResultBean("500", "Internal server error");
         }
-    	
-    	LOGGER.info("--- Update book END ---");
-    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
+        LOGGER.info("--- Update book END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
-    
+
+    /**
+     * addBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     */
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public ResponseEntity<ResultBean> addBook(@RequestBody String data) {
-    	LOGGER.info("--- Update book START ---");
-    	
-    	ResultBean resultBean = null;
-    	try {
-    		resultBean = bookService.addBook(data);
-    	} catch (ApiValidateException e) {
-    		resultBean = new ResultBean(e.getCode(), e.getMessage());
+        LOGGER.info("--- Update book START ---");
+
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookService.addBook(data);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             resultBean = new ResultBean("500", "Internal server error");
         }
-    	
-    	LOGGER.info("--- Update book END ---");
-    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
+        LOGGER.info("--- Update book END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
+
+    /**
+     * getBook
+     * @author: LinhDT
+     * @param from
+     * @param limit
+     * @return
+     */
     @RequestMapping(value = "/book", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> getBook(@RequestParam("from") Integer from, @RequestParam("limit") Integer limit) {
-    	return null;
+        return null;
     }
 }
