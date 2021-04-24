@@ -108,4 +108,8 @@ public class BookItemServiceImpl implements BookItemService {
         return new ResultBean(listBookItemResponse, "200", MessageUtils.getMessage("MSG01", new Object[] { "list of book items by book ID" }));
     }
 
+    public ResultBean countBookItem(Integer bookId) throws ApiValidateException {
+    	Long count = bookItemDao.countBookItem(bookId);
+    	return new ResultBean(count, "200", MessageUtils.getMessage("MSG01", new Object[] { "countBookItem by book ID" }));
+    }
 }

@@ -166,13 +166,14 @@ public class BookItemDaoImpl implements BookItemDao {
     }
 
 	@Override
-	public long countBook(Integer bookId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long countBookItem(Integer bookId) {
+		StringBuilder sql = new StringBuilder();
+        sql.append(" select count(*) from BookItemEntity where bookId = :bookId ");
+        
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookId", bookId);
+        
+        Long count = (Long) query.getSingleResult();
+		return count;
 	}
-    
-//    public long countBook(Integer bookId) {
-//    	
-//    }
-
 }

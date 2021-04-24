@@ -14,11 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ResultBean;
 import com.example.demo.service.BookItemService;
 import com.example.demo.utils.ApiValidateException;
+import com.example.demo.utils.ResponseUtils;
 
 /**
  * [OVERVIEW] Book Item Controller.
@@ -81,5 +83,22 @@ public class BookItemController {
         }
         LOGGER.info("----------getListBookItemByBookId END----------");
         return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/countBookItem", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> countBookItem(@RequestParam("bookId") Integer bookId) {
+    	LOGGER.info("----------countBookItem START----------");
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookItemService.countBookItem(bookId);
+        } catch (ApiValidateException e) {
+        	resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+        LOGGER.info("----------countBookItem END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
     }
 }

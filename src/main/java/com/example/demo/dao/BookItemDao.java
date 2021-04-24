@@ -38,5 +38,5 @@ public interface BookItemDao {
     */
     public List<BookItemResponse> getListBookItemByBookId(Integer bookId);
     
-    public long countBook(Integer bookId);
+    public long countBookItem(Integer bookId);
 }
