@@ -25,6 +25,10 @@ import com.example.demo.utils.ApiValidateException;
 import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
+
+import com.example.demo.utils.Regex;
+import com.example.demo.utils.ValidateUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -180,86 +184,25 @@ public class BookServiceImpl implements BookService {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
 
-        LOGGER.info("--- Search Book END ---");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
-
-    public ResultBean updateBook(String data) throws ApiValidateException {
-        JsonObject json = new Gson().fromJson(data, JsonObject.class);
-
-        Integer bookId = DataUtils.getAsIntegerByJson(json, "book_id");
-        String bookName = DataUtils.getAsStringByJson(json, "book_name");
-        String description = DataUtils.getAsStringByJson(json, "description");
-        String language = DataUtils.getAsStringByJson(json, "language");
-        String author = DataUtils.getAsStringByJson(json, "author");
-        Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
-        Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
-        String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
-        String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
-        Double price = DataUtils.getAsDoubleByJson(json, "price");
-        Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
-
-        BookEntity book = bookDao.getBookEntityById(bookId);
-        book.setBookName(bookName);
-        book.setDescription(description);
-        book.setLanguage(language);
-        book.setAuthor(author);
-        book.setCategoryId(categoryId);
-        book.setDepartmentId(departmentId);
-        book.setPublicationDate(publicationDate);
-        book.setThumbnail(thumbnail);
-        book.setPrice(price);
-        book.setRentCost(rentCost);
-
-        return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
-    }
-
+    
     @Override
-    public ResultBean addBook(String data) throws ApiValidateException {
-        if (DataUtils.isNullOrEmpty(data)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
-        }
-
-        JsonObject json = new Gson().fromJson(data, JsonObject.class);
-
-        String bookName = DataUtils.getAsStringByJson(json, "book_name");
-        String description = DataUtils.getAsStringByJson(json, "description");
-        String language = DataUtils.getAsStringByJson(json, "language");
-        String author = DataUtils.getAsStringByJson(json, "author");
-        Integer categoryId = DataUtils.getAsIntegerByJson(json, "category_id");
-        Integer departmentId = DataUtils.getAsIntegerByJson(json, "department_id");
-        String publicationDate = DataUtils.getAsStringByJson(json, "publication_date");
-        String thumbnail = DataUtils.getAsStringByJson(json, "thumbnail");
-        Double price = DataUtils.getAsDoubleByJson(json, "price");
-        Double rentCost = DataUtils.getAsDoubleByJson(json, "rent_cost");
-
-        if (DataUtils.isNullOrEmpty(bookName)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "book_name"));
-        }
-
-        if (DataUtils.isNullOrEmpty(description)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "description"));
-        }
-
-        if (DataUtils.isNullOrEmpty(author)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "author"));
-        }
-
-        BookEntity book = new BookEntity();
-        book.setBookName(bookName);
-        book.setDescription(description);
-        book.setLanguage(language);
-        book.setAuthor(author);
-        book.setCategoryId(categoryId);
-        book.setDepartmentId(departmentId);
-        book.setPublicationDate(publicationDate);
-        book.setThumbnail(thumbnail);
-        book.setPrice(price);
-        book.setRentCost(rentCost);
-        book.setCreateDate(new Date());
-
-        bookDao.addBook(book);
-
-        return new ResultBean(book, "201", MessageUtils.getMessage("MSG02", "book"));
+    public ResultBean updateBook(String data) throws ApiValidateException {	
+    	BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+    	
+    	ValidateUtils.validateUpdateBook(book);
+		
+		return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
     }
+
+	@Override
+	public ResultBean addBook(String data) throws ApiValidateException {	
+		BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+		
+		ValidateUtils.validateAddBook(book);
+		
+		return new ResultBean(bookDao.addBook(book), "201", MessageUtils.getMessage("MSG02", "book"));
+	}
+
 }

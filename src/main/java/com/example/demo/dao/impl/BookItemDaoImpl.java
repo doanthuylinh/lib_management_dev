@@ -75,6 +75,7 @@ public class BookItemDaoImpl implements BookItemDao {
         query.setParameter("bookId", bookId);
 
         Long count = (Long) query.getSingleResult();
+        
         return count;
     }
 
@@ -84,4 +85,12 @@ public class BookItemDaoImpl implements BookItemDao {
 
         return entity;
     }
+
+	@Override
+	public BookItemEntity addBookItem(BookItemEntity entity) {
+		this.entityManager.persist(entity);
+		
+		return entity;
+	}
+
 }

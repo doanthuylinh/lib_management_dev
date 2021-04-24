@@ -46,4 +46,6 @@ public interface BookItemDao {
      * @return
      */
     public BookItemEntity updateBookItem(BookItemEntity entity);
+    
+    public BookItemEntity addBookItem(BookItemEntity entity);
 }

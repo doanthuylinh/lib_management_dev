@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
@@ -115,5 +116,20 @@ public class DataUtils {
         	return true;
         }
         return false;
+    }
+    
+    public static boolean isNullOrEmpty(Integer data) throws ApiValidateException {
+        if (data == null || data.equals(0)) {
+        	return true;
+        }
+        return false;
+    }
+    
+    public static <T> T getEntityByJsonString(String data, Class<T> typeoff) throws ApiValidateException {
+    	ValidateUtils.validateDataBody(data);
+    	
+    	T entity = new Gson().fromJson(data, typeoff);
+    	
+    	return entity;
     }
 }
