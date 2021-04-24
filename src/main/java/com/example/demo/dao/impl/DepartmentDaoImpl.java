@@ -26,7 +26,7 @@ import com.example.demo.dao.DepartmentDao;
  * [OVERVIEW] Department Data access object implementation.
  *
  * @author: LinhDT
- * @version: 1.0
+ * @version: 1.1
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------

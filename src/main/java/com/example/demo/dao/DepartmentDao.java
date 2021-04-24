@@ -14,7 +14,7 @@ import com.example.demo.bean.DepartmentEntity;
  * [OVERVIEW] Department Data access object.
  *
  * @author: LinhDT
- * @version: 1.0
+ * @version: 1.1
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------

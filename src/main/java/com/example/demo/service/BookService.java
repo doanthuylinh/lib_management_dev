@@ -73,7 +73,21 @@ public interface BookService {
      */
     public ResultBean searchBook(String data) throws ApiValidateException;
     
+    /**
+     * addBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     public ResultBean addBook(String data) throws ApiValidateException;
     
+    /**
+     * updateBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     public ResultBean updateBook(String data) throws ApiValidateException;
 }

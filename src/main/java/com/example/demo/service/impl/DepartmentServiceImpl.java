@@ -30,7 +30,7 @@ import com.google.gson.JsonObject;
  * [OVERVIEW] Department Service Implementation.
  *
  * @author: LinhDT
- * @version: 1.0
+ * @version: 1.1
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
@@ -71,6 +71,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public ResultBean addDepartment(String data) throws ApiValidateException {
+        LOGGER.info("----------addDepartment START----------");
         if (DataUtils.isNullOrEmpty(data)) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", "Data is not null"));
         }
@@ -92,7 +93,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDepartmentName(departmentName);
 
         departmentDao.addDepartment(department);
-
+        LOGGER.info("----------addDepartment END----------");
         return new ResultBean(department, "200", MessageUtils.getMessage("MSG02", ConstantColumn.DEPARTMENT));
     }
 

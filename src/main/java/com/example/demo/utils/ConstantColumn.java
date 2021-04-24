@@ -37,8 +37,11 @@ public class ConstantColumn {
     public final static String DEPARTMENT = "department";
     public final static String DEPARTMENT_NAME = "department_name";
     public final static String PUBLICATION_DATE = "publication_date";
-    
+
     public final static String QUERY_SEARCH = "query";
-    
+
     public final static String BARCODE = "barcode";
+
+    public final static String TRANSACTION_TYPE_ID = "transaction_type_id";
+    public final static String TRANSACTION_TYPE_NAME = "transaction_type_name";
 }

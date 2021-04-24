@@ -10,32 +10,40 @@ import com.example.demo.bean.ResultBean;
 import com.example.demo.utils.ApiValidateException;
 
 /**
- * [OVERVIEW] Department Service.
+ * [OVERVIEW] Transaction Type Service.
  *
  * @author: LinhDT
- * @version: 1.1
+ * @version: 1.0
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/17      LinhDT             Create new
- * 002       1.1       2021/04/24      LinhDT             Create Add Department
+ * 001       1.0       2021/04/24      LinhDT             Create new
 */
-public interface DepartmentService {
+public interface TransactionTypeService {
 
     /**
-     * getListDepartments
-     * @author: LinhDT
-     * @return
-     * @throws ApiValidateException
-     */
-    public ResultBean getListDepartments() throws ApiValidateException;
-
-    /**
-     * addDepartment
+     * addTransactionType
      * @author: LinhDT
      * @param data
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean addDepartment(String data) throws ApiValidateException;
+    public ResultBean addTransactionType(String data) throws ApiValidateException;
+    
+    /**
+     * updateTransactionType
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    public ResultBean updateTransactionType(String data) throws ApiValidateException;
+    
+    /**
+     * getListTransactionTypes
+     * @author: LinhDT
+     * @return
+     * @throws ApiValidateException
+     */
+    public ResultBean getListTransactionTypes() throws ApiValidateException;
 }
