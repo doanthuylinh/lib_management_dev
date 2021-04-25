@@ -18,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
@@ -85,12 +87,12 @@ public class BookEntity implements Serializable {
     @JsonProperty("thumbnail")
     private String thumbnail;
 
-    @Column(name = "rent_cost")
+    @Column(name = "rent_cost", columnDefinition = "double default 0")
     @SerializedName("rent_cost")
     @JsonProperty("rent_cost")
     private Double rentCost;
 
-    @Column(name = "price")
+    @Column(name = "price", columnDefinition = "double default 0")
     @SerializedName("price")
     @JsonProperty("price")
     private Double price;
@@ -103,11 +105,13 @@ public class BookEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     @JsonProperty("category_entity")
+    @JsonInclude(Include.NON_NULL)
     private CategoryEntity categoryEntity;
 
     @ManyToOne
     @JoinColumn(name = "department_id", insertable = false, updatable = false)
     @JsonProperty("department_entity")
+    @JsonInclude(Include.NON_NULL)
     private DepartmentEntity departmentEntity;
 
     public Integer getBookId() {

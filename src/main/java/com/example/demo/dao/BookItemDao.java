@@ -9,6 +9,7 @@ package com.example.demo.dao;
 import java.util.List;
 
 import com.example.demo.bean.BookItemEntity;
+import com.example.demo.data.BookItemStatus;
 import com.example.demo.response.BookItemResponse;
 
 /**
@@ -38,6 +39,8 @@ public interface BookItemDao {
      * @return
      */
     public long countBookItem(Integer bookId);
+    
+    public BookItemEntity getBookItem(Integer bookItemId);
 
     /**
      * updateBookItem
@@ -48,4 +51,8 @@ public interface BookItemDao {
     public BookItemEntity updateBookItem(BookItemEntity entity);
     
     public BookItemEntity addBookItem(BookItemEntity entity);
+
+	List<BookItemEntity> getListBookItemWithStatusByBookId(Integer bookId, Integer statusValue);
+
+	List<BookItemEntity> getListBookItemWithStatusByBookId(Integer bookId, BookItemStatus status);
 }

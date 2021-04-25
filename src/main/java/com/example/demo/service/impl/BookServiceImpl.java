@@ -197,6 +197,7 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public ResultBean addBook(String data) throws ApiValidateException {	
 		BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+		book.setCreateDate(new Date());
 		
 		ValidateUtils.validateAddBook(book);
 		

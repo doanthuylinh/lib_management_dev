@@ -9,6 +9,7 @@ package com.example.demo.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.bean.BookItemEntity;
 import com.example.demo.dao.BookItemDao;
+import com.example.demo.data.BookItemStatus;
 import com.example.demo.response.BookItemResponse;
 
 /**
@@ -65,6 +67,33 @@ public class BookItemDaoImpl implements BookItemDao {
         LOGGER.info("----------getBookItemByBookId END----------");
         return entity;
     }
+    
+    @Override
+	@SuppressWarnings("unchecked")
+    public List<BookItemEntity> getListBookItemWithStatusByBookId(Integer bookId, BookItemStatus status) {
+    	return this.getListBookItemWithStatusByBookId(bookId, status.value());
+    }
+
+	@Override
+	@SuppressWarnings("unchecked")
+    public List<BookItemEntity> getListBookItemWithStatusByBookId(Integer bookId, Integer statusValue) {
+        LOGGER.info("----------getListBookItemWithStatusByBookId START----------");
+        StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    BookItemEntity bie ");
+        sql.append(" WHERE ");
+        sql.append("    bie.bookId = :bookId ");
+        sql.append(" AND ");
+        sql.append("	bie.status = :status ");
+        
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookId", bookId);
+        query.setParameter("status", statusValue);
+        List<BookItemEntity> entity = null;
+        entity = query.getResultList();
+        LOGGER.info("----------getListBookItemWithStatusByBookId END----------");
+        return entity;
+    }
 
     @Override
     public long countBookItem(Integer bookId) {
@@ -77,6 +106,26 @@ public class BookItemDaoImpl implements BookItemDao {
         Long count = (Long) query.getSingleResult();
         
         return count;
+    }
+    
+    public BookItemEntity getBookItem(Integer bookItemId) {
+    	StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    BookItemEntity bie ");
+        sql.append(" WHERE ");
+        sql.append("    bie.bookItemId = :bookItemId ");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookItemId", bookItemId);
+        
+        BookItemEntity entity = null;
+        try {
+        	entity = (BookItemEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+        	
+        }
+        
+        return entity;
     }
 
     @Override

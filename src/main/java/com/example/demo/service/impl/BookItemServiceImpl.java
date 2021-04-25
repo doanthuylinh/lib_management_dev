@@ -98,4 +98,10 @@ public class BookItemServiceImpl implements BookItemService {
 		
 		return new ResultBean(bookItemDao.updateBookItem(bookItem), "201", MessageUtils.getMessage("MSG04", "bookItem"));
 	}
+
+	@Override
+	public ResultBean getBookItem(Integer bookItemId) throws ApiValidateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

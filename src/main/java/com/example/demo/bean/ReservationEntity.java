@@ -22,9 +22,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.example.demo.data.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -70,7 +74,7 @@ public class ReservationEntity implements Serializable {
     @JsonProperty("returned_date")
     private Date returnedDate;
 
-    @Column(name = "total_fee")
+    @Column(name = "total_fee", columnDefinition = "double default 0")
     @SerializedName("total_fee")
     @JsonProperty("total_fee")
     private Double totalFee;
@@ -89,12 +93,26 @@ public class ReservationEntity implements Serializable {
     @JoinColumn(name = "book_item_id")
     @SerializedName("book_item_entities")
     @JsonProperty("book_item_entities")
-    private Set<BookItemEntity> bookItemEntities;
+    private List<BookItemEntity> bookItemEntities;
+    
+    @SerializedName("book_entities")
+    @Transient
+    @JsonIgnore
+    private List<BookEntity> bookEntities;
 
 	@ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
 	@JsonProperty("user_entity")
+	@JsonInclude(Include.NON_NULL)
     private UserEntity userEntity;
+	
+	public List<BookEntity> getBookEntities() {
+		return bookEntities;
+	}
+
+	public void setBookEntities(List<BookEntity> bookEntities) {
+		this.bookEntities = bookEntities;
+	}
 
     public Integer getReservationId() {
         return reservationId;
@@ -104,7 +122,19 @@ public class ReservationEntity implements Serializable {
         this.reservationId = reservationId;
     }
 
-    public Integer getUserId() {
+    public List<BookItemEntity> getBookItemEntities() {
+		return bookItemEntities;
+	}
+
+	public void setBookItemEntities(List<BookItemEntity> bookItemEntities) {
+		this.bookItemEntities = bookItemEntities;
+	}
+
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public Integer getUserId() {
         return userId;
     }
 

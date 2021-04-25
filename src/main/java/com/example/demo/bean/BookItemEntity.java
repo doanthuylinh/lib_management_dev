@@ -6,6 +6,8 @@
 
 package com.example.demo.bean;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +23,9 @@ import javax.persistence.Transient;
 
 import com.example.demo.data.BookItemStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -75,10 +79,13 @@ public class BookItemEntity {
     @SerializedName("status")
     @JsonProperty("status")
     private Integer status;
+    
+    
 
-    @ManyToOne
+	@ManyToOne
     @JoinColumn(name = "book_id", insertable=false, updatable=false)
-    @JsonIgnore
+    @JsonInclude(Include.NON_NULL)
+	@JsonIgnore
     private BookEntity bookEntity;
     
     public Integer getBookItemId() {
