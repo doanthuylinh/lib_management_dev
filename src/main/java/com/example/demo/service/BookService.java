@@ -71,7 +71,7 @@ public interface BookService {
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean searchBook(String data) throws ApiValidateException;
+    public ResultBean searchBook(String data, Integer from, Integer limit) throws ApiValidateException;
     
     /**
      * addBook

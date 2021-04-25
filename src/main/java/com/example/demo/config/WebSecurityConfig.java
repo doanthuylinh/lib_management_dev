@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
                 // Book
                 .antMatchers("/api/book/{bookId}", "/api/getbookbyname", "/api/getbooksbyauthor", "/api/getbooksbycategory",
-                        "/api/getbookbypublicationdate", "/api/book/search", "/api/book").permitAll()
+                        "/api/getbookbypublicationdate", "/api/book").permitAll()
                 // Book item
                 .antMatchers("/api/getlistbookitembybookid/{bookId}",
                 		"/api/bookitem/count", "/api/bookitem").permitAll()

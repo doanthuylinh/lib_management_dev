@@ -171,20 +171,18 @@ public class BookServiceImpl implements BookService {
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean searchBook(String query) throws ApiValidateException {
+    public ResultBean searchBook(String query, Integer from, Integer limit) throws ApiValidateException {
         LOGGER.info("--- Search Book START ---");
-
-        // Check whether query is null.
-        if (DataUtils.isNullOrEmpty(query)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
-        }
-
-        List<BookEntity> entity = bookDao.searchBook(query);
-        if (Objects.isNull(entity)) {
+        
+        List<BookEntity> entitys = (DataUtils.isNullOrEmpty(from) 
+    			|| DataUtils.isNullOrEmpty(limit))
+    			? bookDao.searchBook(query) : bookDao.searchBook(query, from, limit);	
+        
+        if (Objects.isNull(entitys)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
 
-        return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
+        return new ResultBean(entitys, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
     
     @Override

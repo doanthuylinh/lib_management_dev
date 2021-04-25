@@ -87,6 +87,8 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> searchBook(String query);
+   
+    public List<BookEntity> searchBook(String query, Integer from, Integer limit);
 
     /**
      * updateBook

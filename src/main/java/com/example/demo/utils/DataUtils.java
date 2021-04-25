@@ -111,7 +111,7 @@ public class DataUtils {
         return null;
     }
     
-    public static boolean isNullOrEmpty(String data) throws ApiValidateException {
+    public static boolean isNullOrEmpty(String data) {
         if (data == null || data.trim().isEmpty()) {
         	return true;
         }
@@ -119,7 +119,7 @@ public class DataUtils {
     }
     
     public static boolean isNullOrEmpty(Integer data) throws ApiValidateException {
-        if (data == null || data.equals(0)) {
+        if (data == null) {
         	return true;
         }
         return false;

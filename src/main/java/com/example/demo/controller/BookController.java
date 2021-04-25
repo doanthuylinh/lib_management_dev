@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.service.BookService;
 import com.example.demo.utils.ApiValidateException;
+import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.ResponseUtils;
+import com.example.demo.utils.ValidateUtils;
 
 /**
  * [OVERVIEW] Book Controller.
@@ -156,13 +158,16 @@ public class BookController {
      * @param query
      * @return
      */
-    @RequestMapping(value = "/book/search", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> searchBook(@RequestParam("q") String query) {
+    @RequestMapping(value = "/book", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> searchBook(
+    		@RequestParam(name = "q", required = false) String query,
+    		@RequestParam(name = "from", required = false) Integer from,
+    		@RequestParam(name = "limit", required = false) Integer limit) {
         LOGGER.info("--- Search Book START with query: " + query);
 
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.searchBook(query);
+            resultBean = bookService.searchBook(query, from, limit);
         } catch (ApiValidateException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
@@ -222,15 +227,4 @@ public class BookController {
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
-    /**
-     * getBook
-     * @author: LinhDT
-     * @param from
-     * @param limit
-     * @return
-     */
-    @RequestMapping(value = "/book", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBook(@RequestParam("from") Integer from, @RequestParam("limit") Integer limit) {
-        return null;
-    }
 }

@@ -23,6 +23,8 @@ import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.CategoryEntity;
 import com.example.demo.dao.BookDao;
 import com.example.demo.response.BookResponse;
+import com.example.demo.utils.ApiValidateException;
+import com.example.demo.utils.DataUtils;
 
 /**
  * [OVERVIEW] Book Data Object Access Implementation.
@@ -323,46 +325,39 @@ public class BookDaoImpl implements BookDao {
         LOGGER.info("----------getBookByPublicationDate END----------");
         return entity;
     }
-
-    @SuppressWarnings("unchecked")
+    
+    @Override
     public List<BookEntity> searchBook(String q) {
+    	return this.searchBook(q, 0, 100);
+    }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<BookEntity> searchBook(String q, Integer from, Integer limit) {
+    	boolean isQueryEmpty = DataUtils.isNullOrEmpty(q);
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new com.example.demo.response.BookResponse(");
-        sql.append("    be.bookId, ");
-        sql.append("    be.bookName, ");
-        sql.append("    be.description, ");
-        sql.append("    be.language, ");
-        sql.append("    be.author, ");
-        sql.append("    ce.categoryName, ");
-        sql.append("    de.departmentName, ");
-        sql.append("    be.publicationDate, ");
-        sql.append("    be.thumbnail, ");
-        sql.append("	be.rentCost, ");
-        sql.append("    be.price, ");
-        sql.append("    be.createDate) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" LEFT JOIN ");
-        sql.append("    DepartmentEntity de ");
-        sql.append(" ON ");
-        sql.append("    be.departmentId = de.departmentId ");
-        sql.append(" LEFT JOIN ");
-        sql.append("    CategoryEntity ce ");
-        sql.append(" ON ");
-        sql.append("    be.categoryId = ce.categoryId ");
-        sql.append(" WHERE ");
-        sql.append(" be.bookName LIKE :searchKey ");
-        sql.append(" OR ");
-        sql.append(" be.author LIKE :searchKey ");
-        sql.append(" OR ");
-        sql.append(" be.description LIKE :searchKey");
-        sql.append(" OR ");
-        sql.append(" ce.categoryName LIKE :searchKey");
-        sql.append(" OR ");
-        sql.append(" de.departmentName LIKE :searchKey");
-
+    	
+        if (!isQueryEmpty) {
+        	sql.append(" WHERE ");
+            sql.append(" be.bookName LIKE :searchKey ");
+            sql.append(" OR ");
+            sql.append(" be.author LIKE :searchKey ");
+            sql.append(" OR ");
+            sql.append(" be.description LIKE :searchKey");
+            sql.append(" OR ");
+            sql.append(" be.categoryEntity.categoryName LIKE :searchKey");
+            sql.append(" OR ");
+            sql.append(" be.departmentEntity.departmentName LIKE :searchKey");
+        }
+        
         Query query = this.entityManager.createQuery(sql.toString());
-        query.setParameter("searchKey", "%" + q + "%");
+        if (!isQueryEmpty) {
+        	query.setParameter("searchKey", "%" + q + "%");
+        }
+        query.setFirstResult(from);
+        query.setMaxResults(limit);
         List<BookEntity> entity = null;
         entity = query.getResultList();
         return entity;
