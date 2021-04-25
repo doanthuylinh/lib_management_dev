@@ -4,7 +4,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-package com.example.demo.bean;
+package com.example.demo.data;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/21      LinhDT             Create new
 */
-public enum State {
+public enum BookItemState {
 
 	UNDEFINED(-1),
     NOT_AVAILABLE(0),
@@ -27,7 +27,7 @@ public enum State {
 	
 	private final Integer value;
 
-	State(Integer i) {
+	BookItemState(Integer i) {
 		value = i;
 	}
 	
@@ -35,9 +35,9 @@ public enum State {
 		return value;
 	}
 	
-	public static State parse(Integer i) {
-		State state = State.UNDEFINED;
-		for (State item : State.values()) {
+	public static BookItemState parse(Integer i) {
+		BookItemState state = BookItemState.UNDEFINED;
+		for (BookItemState item : BookItemState.values()) {
 			if (item.value().equals(i)) {
 				state = item;
 				break;

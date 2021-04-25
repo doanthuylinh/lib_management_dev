@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.example.demo.data.BookItemState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
@@ -128,15 +129,15 @@ public class BookItemEntity {
         this.location = location;
     }
     
-    public State getState() {
-        return State.parse(this.state);
+    public BookItemState getState() {
+        return BookItemState.parse(this.state);
     }
 
     public void setState(Integer state) {
         this.state = state;
     }
     
-    public void setState(State state) {
+    public void setState(BookItemState state) {
     	this.state = state.value();
     }
 
