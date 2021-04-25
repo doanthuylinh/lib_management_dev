@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * [OVERVIEW] Department Entity.
  *
@@ -36,9 +38,11 @@ public class DepartmentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "department_id")
+    @JsonProperty("department_id")
     private Integer departmentId;
 
     @Column(name = "department_name")
+    @JsonProperty("department_name")
     private String departmentName;
 
     public Integer getDepartmentId() {

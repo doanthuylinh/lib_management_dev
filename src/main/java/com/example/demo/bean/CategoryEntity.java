@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * [OVERVIEW] Category Entity.
  *
@@ -34,9 +36,11 @@ public class CategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
+    @JsonProperty("category_id")
     private Integer categoryId;
 
     @Column(name = "category_name")
+    @JsonProperty("category_name")
     private String categoryName;
 
     public Integer getCategoryId() {
