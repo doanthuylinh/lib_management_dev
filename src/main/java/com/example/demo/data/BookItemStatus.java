@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/21      LinhDT             Create new
 */
-public enum BookItemState {
+public enum BookItemStatus {
 
 	UNDEFINED(-1),
     NOT_AVAILABLE(0),
@@ -27,7 +27,7 @@ public enum BookItemState {
 	
 	private final Integer value;
 
-	BookItemState(Integer i) {
+	BookItemStatus(Integer i) {
 		value = i;
 	}
 	
@@ -35,9 +35,9 @@ public enum BookItemState {
 		return value;
 	}
 	
-	public static BookItemState parse(Integer i) {
-		BookItemState state = BookItemState.UNDEFINED;
-		for (BookItemState item : BookItemState.values()) {
+	public static BookItemStatus parse(Integer i) {
+		BookItemStatus state = BookItemStatus.UNDEFINED;
+		for (BookItemStatus item : BookItemStatus.values()) {
 			if (item.value().equals(i)) {
 				state = item;
 				break;

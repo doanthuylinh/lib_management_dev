@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.example.demo.data.BookItemState;
+import com.example.demo.data.BookItemStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
@@ -71,10 +71,10 @@ public class BookItemEntity {
     @JsonProperty("location")
     private String location;
 
-    @Column(name = "state")
-    @SerializedName("state")
-    @JsonProperty("state")
-    private Integer state;
+    @Column(name = "status")
+    @SerializedName("status")
+    @JsonProperty("status")
+    private Integer status;
 
     @ManyToOne
     @JoinColumn(name = "book_id", insertable=false, updatable=false)
@@ -129,16 +129,16 @@ public class BookItemEntity {
         this.location = location;
     }
     
-    public BookItemState getState() {
-        return BookItemState.parse(this.state);
+    public BookItemStatus getStatus() {
+        return BookItemStatus.parse(this.status);
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
     
-    public void setState(BookItemState state) {
-    	this.state = state.value();
+    public void setStatus(BookItemStatus status) {
+    	this.status = status.value();
     }
 
     public BookItemEntity() {
@@ -153,7 +153,7 @@ public class BookItemEntity {
         this.bookEntity = bookEntity;
     }
 
-    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location, Integer state) {
+    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location, Integer status) {
         super();
         this.bookItemId = bookItemId;
         this.barcode = barcode;
@@ -161,7 +161,7 @@ public class BookItemEntity {
         this.dateOfPurchase = dateOfPurchase;
         this.dateAddedToLibrary = dateAddedToLibrary;
         this.location = location;
-        this.state = state;
+        this.status = status;
     }
 
 }

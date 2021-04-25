@@ -1,9 +1,16 @@
 package com.example.demo.dao.impl;
 
-import com.example.demo.bean.TransactionEntity;
-import com.example.demo.dao.Transaction;
+import javax.transaction.Transactional;
 
-public class TransactionImpl implements Transaction{
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.bean.TransactionEntity;
+import com.example.demo.dao.TransactionDao;
+
+
+@Repository
+@Transactional
+public class TransactionDaoImpl implements TransactionDao{
 
 	@Override
 	public void addTransaction(TransactionEntity entity) {

@@ -8,6 +8,8 @@ package com.example.demo.bean;
 
 import java.io.Serializable;
 import java.time.*;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,9 +18,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.example.demo.data.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * [OVERVIEW] Reservation Entity.
@@ -39,28 +46,54 @@ public class ReservationEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
+    @SerializedName("reservation_id")
+    @JsonProperty("reservation_id")
     private Integer reservationId;
 
     @Column(name = "user_id")
+    @SerializedName("user_id")
+    @JsonProperty("user_id")
     private Integer userId;
 
     @Column(name = "reserved_time")
-    private LocalDateTime reservedTime;
+    @SerializedName("reserved_time")
+    @JsonProperty("reserved_time")
+    private Date reservedTime;
 
     @Column(name = "expected_return_date")
-    private LocalDateTime expectedReturnDate;
+    @SerializedName("expected_return_date")
+    @JsonProperty("expected_return_date")
+    private Date expectedReturnDate;
 
     @Column(name = "returned_date")
-    private LocalDateTime returnedDate;
+    @SerializedName("returned_date")
+    @JsonProperty("returned_date")
+    private Date returnedDate;
 
     @Column(name = "total_fee")
+    @SerializedName("total_fee")
+    @JsonProperty("total_fee")
     private Double totalFee;
 
     @Column(name = "created_time")
-    private LocalDateTime createdTime;
+    @SerializedName("created_time")
+    @JsonProperty("created_time")
+    private Date createdTime;
     
-    @ManyToOne
+    @Column(name = "status")
+    @SerializedName("status")
+    @JsonProperty("status")
+    private Integer status;
+   
+    @ManyToMany
+    @JoinColumn(name = "book_item_id")
+    @SerializedName("book_item_entities")
+    @JsonProperty("book_item_entities")
+    private Set<BookItemEntity> bookItemEntities;
+
+	@ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+	@JsonProperty("user_entity")
     private UserEntity userEntity;
 
     public Integer getReservationId() {
@@ -79,27 +112,27 @@ public class ReservationEntity implements Serializable {
         this.userId = userId;
     }
 
-    public LocalDateTime getReservedTime() {
+    public Date getReservedTime() {
         return reservedTime;
     }
 
-    public void setReservedTime(LocalDateTime reservedTime) {
+    public void setReservedTime(Date reservedTime) {
         this.reservedTime = reservedTime;
     }
 
-    public LocalDateTime getExpectedReturnDate() {
+    public Date getExpectedReturnDate() {
         return expectedReturnDate;
     }
 
-    public void setExpectedReturnDate(LocalDateTime expectedReturnDate) {
+    public void setExpectedReturnDate(Date expectedReturnDate) {
         this.expectedReturnDate = expectedReturnDate;
     }
 
-    public LocalDateTime getReturnedDate() {
+    public Date getReturnedDate() {
         return returnedDate;
     }
 
-    public void setReturnedDate(LocalDateTime returnedDate) {
+    public void setReturnedDate(Date returnedDate) {
         this.returnedDate = returnedDate;
     }
 
@@ -115,12 +148,24 @@ public class ReservationEntity implements Serializable {
         return LocalDateTime.now();
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
+    public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
+    
+    public ReservationStatus getStatus() {
+		return ReservationStatus.parse(this.status);
+	}
 
-    public ReservationEntity(Integer reservationId, Integer userId, LocalDateTime reservedTime, LocalDateTime expectedReturnDate, LocalDateTime returnedDate,
-            Double totalFee, LocalDateTime createdTime) {
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	public void setStatus(ReservationStatus status) {
+		this.status = status.value();
+	}
+
+    public ReservationEntity(Integer reservationId, Integer userId, Date reservedTime, Date expectedReturnDate, Date returnedDate,
+            Double totalFee, Date createdTime, Integer status) {
         super();
         this.reservationId = reservationId;
         this.userId = userId;
@@ -129,6 +174,7 @@ public class ReservationEntity implements Serializable {
         this.returnedDate = returnedDate;
         this.totalFee = totalFee;
         this.createdTime = createdTime;
+        this.status = status;
     }
 
     public ReservationEntity() {

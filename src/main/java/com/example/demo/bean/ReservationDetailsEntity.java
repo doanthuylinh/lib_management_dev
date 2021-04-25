@@ -41,13 +41,13 @@ public class ReservationDetailsEntity implements Serializable {
     @Column(name = "book_item_id")
     private Integer bookItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "reservation_id")
-    private ReservationEntity reservationEntity;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_item_id", referencedColumnName = "book_item_id")
-    private BookItemEntity bookItemEntity;
+//    @ManyToOne
+//    @JoinColumn(name = "reservation_id")
+//    private ReservationEntity reservationEntity;
+//
+////    @OneToOne(cascade = CascadeType.ALL)
+////    @JoinColumn(name = "book_item_id", referencedColumnName = "book_item_id")
+//    private BookItemEntity bookItemEntity;
 
     public Integer getReservationId() {
         return reservationId;
