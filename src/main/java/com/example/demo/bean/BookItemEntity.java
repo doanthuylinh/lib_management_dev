@@ -8,6 +8,7 @@ package com.example.demo.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
@@ -39,35 +42,42 @@ public class BookItemEntity {
     @Column(name = "book_item_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SerializedName("book_item_id")
+    @JsonProperty("book_item_id")
     private Integer bookItemId;
 
     @Column(name = "barcode")
     @SerializedName("barcode")
+    @JsonProperty("barcode")
     private String barcode;
 
     @Column(name = "book_id")
     @SerializedName("book_id")
+    @JsonProperty("book_id")
     private Integer bookId;
 
     @Column(name = "date_of_purchase")
     @SerializedName("date_of_purchase")
+    @JsonProperty("date_of_purchase")
     private String dateOfPurchase;
 
     @Column(name = "date_added_to_library")
     @SerializedName("date_added_to_library")
+    @JsonProperty("date_added_to_library")
     private String dateAddedToLibrary;
 
     @Column(name = "location")
     @SerializedName("location")
+    @JsonProperty("location")
     private String location;
 
-    @Enumerated
-    @Column(name = "state", columnDefinition = "int")
+    @Column(name = "state")
     @SerializedName("state")
-    private State state;
+    @JsonProperty("state")
+    private Integer state;
 
     @ManyToOne
     @JoinColumn(name = "book_id", insertable=false, updatable=false)
+    @JsonIgnore
     private BookEntity bookEntity;
     
     public Integer getBookItemId() {
@@ -117,13 +127,17 @@ public class BookItemEntity {
     public void setLocation(String location) {
         this.location = location;
     }
-
+    
     public State getState() {
-        return state;
+        return State.parse(this.state);
     }
 
-    public void setState(State state) {
+    public void setState(Integer state) {
         this.state = state;
+    }
+    
+    public void setState(State state) {
+    	this.state = state.value();
     }
 
     public BookItemEntity() {
@@ -138,7 +152,7 @@ public class BookItemEntity {
         this.bookEntity = bookEntity;
     }
 
-    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location, State state) {
+    public BookItemEntity(Integer bookItemId, String barcode, Integer bookId, String dateOfPurchase, String dateAddedToLibrary, String location, Integer state) {
         super();
         this.bookItemId = bookItemId;
         this.barcode = barcode;

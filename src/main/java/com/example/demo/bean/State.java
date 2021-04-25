@@ -6,6 +6,8 @@
 
 package com.example.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * [OVERVIEW] State.
  *
@@ -18,8 +20,30 @@ package com.example.demo.bean;
 */
 public enum State {
 
-    NOT_AVAILABLE,
-    AVAILABLE,
-    LOST
+	UNDEFINED(-1),
+    NOT_AVAILABLE(0),
+    AVAILABLE(1),
+    LOST(2);
+	
+	private final Integer value;
 
+	State(Integer i) {
+		value = i;
+	}
+	
+	public Integer value() {
+		return value;
+	}
+	
+	public static State parse(Integer i) {
+		State state = State.UNDEFINED;
+		for (State item : State.values()) {
+			if (item.value().equals(i)) {
+				state = item;
+				break;
+			}
+		}
+		
+		return state;
+	}
 }

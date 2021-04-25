@@ -49,8 +49,8 @@ public class BookItemController {
      * @param bookId
      * @return
      */
-    @RequestMapping(value = "/getlistbookitembybookid/{bookId}", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getListBookItemByBookId(@PathVariable Integer bookId) {
+    @RequestMapping(value = "/bookitem", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> getListBookItemByBookId(@RequestParam("bookId") Integer bookId) {
         LOGGER.info("----------getListBookItemByBookId START----------");
         ResultBean resultBean = null;
         try {
