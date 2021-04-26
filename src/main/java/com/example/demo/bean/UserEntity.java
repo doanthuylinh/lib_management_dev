@@ -7,7 +7,6 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +50,7 @@ public class UserEntity implements Serializable {
     protected String phone;
 
     @Column(name = "dob")
-    protected Date dob;
+    protected String dob;
 
     @Column(name = "address")
     protected String address;
@@ -99,11 +98,11 @@ public class UserEntity implements Serializable {
         this.phone = phone;
     }
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
@@ -127,7 +126,7 @@ public class UserEntity implements Serializable {
         super();
     }
 
-    public UserEntity(Integer userId, String username, String password, String email, String phone, Date dob, String address, Character role) {
+    public UserEntity(Integer userId, String username, String password, String email, String phone, String dob, String address, Character role) {
         super();
         this.userId = userId;
         this.username = username;
