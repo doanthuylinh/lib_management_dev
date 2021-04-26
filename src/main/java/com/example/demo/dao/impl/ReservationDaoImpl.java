@@ -36,6 +36,25 @@ public class ReservationDaoImpl implements ReservationDao{
 		
 		return entity;
 	}
+	
+	@Override
+	public ReservationEntity getReservationById(Integer id) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" FROM ");
+		sql.append(" 	ReservationEntity re ");
+		sql.append(" WHERE ");
+		sql.append(" 	re.reservationId = :reservationId ");
+		
+		
+		Query query = this.entityManager.createQuery(sql.toString());
+		query.setParameter("reservationId", id);
+		query.setMaxResults(1);
+		
+		ReservationEntity entity = null;
+		entity = (ReservationEntity) query.getSingleResult();
+		
+		return entity;
+	}
 
 	@Override
 	public List<ReservationEntity> getReservationWithStatusByUserId(Integer userId, ReservationStatus status) {

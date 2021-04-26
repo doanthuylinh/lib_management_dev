@@ -33,7 +33,7 @@ public class UserResponse {
     @JsonProperty("address")
     private String address;
     @JsonProperty("role")
-    private Character role;
+    private Integer role;
 
     public Integer getUserId() {
         return userId;
@@ -83,15 +83,15 @@ public class UserResponse {
         this.address = address;
     }
 
-    public Character getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Character role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
-    public UserResponse(Integer userId, String username, String email, String phone, String dob, String address, Character role) {
+    public UserResponse(Integer userId, String username, String email, String phone, String dob, String address, Integer role) {
         super();
         this.userId = userId;
         this.username = username;

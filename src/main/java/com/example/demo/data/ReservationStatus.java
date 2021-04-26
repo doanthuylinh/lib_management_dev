@@ -13,7 +13,8 @@ public enum ReservationStatus {
     TEMP(0),
     BORROWING(1),
     RESERVED(2),
-    CLOSED(3);
+    CLOSED(3),
+    CANCELED(4);
 	
 	private final Integer value;
 

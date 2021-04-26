@@ -13,6 +13,8 @@ public interface ReservationDao {
 	
 	public ReservationEntity updateReservation(ReservationEntity entity);
 	
+	public ReservationEntity getReservationById(Integer id);
+	
 	ReservationEntity getCurrentTempReservation(Integer userId);
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
