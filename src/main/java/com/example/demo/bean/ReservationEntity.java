@@ -7,10 +7,9 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
-import java.time.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,15 +19,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.example.demo.data.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -83,36 +81,36 @@ public class ReservationEntity implements Serializable {
     @SerializedName("created_time")
     @JsonProperty("created_time")
     private Date createdTime;
-    
+
     @Column(name = "status")
     @SerializedName("status")
     @JsonProperty("status")
     private Integer status;
-   
+
     @ManyToMany
     @JoinColumn(name = "book_item_id")
     @SerializedName("book_item_entities")
     @JsonProperty("book_item_entities")
     private List<BookItemEntity> bookItemEntities;
-    
+
     @SerializedName("book_entities")
     @Transient
     @JsonIgnore
     private List<BookEntity> bookEntities;
 
-	@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-	@JsonProperty("user_entity")
-	@JsonInclude(Include.NON_NULL)
+    @JsonProperty("user_entity")
+    @JsonInclude(Include.NON_NULL)
     private UserEntity userEntity;
-	
-	public List<BookEntity> getBookEntities() {
-		return bookEntities;
-	}
 
-	public void setBookEntities(List<BookEntity> bookEntities) {
-		this.bookEntities = bookEntities;
-	}
+    public List<BookEntity> getBookEntities() {
+        return bookEntities;
+    }
+
+    public void setBookEntities(List<BookEntity> bookEntities) {
+        this.bookEntities = bookEntities;
+    }
 
     public Integer getReservationId() {
         return reservationId;
@@ -123,18 +121,18 @@ public class ReservationEntity implements Serializable {
     }
 
     public List<BookItemEntity> getBookItemEntities() {
-		return bookItemEntities;
-	}
+        return bookItemEntities;
+    }
 
-	public void setBookItemEntities(List<BookItemEntity> bookItemEntities) {
-		this.bookItemEntities = bookItemEntities;
-	}
+    public void setBookItemEntities(List<BookItemEntity> bookItemEntities) {
+        this.bookItemEntities = bookItemEntities;
+    }
 
-	public UserEntity getUserEntity() {
-		return userEntity;
-	}
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
 
-	public Integer getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -181,21 +179,21 @@ public class ReservationEntity implements Serializable {
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
-    
+
     public ReservationStatus getStatus() {
-		return ReservationStatus.parse(this.status);
-	}
+        return ReservationStatus.parse(this.status);
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	public void setStatus(ReservationStatus status) {
-		this.status = status.value();
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-    public ReservationEntity(Integer reservationId, Integer userId, Date reservedTime, Date expectedReturnDate, Date returnedDate,
-            Double totalFee, Date createdTime, Integer status) {
+    public void setStatus(ReservationStatus status) {
+        this.status = status.value();
+    }
+
+    public ReservationEntity(Integer reservationId, Integer userId, Date reservedTime, Date expectedReturnDate, Date returnedDate, Double totalFee,
+            Date createdTime, Integer status) {
         super();
         this.reservationId = reservationId;
         this.userId = userId;

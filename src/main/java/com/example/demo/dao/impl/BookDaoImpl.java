@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.CategoryEntity;
 import com.example.demo.dao.BookDao;
-import com.example.demo.exception.ApiValidateException;
 import com.example.demo.response.BookResponse;
 import com.example.demo.utils.DataUtils;
 

@@ -7,7 +7,7 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,12 +49,12 @@ public class TransactionEntity implements Serializable {
     private Double money;
 
     @Column(name = "created_time")
-    private LocalDateTime createdTime;
-    
+    private Date createdTime;
+
     @ManyToOne
     @JoinColumn(name = "transaction_type_id")
     private TransactionTypeEntity transactionTypeEntity;
-    
+
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private ReservationEntity reservationEntity;
@@ -91,15 +91,15 @@ public class TransactionEntity implements Serializable {
         this.money = money;
     }
 
-    public LocalDateTime getCreatedTime() {
-        return LocalDateTime.now();
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
+    public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
 
-    public TransactionEntity(Integer transactionId, Integer transactionTypeId, Integer reservationId, Double money, LocalDateTime createdTime) {
+    public TransactionEntity(Integer transactionId, Integer transactionTypeId, Integer reservationId, Double money, Date createdTime) {
         super();
         this.transactionId = transactionId;
         this.transactionTypeId = transactionTypeId;

@@ -1,20 +1,19 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
 package com.example.demo.bean;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -52,7 +51,7 @@ public class UserEntity implements Serializable {
     protected String phone;
 
     @Column(name = "dob")
-    protected String dob;
+    protected Date dob;
 
     @Column(name = "address")
     protected String address;
@@ -100,11 +99,11 @@ public class UserEntity implements Serializable {
         this.phone = phone;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -128,7 +127,7 @@ public class UserEntity implements Serializable {
         super();
     }
 
-    public UserEntity(Integer userId, String username, String password, String email, String phone, String dob, String address, Character role) {
+    public UserEntity(Integer userId, String username, String password, String email, String phone, Date dob, String address, Character role) {
         super();
         this.userId = userId;
         this.username = username;
