@@ -125,9 +125,6 @@ public class TransactionTypeDaoImpl implements TransactionTypeDao {
     public List<TransactionTypeEntity> getListTransactionTypes() {
         LOGGER.info("----------getListTransactionTypes START----------");
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new com.example.demo.response.TransactionTypeResponse( ");
-        sql.append("    tte.transactionTypeId, ");
-        sql.append("    tte.transactionTypeName) ");
         sql.append(" FROM ");
         sql.append("    TransactionTypeEntity tte ");
 

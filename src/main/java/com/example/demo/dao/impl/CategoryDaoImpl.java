@@ -53,9 +53,6 @@ public class CategoryDaoImpl implements CategoryDao {
     public List<CategoryEntity> getListCategories() {
         LOGGER.info("----------getListCategories START----------");
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new com.example.demo.response.CategoryResponse( ");
-        sql.append("    ce.categoryId, ");
-        sql.append("    ce.categoryName) ");
         sql.append(" FROM ");
         sql.append("    CategoryEntity ce ");
 

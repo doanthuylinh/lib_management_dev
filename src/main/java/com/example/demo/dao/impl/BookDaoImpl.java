@@ -325,22 +325,22 @@ public class BookDaoImpl implements BookDao {
         LOGGER.info("----------getBookByPublicationDate END----------");
         return entity;
     }
-    
+
     @Override
     public List<BookEntity> searchBook(String q) {
-    	return this.searchBook(q, 0, 100);
+        return this.searchBook(q, 0, 100);
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public List<BookEntity> searchBook(String q, Integer from, Integer limit) {
-    	boolean isQueryEmpty = DataUtils.isNullOrEmpty(q);
+        boolean isQueryEmpty = DataUtils.isNullOrEmpty(q);
         StringBuilder sql = new StringBuilder();
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-    	
+
         if (!isQueryEmpty) {
-        	sql.append(" WHERE ");
+            sql.append(" WHERE ");
             sql.append(" be.bookName LIKE :searchKey ");
             sql.append(" OR ");
             sql.append(" be.author LIKE :searchKey ");
@@ -351,10 +351,10 @@ public class BookDaoImpl implements BookDao {
             sql.append(" OR ");
             sql.append(" be.departmentEntity.departmentName LIKE :searchKey");
         }
-        
+
         Query query = this.entityManager.createQuery(sql.toString());
         if (!isQueryEmpty) {
-        	query.setParameter("searchKey", "%" + q + "%");
+            query.setParameter("searchKey", "%" + q + "%");
         }
         query.setFirstResult(from);
         query.setMaxResults(limit);
