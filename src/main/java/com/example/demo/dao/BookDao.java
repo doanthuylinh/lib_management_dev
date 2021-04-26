@@ -20,7 +20,7 @@ import com.example.demo.response.BookResponse;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
 */
 public interface BookDao {
 
@@ -87,7 +87,7 @@ public interface BookDao {
      * @return
      */
     public List<BookEntity> searchBook(String query);
-   
+
     public List<BookEntity> searchBook(String query, Integer from, Integer limit);
 
     /**

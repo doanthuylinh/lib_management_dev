@@ -97,7 +97,7 @@ public class BookEntity implements Serializable {
     @JsonProperty("price")
     private Double price;
 
-	@Column(name = "create_date")
+    @Column(name = "create_date")
     @SerializedName("create_date")
     @JsonProperty("create_date")
     private Date createDate;
@@ -209,22 +209,22 @@ public class BookEntity implements Serializable {
     public void setCreateDate(Date datetime) {
         this.createDate = datetime;
     }
-    
+
     public CategoryEntity getCategoryEntity() {
-		return categoryEntity;
-	}
+        return categoryEntity;
+    }
 
-	public void setCategoryEntity(CategoryEntity categoryEntity) {
-		this.categoryEntity = categoryEntity;
-	}
+    public void setCategoryEntity(CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+    }
 
-	public DepartmentEntity getDepartmentEntity() {
-		return departmentEntity;
-	}
+    public DepartmentEntity getDepartmentEntity() {
+        return departmentEntity;
+    }
 
-	public void setDepartmentEntity(DepartmentEntity departmentEntity) {
-		this.departmentEntity = departmentEntity;
-	}
+    public void setDepartmentEntity(DepartmentEntity departmentEntity) {
+        this.departmentEntity = departmentEntity;
+    }
 
     public BookEntity(Integer bookId, String bookName, String description, String language, String author, Integer categoryId, Integer departmentId,
             String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {

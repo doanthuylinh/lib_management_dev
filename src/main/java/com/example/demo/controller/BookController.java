@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.BookService;
-import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.ResponseUtils;
-import com.example.demo.utils.ValidateUtils;
 
 /**
  * [OVERVIEW] Book Controller.
@@ -160,10 +158,8 @@ public class BookController {
      * @return
      */
     @RequestMapping(value = "/book", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> searchBook(
-    		@RequestParam(name = "q", required = false) String query,
-    		@RequestParam(name = "from", required = false) Integer from,
-    		@RequestParam(name = "limit", required = false) Integer limit) {
+    public ResponseEntity<ResultBean> searchBook(@RequestParam(name = "q", required = false) String query,
+            @RequestParam(name = "from", required = false) Integer from, @RequestParam(name = "limit", required = false) Integer limit) {
         LOGGER.info("--- Search Book START with query: " + query);
 
         ResultBean resultBean = null;

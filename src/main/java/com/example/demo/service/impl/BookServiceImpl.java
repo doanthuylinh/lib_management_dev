@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -25,12 +25,7 @@ import com.example.demo.service.BookService;
 import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
-
-import com.example.demo.utils.Regex;
 import com.example.demo.utils.ValidateUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 /**
  * [OVERVIEW] Book Service Implementation.
@@ -173,35 +168,34 @@ public class BookServiceImpl implements BookService {
      */
     public ResultBean searchBook(String query, Integer from, Integer limit) throws ApiValidateException {
         LOGGER.info("--- Search Book START ---");
-        
-        List<BookEntity> entitys = (DataUtils.isNullOrEmpty(from) 
-    			|| DataUtils.isNullOrEmpty(limit))
-    			? bookDao.searchBook(query) : bookDao.searchBook(query, from, limit);	
-        
+
+        List<BookEntity> entitys = (DataUtils.isNullOrEmpty(from) || DataUtils.isNullOrEmpty(limit)) ? bookDao.searchBook(query)
+                : bookDao.searchBook(query, from, limit);
+
         if (Objects.isNull(entitys)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
 
         return new ResultBean(entitys, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
-    
+
     @Override
-    public ResultBean updateBook(String data) throws ApiValidateException {	
-    	BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
-    	
-    	ValidateUtils.validateUpdateBook(book);
-		
-		return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
+    public ResultBean updateBook(String data) throws ApiValidateException {
+        BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+
+        ValidateUtils.validateUpdateBook(book);
+
+        return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
     }
 
-	@Override
-	public ResultBean addBook(String data) throws ApiValidateException {	
-		BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
-		book.setCreateDate(new Date());
-		
-		ValidateUtils.validateAddBook(book);
-		
-		return new ResultBean(bookDao.addBook(book), "201", MessageUtils.getMessage("MSG02", "book"));
-	}
+    @Override
+    public ResultBean addBook(String data) throws ApiValidateException {
+        BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+        book.setCreateDate(new Date());
+
+        ValidateUtils.validateAddBook(book);
+
+        return new ResultBean(bookDao.addBook(book), "201", MessageUtils.getMessage("MSG02", "book"));
+    }
 
 }

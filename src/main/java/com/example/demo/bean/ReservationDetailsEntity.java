@@ -8,13 +8,9 @@ package com.example.demo.bean;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -41,13 +37,13 @@ public class ReservationDetailsEntity implements Serializable {
     @Column(name = "book_item_id")
     private Integer bookItemId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "reservation_id")
-//    private ReservationEntity reservationEntity;
-//
-////    @OneToOne(cascade = CascadeType.ALL)
-////    @JoinColumn(name = "book_item_id", referencedColumnName = "book_item_id")
-//    private BookItemEntity bookItemEntity;
+    //    @ManyToOne
+    //    @JoinColumn(name = "reservation_id")
+    //    private ReservationEntity reservationEntity;
+    //
+    ////    @OneToOne(cascade = CascadeType.ALL)
+    ////    @JoinColumn(name = "book_item_id", referencedColumnName = "book_item_id")
+    //    private BookItemEntity bookItemEntity;
 
     public Integer getReservationId() {
         return reservationId;

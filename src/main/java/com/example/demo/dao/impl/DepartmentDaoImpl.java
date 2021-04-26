@@ -53,9 +53,6 @@ public class DepartmentDaoImpl implements DepartmentDao {
     public List<DepartmentEntity> getListDepartments() {
         LOGGER.info("----------getListDepartments START----------");
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new com.example.demo.response.DepartmentResponse( ");
-        sql.append("    de.departmentId, ");
-        sql.append("    de.departmentName) ");
         sql.append(" FROM ");
         sql.append("    DepartmentEntity de ");
 
