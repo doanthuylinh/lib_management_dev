@@ -162,10 +162,10 @@ public class UserServiceImpl implements UserService {
         }
 
         // Get role and check validation.
-        String role = DataUtils.getAsStringByJson(jObject, ConstantColumn.ROLE);
-        if (!role.matches(Regex.ROLE_PATTERN)) {
-            throw new ApiValidateException("ERR16", MessageUtils.getMessage("ERR16"));
-        }
+        Integer role = DataUtils.getAsIntegerByJson(jObject, ConstantColumn.ROLE);
+//        if (!role.matches(Regex.ROLE_PATTERN)) {
+//            throw new ApiValidateException("ERR16", MessageUtils.getMessage("ERR16"));
+//        }
 
         UserEntity entity = new UserEntity();
         entity.setUsername(username);
@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
         entity.setPhone(phone);
         entity.setDob(dob);
         entity.setAddress(address);
-        entity.setRole(role.charAt(0));
+        entity.setRole(role);
         userDao.addUser(entity);
 
         UserEntity resultClone = SerializationUtils.clone(entity);

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,17 +35,20 @@ public class ReservationController {
 	
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('ADMIN')")
 	public ResponseEntity<ResultBean> addReservation(@RequestBody String data) {
 		LOGGER.info("--- addReservation START ---");
 		ResultBean resultBean = null;
 		try {
 			ReservationEntity entity = DataUtils.getEntityByJsonString(data, ReservationEntity.class);
 			resultBean = reservationService.addReservation(entity);
-		} catch (ApiValidateException e) {
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (ApiValidateException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            resultBean = new ResultBean("500", "Internal server error");
+            resultBean = new ResultBean("500", e.getMessage());
         }
 		
 		LOGGER.info("--- addReservation END ---");
@@ -52,14 +56,18 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('ADMIN')")
 	public ResponseEntity<ResultBean> getReservation(
-			@RequestParam("userId") Integer userId,
+			@RequestParam(name = "userId", required = false) Integer userId,
 			@RequestParam(name = "status", required = false, defaultValue = "-1") Integer status) {
 		LOGGER.info("--- getReservation START ---");
 		ResultBean resultBean = null;
 		try {
-			resultBean = reservationService.getReservationWithStatusByUserId(userId, status);
-		} catch (ApiValidateException e) {
+			resultBean = userId == null ? reservationService.getReservationWithStatus(status) 
+					: reservationService.getReservationWithStatusByUserId(userId, status);
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (ApiValidateException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +79,7 @@ public class ReservationController {
 	}
 	
 	@RequestMapping(value = "/item", method = RequestMethod.POST)
-	@PreAuthorize("@appAuthorizer.authorize(authentication,'VIEW',this)")
+	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('ADMIN')")
 	public ResponseEntity<ResultBean> addReservationItem(
 			@RequestBody String data) {
 		LOGGER.info("--- addReservationItem START ---");
@@ -84,7 +92,9 @@ public class ReservationController {
 			Integer bookId = DataUtils.getAsIntegerByJson(obj, "book_id");
 			
 			resultBean = reservationService.addItemReservation(userId, bookId);
-		} catch (LibException e) {
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         }
 		catch (Exception e) {
@@ -97,7 +107,7 @@ public class ReservationController {
 	} 
 	
 	@RequestMapping(value = "/item", method = RequestMethod.DELETE)
-	@PreAuthorize("@appAuthorizer.authorize(authentication,'VIEW',this)")
+	@PreAuthorize("hasAuthority('MEMBER') or hasAuthority('ADMIN')")
 	public ResponseEntity<ResultBean> removeReservationItem(
 			@RequestBody String data) {
 		LOGGER.info("--- removeReservationItem START ---");
@@ -111,7 +121,9 @@ public class ReservationController {
 			Integer amount = DataUtils.getAsIntegerByJson(obj, "amount");
 			
 			resultBean = reservationService.removeItemReservation(userId, bookId, amount);
-		} catch (LibException e) {
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         }
 		catch (Exception e) {

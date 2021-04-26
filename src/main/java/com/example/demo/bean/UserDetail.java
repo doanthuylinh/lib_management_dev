@@ -6,6 +6,7 @@
 
 package com.example.demo.bean;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -35,9 +36,11 @@ public class UserDetail implements UserDetails {
         this.userEntity = userEntity;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<UserAuthority> getAuthorities() {
+    	Collection<UserAuthority> userAuthorities = new ArrayList<UserAuthority>();
+    	userAuthorities.add(new UserAuthority(this.userEntity.getRole()));
+    	
+    	return userAuthorities;
     }
 
     public String getPassword() {

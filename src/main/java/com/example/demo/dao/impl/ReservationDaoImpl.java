@@ -88,5 +88,32 @@ public class ReservationDaoImpl implements ReservationDao{
 		
 		return entity;
 	}
+
+	@Override
+	public List<ReservationEntity> getReservationWithStatus(ReservationStatus status) {
+		if (status == null) {
+			status = ReservationStatus.UNDEFINED;
+		}
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append(" FROM ");
+		sql.append(" 	ReservationEntity re ");
+		
+		
+		if (!status.equals(ReservationStatus.UNDEFINED)) {
+			sql.append(" WHERE ");
+			sql.append(" re.status = :statusValue ");
+		}
+		
+		Query query = this.entityManager.createQuery(sql.toString());
+		if (!status.equals(ReservationStatus.UNDEFINED)) {
+			query.setParameter("statusValue", status.value());
+		}
+		
+		List<ReservationEntity> entities = null;
+		entities = query.getResultList();
+		
+		return entities;
+	}
 	
 }

@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.demo.data.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -58,7 +59,7 @@ public class UserEntity implements Serializable {
     protected String address;
 
     @Column(name = "role")
-    protected Character role;
+    protected Integer role;
 
     public Integer getUserId() {
         return userId;
@@ -116,11 +117,15 @@ public class UserEntity implements Serializable {
         this.address = address;
     }
 
-    public Character getRole() {
-        return role;
+    public UserRole getRole() {
+        return UserRole.parse(this.role);
+    }
+    
+    public void setRole(UserRole role) {
+    	this.role = role.value();
     }
 
-    public void setRole(Character role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
@@ -128,7 +133,7 @@ public class UserEntity implements Serializable {
         super();
     }
 
-    public UserEntity(Integer userId, String username, String password, String email, String phone, String dob, String address, Character role) {
+    public UserEntity(Integer userId, String username, String password, String email, String phone, String dob, String address, Integer role) {
         super();
         this.userId = userId;
         this.username = username;

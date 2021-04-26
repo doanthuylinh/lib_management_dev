@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.example.demo.bean.ReservationEntity;
@@ -13,6 +14,11 @@ public interface ReservationService {
 	
 	public ResultBean updateReservation(ReservationEntity entity) throws ApiValidateException;
 
+	@PreAuthorize("hasAuthority('ADMIN')")
+	ResultBean getReservationWithStatus(Integer status) throws ApiValidateException, AccessDeniedException;
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	ResultBean getReservationWithStatus(ReservationStatus status) throws ApiValidateException, AccessDeniedException;
 	
 	ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException;
 	

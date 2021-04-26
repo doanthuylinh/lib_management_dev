@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.bean.BookEntity;
@@ -162,6 +163,16 @@ public class ReservationServiceImpl implements ReservationService{
 		ReservationEntity tempReservation = reservationDao.getCurrentTempReservation(userId);
 		
 		return removeItemReservation(tempReservation, bookId, amount);
+	}
+
+	@Override
+	public ResultBean getReservationWithStatus(Integer status) throws ApiValidateException, AccessDeniedException {
+		return getReservationWithStatus(ReservationStatus.parse(status));
+	}
+
+	@Override
+	public ResultBean getReservationWithStatus(ReservationStatus status) throws ApiValidateException, AccessDeniedException {
+		return new ResultBean(reservationDao.getReservationWithStatus(status), "200", MessageUtils.getMessage("MSG01", "reservation"));
 	}
 
 }
