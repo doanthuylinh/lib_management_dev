@@ -9,7 +9,7 @@ package com.example.demo.service;
 import java.util.Map;
 
 import com.example.demo.bean.ResultBean;
-import com.example.demo.utils.ApiValidateException;
+import com.example.demo.exception.ApiValidateException;
 
 /**
  * [OVERVIEW] UserService.

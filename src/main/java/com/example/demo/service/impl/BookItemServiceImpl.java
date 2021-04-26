@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.BookItemEntity;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.dao.BookItemDao;
+import com.example.demo.exception.ApiValidateException;
 import com.example.demo.response.BookItemResponse;
 import com.example.demo.service.BookItemService;
-import com.example.demo.utils.ApiValidateException;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
 

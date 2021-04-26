@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.UserDetail;
 import com.example.demo.bean.UserEntity;
 import com.example.demo.dao.UserDao;
-import com.example.demo.utils.ApiValidateException;
+import com.example.demo.exception.ApiValidateException;
 
 /**
  * [OVERVIEW] User Details Service Implementation.

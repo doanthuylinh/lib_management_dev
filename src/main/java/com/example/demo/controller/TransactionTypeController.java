@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ResultBean;
+import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.TransactionTypeService;
-import com.example.demo.utils.ApiValidateException;
 import com.example.demo.utils.ResponseUtils;
 
 /**

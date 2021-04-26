@@ -15,14 +15,17 @@ import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.BookItemEntity;
 import com.example.demo.bean.ReservationEntity;
 import com.example.demo.bean.ResultBean;
+import com.example.demo.bean.UserEntity;
 import com.example.demo.dao.BookDao;
 import com.example.demo.dao.BookItemDao;
 import com.example.demo.dao.ReservationDao;
 import com.example.demo.data.BookItemStatus;
 import com.example.demo.data.ReservationStatus;
+import com.example.demo.exception.ApiValidateException;
+import com.example.demo.exception.AuthenticateException;
 import com.example.demo.service.BookItemService;
 import com.example.demo.service.ReservationService;
-import com.example.demo.utils.ApiValidateException;
+import com.example.demo.service.SecurityService;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
 
@@ -30,6 +33,9 @@ import com.example.demo.utils.MessageUtils;
 @Service
 public class ReservationServiceImpl implements ReservationService{
 
+	@Autowired
+	private SecurityService securityService;
+	
 	@Autowired
 	private ReservationDao reservationDao;
 	
@@ -93,6 +99,8 @@ public class ReservationServiceImpl implements ReservationService{
 	
 	@Override
 	public ResultBean removeItemReservation(ReservationEntity entity, Integer bookId, Integer amount) throws ApiValidateException {
+		if (amount == null || amount < 0) amount = 1000;
+		
 		List<BookItemEntity> bookItems = entity.getBookItemEntities().stream()
 				.filter(item -> item.getBookId().equals(bookId)).limit(amount).collect(Collectors.toList());
 		
@@ -116,6 +124,44 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public ResultBean removeItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException {
 		return this.removeItemReservation(entity, bookId, 1000);
+	}
+	
+	@Override
+	public ResultBean getReservationByUserId(Integer userId) {
+		return getReservationWithStatusByUserId(userId, ReservationStatus.UNDEFINED);
+	}
+
+	@Override
+	public ResultBean getReservationWithStatusByUserId(Integer userId, ReservationStatus status) {
+		List<ReservationEntity> entities = reservationDao.getReservationWithStatusByUserId(userId, status);
+		
+		return new ResultBean(entities, "200", MessageUtils.getMessage("MSG01", "reservation"));
+	}
+	
+	@Override
+	public ResultBean getReservationWithStatusByUserId(Integer userId, Integer status) {
+		return getReservationWithStatusByUserId(userId, ReservationStatus.parse(status));
+	}
+
+	@Override
+	public ResultBean addItemReservation(Integer userId, Integer bookId)
+			throws ApiValidateException, AuthenticateException {
+		
+		securityService.validateUserWithUserId(userId);
+		
+		ReservationEntity tempReservation = reservationDao.getCurrentTempReservation(userId);
+		
+		return addItemReservation(tempReservation, bookId);
+	}
+	
+	@Override
+	public ResultBean removeItemReservation(Integer userId, Integer bookId, Integer amount)
+			throws ApiValidateException, AuthenticateException {
+		securityService.validateUserWithUserId(userId);
+		
+		ReservationEntity tempReservation = reservationDao.getCurrentTempReservation(userId);
+		
+		return removeItemReservation(tempReservation, bookId, amount);
 	}
 
 }

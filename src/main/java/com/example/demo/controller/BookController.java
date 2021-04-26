@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ResultBean;
+import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.BookService;
-import com.example.demo.utils.ApiValidateException;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.ResponseUtils;
 import com.example.demo.utils.ValidateUtils;

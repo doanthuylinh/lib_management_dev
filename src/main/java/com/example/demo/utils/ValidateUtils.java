@@ -2,6 +2,7 @@ package com.example.demo.utils;
 
 import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.BookItemEntity;
+import com.example.demo.exception.ApiValidateException;
 
 public class ValidateUtils {
 	

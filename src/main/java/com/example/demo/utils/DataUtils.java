@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.example.demo.exception.ApiValidateException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

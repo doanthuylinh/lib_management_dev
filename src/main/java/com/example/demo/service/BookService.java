@@ -7,7 +7,7 @@
 package com.example.demo.service;
 
 import com.example.demo.bean.ResultBean;
-import com.example.demo.utils.ApiValidateException;
+import com.example.demo.exception.ApiValidateException;
 
 /**
  * [OVERVIEW] Book Service.
