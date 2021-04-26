@@ -8,6 +8,7 @@ import com.example.demo.bean.ResultBean;
 import com.example.demo.data.ReservationStatus;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.exception.AuthenticateException;
+import com.example.demo.exception.LibException;
 
 public interface ReservationService {
 	public ResultBean addReservation(ReservationEntity entity) throws ApiValidateException;
@@ -19,6 +20,18 @@ public interface ReservationService {
 	
 	@PreAuthorize("hasAuthority('ADMIN')")
 	ResultBean getReservationWithStatus(ReservationStatus status) throws ApiValidateException, AccessDeniedException;
+	
+	@PreAuthorize("hasAuthority('MEMBER')")
+	ResultBean borrowReservation(Integer reservationId) throws LibException, AccessDeniedException;
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	ResultBean issueReservation(Integer reservationId) throws LibException, AccessDeniedException;
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	ResultBean returnReservation(Integer reservationId) throws LibException, AccessDeniedException;
+	
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MEMBER')")
+	ResultBean cancelBorrowingReservation(Integer reservationId) throws LibException, AccessDeniedException;
 	
 	ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException;
 	

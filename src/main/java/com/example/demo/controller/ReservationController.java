@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ReservationEntity;
 import com.example.demo.bean.ResultBean;
+import com.example.demo.data.ReservationStatus;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.exception.LibException;
 import com.example.demo.service.ReservationService;
@@ -44,7 +45,7 @@ public class ReservationController {
 			resultBean = reservationService.addReservation(entity);
 		} catch (AccessDeniedException e) {
             resultBean = new ResultBean("401", e.getMessage());
-        } catch (ApiValidateException e) {
+        } catch (LibException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,6 +61,22 @@ public class ReservationController {
 	public ResponseEntity<ResultBean> getReservation(
 			@RequestParam(name = "userId", required = false) Integer userId,
 			@RequestParam(name = "status", required = false, defaultValue = "-1") Integer status) {
+		return this.getReservation(userId, ReservationStatus.parse(status));
+	}
+	
+	@RequestMapping(value = "/issue", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<ResultBean> getIssueReservation() {
+		return this.getReservation(null, ReservationStatus.BORROWING);
+	}
+	
+	@RequestMapping(value = "/return", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<ResultBean> getReturnReservation() {
+		return this.getReservation(null, ReservationStatus.RESERVED);
+	}
+	
+	public ResponseEntity<ResultBean> getReservation(Integer userId, ReservationStatus status) {
 		LOGGER.info("--- getReservation START ---");
 		ResultBean resultBean = null;
 		try {
@@ -67,7 +84,7 @@ public class ReservationController {
 					: reservationService.getReservationWithStatusByUserId(userId, status);
 		} catch (AccessDeniedException e) {
             resultBean = new ResultBean("401", e.getMessage());
-        } catch (ApiValidateException e) {
+        } catch (LibException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +92,114 @@ public class ReservationController {
         }
 		
 		LOGGER.info("--- getReservation END ---");
+		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+	}
+	
+	@RequestMapping(value = "/borrow", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('MEMBER')")
+	public ResponseEntity<ResultBean> borrowReservation(
+			@RequestBody String data) {
+		LOGGER.info("--- borrowReservation START ---");
+		ResultBean resultBean = null;
+		try {
+			JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
+			
+			// TO DO: validate this
+			Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
+			
+			resultBean = reservationService.borrowReservation(reservationId);
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        }
+		catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+		
+		LOGGER.info("--- borrowReservation END ---");
+		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+	}
+	
+	@RequestMapping(value = "/issue", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<ResultBean> issueReservation(
+			@RequestBody String data) {
+		LOGGER.info("--- issueReservation START ---");
+		ResultBean resultBean = null;
+		try {
+			JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
+			
+			// TO DO: validate this
+			Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
+			
+			resultBean = reservationService.issueReservation(reservationId);
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        }
+		catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+		
+		LOGGER.info("--- issueReservation END ---");
+		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+	}
+	
+	@RequestMapping(value = "/return", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<ResultBean> returnReservation(
+			@RequestBody String data) {
+		LOGGER.info("--- returnReservation START ---");
+		ResultBean resultBean = null;
+		try {
+			JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
+			
+			// TO DO: validate this
+			Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
+			
+			resultBean = reservationService.returnReservation(reservationId);
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        }
+		catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+		
+		LOGGER.info("--- returnReservation END ---");
+		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+	}
+	
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MEMBER')")
+	public ResponseEntity<ResultBean> cancelBorrowingReservation(
+			@RequestBody String data) {
+		LOGGER.info("--- returnReservation START ---");
+		ResultBean resultBean = null;
+		try {
+			JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
+			
+			// TO DO: validate this
+			Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
+			
+			resultBean = reservationService.cancelBorrowingReservation(reservationId);
+		} catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        }
+		catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+		
+		LOGGER.info("--- returnReservation END ---");
 		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
 	}
 	
@@ -133,5 +258,5 @@ public class ReservationController {
 		
 		LOGGER.info("--- removeReservationItem END ---");
 		return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
-	} 
+	}
 }

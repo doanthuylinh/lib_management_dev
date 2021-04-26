@@ -73,7 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/getlistbookitembybookid/{bookId}",
                 		"/api/bookitem/count", "/api/bookitem").permitAll()
                 // Reservation
-                .antMatchers("/api/reservation", "/api/reservation/item").permitAll()
+                .antMatchers("/api/reservation", "/api/reservation/item", "/api/reservation/borrow",
+                		"/api/reservation/issue", "/api/reservation/return", "/api/reservation/cancel").permitAll()
                 // Category
                 .antMatchers("/api/categories-list", "/api/category").permitAll()
                 // Department
