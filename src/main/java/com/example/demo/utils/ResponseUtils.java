@@ -9,7 +9,7 @@ public class ResponseUtils {
 	public static HttpStatus getResponseStatus(ResultBean result) {
 		String code = result.getMeta().getCode();
 		
-		if (code.equals("200")) {
+		if (code.equals("200") || code.equals("201") || code.equals("202")) {
 			return HttpStatus.OK;
 		}
 		
