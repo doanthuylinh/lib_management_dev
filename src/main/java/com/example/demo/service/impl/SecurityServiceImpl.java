@@ -36,7 +36,7 @@ public class SecurityServiceImpl implements SecurityService{
 	}
 	
 	@Override
-	public void validateUserWithUserId(Integer userId) throws AuthenticateException {
+	public void checkUserWithUserId(Integer userId) throws AuthenticateException {
 		UserEntity currentUser = getCurrentUserEntity();
 		if (currentUser == null || !userId.equals(currentUser.getUserId())) {
 			throw new AuthenticateException("401", "user is not valid");

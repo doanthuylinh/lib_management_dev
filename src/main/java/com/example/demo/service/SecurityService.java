@@ -9,6 +9,6 @@ public interface SecurityService {
 
 	String getCurrentUsername();
 
-	void validateUserWithUserId(Integer userId) throws AuthenticateException;
+	void checkUserWithUserId(Integer userId) throws AuthenticateException;
 
 }

@@ -35,7 +35,7 @@ public interface ReservationService {
 	
 	ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException;
 	
-	ResultBean addItemReservation(Integer userId, Integer bookId) throws ApiValidateException, AuthenticateException;
+	ResultBean addItemReservation(Integer userId, Integer bookId) throws LibException;
 	
 	ResultBean removeItemReservation(Integer userId, Integer bookId, Integer amount) throws ApiValidateException, AuthenticateException;
 

@@ -3,6 +3,7 @@ package com.example.demo.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
@@ -103,7 +104,11 @@ public class ReservationDaoImpl implements ReservationDao{
 		query.setMaxResults(1);
 		
 		ReservationEntity entity = null;
-		entity = (ReservationEntity) query.getSingleResult();
+		try {
+			entity = (ReservationEntity) query.getSingleResult();
+		} catch (NoResultException e) {
+			
+		}
 		
 		return entity;
 	}

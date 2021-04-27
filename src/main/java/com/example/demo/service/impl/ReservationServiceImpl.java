@@ -75,7 +75,7 @@ public class ReservationServiceImpl implements ReservationService{
 		
 		return new ResultBean(reservationDao.addReservation(entity), "201", MessageUtils.getMessage("MSG02", "reservation"));
 	}
-
+	
 	@Override
 	public ResultBean updateReservation(ReservationEntity entity) throws ApiValidateException {
 		return new ResultBean(reservationDao.updateReservation(entity), "200", MessageUtils.getMessage("MSG04", "reservation"));
@@ -146,13 +146,27 @@ public class ReservationServiceImpl implements ReservationService{
 		return getReservationWithStatusByUserId(userId, ReservationStatus.parse(status));
 	}
 
+	public ReservationEntity addNewTempReservation(Integer userId) throws LibException {
+		ReservationEntity entity = new ReservationEntity();
+		entity.setUserId(userId);
+		entity.setCreatedTime(new Date());
+		entity.setTotalFee(0d);
+		entity.setBookItemEntities(new ArrayList<BookItemEntity>());
+		entity.setStatus(ReservationStatus.TEMP);
+		
+		return entity;
+	}
+	
 	@Override
 	public ResultBean addItemReservation(Integer userId, Integer bookId)
-			throws ApiValidateException, AuthenticateException {
+			throws LibException {
 		
-		securityService.validateUserWithUserId(userId);
+		securityService.checkUserWithUserId(userId);
 		
 		ReservationEntity tempReservation = reservationDao.getCurrentTempReservation(userId);
+		if (tempReservation == null) {
+			tempReservation = addNewTempReservation(userId);
+		}
 		
 		return addItemReservation(tempReservation, bookId);
 	}
@@ -160,7 +174,7 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public ResultBean removeItemReservation(Integer userId, Integer bookId, Integer amount)
 			throws ApiValidateException, AuthenticateException {
-		securityService.validateUserWithUserId(userId);
+		securityService.checkUserWithUserId(userId);
 		
 		ReservationEntity tempReservation = reservationDao.getCurrentTempReservation(userId);
 		
