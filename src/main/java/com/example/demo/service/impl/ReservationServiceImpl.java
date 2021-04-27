@@ -245,7 +245,7 @@ public class ReservationServiceImpl implements ReservationService{
 		entity.setReturnedDate(new Date());
 		
 		if (!entity.getStatus().equals(ReservationStatus.BORROWING)) {
-			throw new BusinessException("402", "the book status is not temp");
+			throw new BusinessException("402", "the book status is not borrowing");
 		}
 		
 		List<BookItemEntity> newBookItems = entity.getBookItemEntities();
