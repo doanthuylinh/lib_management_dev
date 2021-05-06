@@ -17,7 +17,7 @@ import com.example.demo.exception.ApiValidateException;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
 */
 public interface BookItemService {
 

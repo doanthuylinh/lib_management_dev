@@ -16,7 +16,7 @@ import org.springframework.security.core.Authentication;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/08      LinhDT       	  Create new
+ * 001       1.0       2021/04/08      LinhDT             Create new
 */
 public interface AppAuthorizer {
     boolean authorize(Authentication authentication, String action, Object callerObj);

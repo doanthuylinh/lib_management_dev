@@ -40,7 +40,7 @@ import com.example.demo.utils.MessageUtils;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/28      LinhDT             Create new
+ * 001       1.0       2021/04/25      LinhDT             Create new
 */
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -57,6 +57,13 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private BookDao bookDao;
 
+    /**
+     * addReservation
+     * @author: LinhDT
+     * @param entity
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean addReservation(ReservationEntity entity) throws ApiValidateException {
         entity.setCreatedTime(new Date());
@@ -85,11 +92,26 @@ public class ReservationServiceImpl implements ReservationService {
         return new ResultBean(reservationDao.addReservation(entity), "201", MessageUtils.getMessage("MSG02", "reservation"));
     }
 
+    /**
+     * updateReservation
+     * @author: LinhDT
+     * @param entity
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean updateReservation(ReservationEntity entity) throws ApiValidateException {
         return new ResultBean(reservationDao.updateReservation(entity), "200", MessageUtils.getMessage("MSG04", "reservation"));
     }
 
+    /**
+     * addItemReservation
+     * @author: LinhDT
+     * @param entity
+     * @param bookId
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException {
         List<BookItemEntity> bookItems = bookItemDao.getListBookItemWithStatusByBookId(bookId, BookItemStatus.AVAILABLE);
@@ -109,6 +131,15 @@ public class ReservationServiceImpl implements ReservationService {
         return this.updateReservation(entity);
     }
 
+    /**
+     * removeItemReservation
+     * @author: LinhDT
+     * @param entity
+     * @param bookId
+     * @param amount
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean removeItemReservation(ReservationEntity entity, Integer bookId, Integer amount) throws ApiValidateException {
         if (amount == null || amount < 0)
@@ -133,16 +164,39 @@ public class ReservationServiceImpl implements ReservationService {
         return this.updateReservation(entity);
     }
 
+    /**
+     * removeItemReservation
+     * @author: LinhDT
+     * @param entity
+     * @param bookId
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean removeItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException {
         return this.removeItemReservation(entity, bookId, 1000);
     }
 
+    /**
+     * getReservationByUserId
+     * @author: LinhDT
+     * @param userId
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean getReservationByUserId(Integer userId) {
         return getReservationWithStatusByUserId(userId, ReservationStatus.UNDEFINED);
     }
 
+    /**
+     * getReservationWithStatusByUserId
+     * @author: LinhDT
+     * @param userId
+     * @param status
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean getReservationWithStatusByUserId(Integer userId, ReservationStatus status) {
         List<ReservationEntity> entities = reservationDao.getReservationWithStatusByUserId(userId, status);
@@ -150,11 +204,26 @@ public class ReservationServiceImpl implements ReservationService {
         return new ResultBean(entities, "200", MessageUtils.getMessage("MSG01", "reservation"));
     }
 
+    /**
+     * getReservationWithStatusByUserId
+     * @author: LinhDT
+     * @param userId
+     * @param status
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean getReservationWithStatusByUserId(Integer userId, Integer status) {
         return getReservationWithStatusByUserId(userId, ReservationStatus.parse(status));
     }
 
+    /**
+     * addNewTempReservation
+     * @author: LinhDT
+     * @param userId
+     * @return
+     * @throws LibException
+     */
     public ReservationEntity addNewTempReservation(Integer userId) throws LibException {
         ReservationEntity entity = new ReservationEntity();
         entity.setUserId(userId);
@@ -166,6 +235,14 @@ public class ReservationServiceImpl implements ReservationService {
         return entity;
     }
 
+    /**
+     * addItemReservation
+     * @author: LinhDT
+     * @param userId
+     * @param bookId
+     * @return
+     * @throws LibException
+     */
     @Override
     public ResultBean addItemReservation(Integer userId, Integer bookId) throws LibException {
 
@@ -179,6 +256,16 @@ public class ReservationServiceImpl implements ReservationService {
         return addItemReservation(tempReservation, bookId);
     }
 
+    /**
+     * removeItemReservation
+     * @author: LinhDT
+     * @param userId
+     * @param bookId
+     * @param amount
+     * @return
+     * @throws ApiValidateException
+     * @throws AuthenticateException
+     */
     @Override
     public ResultBean removeItemReservation(Integer userId, Integer bookId, Integer amount) throws ApiValidateException, AuthenticateException {
         securityService.checkUserWithUserId(userId);
@@ -188,22 +275,54 @@ public class ReservationServiceImpl implements ReservationService {
         return removeItemReservation(tempReservation, bookId, amount);
     }
 
+    /**
+     * getReservationWithStatus
+     * @author: LinhDT
+     * @param status
+     * @return
+     * @throws ApiValidateException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean getReservationWithStatus(Integer status) throws ApiValidateException, AccessDeniedException {
         return getReservationWithStatus(ReservationStatus.parse(status));
     }
 
+    /**
+     * getReservationWithStatus
+     * @author: LinhDT
+     * @param status
+     * @return
+     * @throws ApiValidateException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean getReservationWithStatus(ReservationStatus status) throws ApiValidateException, AccessDeniedException {
         return new ResultBean(reservationDao.getReservationWithStatus(status), "200", MessageUtils.getMessage("MSG01", "reservation"));
     }
 
+    /**
+     * changeReservationStatus
+     * @author: LinhDT
+     * @param entity
+     * @param status
+     * @return
+     * @throws ApiValidateException
+     */
     protected ResultBean changeReservationStatus(ReservationEntity entity, ReservationStatus status) throws ApiValidateException {
         entity.setStatus(status);
 
         return new ResultBean(reservationDao.updateReservation(entity), "201", MessageUtils.getMessage("MSG04", "reservation"));
     }
 
+    /**
+     * borrowReservation
+     * @author: LinhDT
+     * @param reservationId
+     * @return
+     * @throws LibException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean borrowReservation(Integer reservationId) throws LibException, AccessDeniedException {
         ReservationEntity entity = reservationDao.getReservationById(reservationId);
@@ -215,6 +334,14 @@ public class ReservationServiceImpl implements ReservationService {
         return this.changeReservationStatus(entity, ReservationStatus.BORROWING);
     }
 
+    /**
+     * issueReservation
+     * @author: LinhDT
+     * @param reservationId
+     * @return
+     * @throws LibException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean issueReservation(Integer reservationId) throws LibException, AccessDeniedException {
         ReservationEntity entity = reservationDao.getReservationById(reservationId);
@@ -227,6 +354,14 @@ public class ReservationServiceImpl implements ReservationService {
         return this.changeReservationStatus(entity, ReservationStatus.RESERVED);
     }
 
+    /**
+     * returnReservation
+     * @author: LinhDT
+     * @param reservationId
+     * @return
+     * @throws LibException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean returnReservation(Integer reservationId) throws LibException, AccessDeniedException {
         ReservationEntity entity = reservationDao.getReservationById(reservationId);
@@ -246,6 +381,14 @@ public class ReservationServiceImpl implements ReservationService {
         return this.changeReservationStatus(entity, ReservationStatus.CLOSED);
     }
 
+    /**
+     * cancelBorrowingReservation
+     * @author: LinhDT
+     * @param reservationId
+     * @return
+     * @throws LibException
+     * @throws AccessDeniedException
+     */
     @Override
     public ResultBean cancelBorrowingReservation(Integer reservationId) throws LibException, AccessDeniedException {
         ReservationEntity entity = reservationDao.getReservationById(reservationId);
