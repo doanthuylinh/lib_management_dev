@@ -19,16 +19,10 @@ import com.example.demo.bean.BookItemEntity;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.dao.BookItemDao;
 import com.example.demo.exception.ApiValidateException;
-import com.example.demo.response.BookItemResponse;
 import com.example.demo.service.BookItemService;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
-
-import com.example.demo.utils.Regex;
 import com.example.demo.utils.ValidateUtils;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 
 /**
  * [OVERVIEW] Book Item Service Implementation.
@@ -38,7 +32,7 @@ import com.google.gson.JsonObject;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
 */
 @Service
 @Transactional
@@ -81,27 +75,48 @@ public class BookItemServiceImpl implements BookItemService {
         return new ResultBean(count, "200", MessageUtils.getMessage("MSG01", new Object[] { "countBookItem by book ID" }));
     }
 
-	@Override
-	public ResultBean addBookItem(String data) throws ApiValidateException {
-		BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
-		
-		ValidateUtils.validateAddBookItem(bookItem);
-		
-		return new ResultBean(bookItemDao.addBookItem(bookItem), "201", MessageUtils.getMessage("MSG02", "bookItem"));
-	}
+    /**
+     * addBookItem
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    @Override
+    public ResultBean addBookItem(String data) throws ApiValidateException {
+        BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
 
-	@Override
-	public ResultBean updateBookItem(String data) throws ApiValidateException {
-		BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
-		
-		ValidateUtils.validateUpdateBookItem(bookItem);
-		
-		return new ResultBean(bookItemDao.updateBookItem(bookItem), "201", MessageUtils.getMessage("MSG04", "bookItem"));
-	}
+        ValidateUtils.validateAddBookItem(bookItem);
 
-	@Override
-	public ResultBean getBookItem(Integer bookItemId) throws ApiValidateException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return new ResultBean(bookItemDao.addBookItem(bookItem), "201", MessageUtils.getMessage("MSG02", "bookItem"));
+    }
+
+    /**
+     * updateBookItem
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
+    @Override
+    public ResultBean updateBookItem(String data) throws ApiValidateException {
+        BookItemEntity bookItem = DataUtils.getEntityByJsonString(data, BookItemEntity.class);
+
+        ValidateUtils.validateUpdateBookItem(bookItem);
+
+        return new ResultBean(bookItemDao.updateBookItem(bookItem), "201", MessageUtils.getMessage("MSG04", "bookItem"));
+    }
+
+    /**
+     * getBookItem
+     * @author: LinhDT
+     * @param bookItemId
+     * @return
+     * @throws ApiValidateException
+     */
+    @Override
+    public ResultBean getBookItem(Integer bookItemId) throws ApiValidateException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
