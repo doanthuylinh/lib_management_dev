@@ -54,7 +54,7 @@ public class CategoryController {
             return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         LOGGER.info("----------getListCategories END----------");
         return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
