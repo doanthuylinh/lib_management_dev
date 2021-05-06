@@ -9,7 +9,6 @@ package com.example.demo.dao;
 import java.util.List;
 
 import com.example.demo.bean.BookEntity;
-import com.example.demo.bean.CategoryEntity;
 import com.example.demo.response.BookResponse;
 
 /**
@@ -21,6 +20,7 @@ import com.example.demo.response.BookResponse;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/15      LinhDT             Create new
+ * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 public interface BookDao {
 
@@ -57,20 +57,20 @@ public interface BookDao {
     public List<BookEntity> getBooksByAuthor(String author);
 
     /**
-     * getBookByCategory
+     * getBooksByDepartment
      * @author: LinhDT
-     * @param category
+     * @param departmentId
      * @return
      */
-    public List<BookEntity> getBooksByCategory(String category);
+    public List<BookEntity> getBooksByDepartment(Integer departmentId);
 
     /**
-     * getCategoryByName
+     * getBookByCategory
      * @author: LinhDT
-     * @param categoryName
+     * @param categoryId
      * @return
      */
-    public CategoryEntity getCategoryByName(String categoryName);
+    public List<BookEntity> getBooksByCategory(Integer categoryId);
 
     /**
      * getBookByPublicationDate
@@ -88,6 +88,14 @@ public interface BookDao {
      */
     public List<BookEntity> searchBook(String query);
 
+    /**
+     * searchBook
+     * @author: LinhDT
+     * @param query
+     * @param from
+     * @param limit
+     * @return
+     */
     public List<BookEntity> searchBook(String query, Integer from, Integer limit);
 
     /**

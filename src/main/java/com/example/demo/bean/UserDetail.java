@@ -9,7 +9,6 @@ package com.example.demo.bean;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -20,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
 */
 public class UserDetail implements UserDetails {
 
@@ -37,10 +36,10 @@ public class UserDetail implements UserDetails {
     }
 
     public Collection<UserAuthority> getAuthorities() {
-    	Collection<UserAuthority> userAuthorities = new ArrayList<UserAuthority>();
-    	userAuthorities.add(new UserAuthority(this.userEntity.getRole()));
-    	
-    	return userAuthorities;
+        Collection<UserAuthority> userAuthorities = new ArrayList<UserAuthority>();
+        userAuthorities.add(new UserAuthority(this.userEntity.getRole()));
+
+        return userAuthorities;
     }
 
     public String getPassword() {

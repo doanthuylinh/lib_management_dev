@@ -36,6 +36,7 @@ import com.example.demo.utils.ValidateUtils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/15      LinhDT             Create new
+ * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 @Service
 @Transactional
@@ -118,12 +119,12 @@ public class BookServiceImpl implements BookService {
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBooksByCategory(String query) throws ApiValidateException {
+    public ResultBean getBooksByCategory(Integer query) throws ApiValidateException {
         LOGGER.info("----------getBookByCategory START----------");
 
         // Check whether query is null.
         if (DataUtils.isNullOrEmpty(query)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY_SEARCH }));
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY }));
         }
 
         List<BookEntity> entity = bookDao.getBooksByCategory(query);
@@ -133,6 +134,31 @@ public class BookServiceImpl implements BookService {
 
         LOGGER.info("----------getBookByCategory END----------");
         return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by category" }));
+    }
+
+    /**
+     * getBooksByDepartment
+     * @author: LinhDT
+     * @param departmentId
+     * @return
+     * @throws ApiValidateException
+     */
+    @Override
+    public ResultBean getBooksByDepartment(Integer query) throws ApiValidateException {
+        LOGGER.info("----------getBooksByDepartment START----------");
+
+        // Check whether query is null.
+        if (DataUtils.isNullOrEmpty(query)) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.QUERY }));
+        }
+
+        List<BookEntity> entity = bookDao.getBooksByDepartment(query);
+        if (Objects.isNull(entity)) {
+            return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
+        }
+
+        LOGGER.info("----------getBooksByDepartment END----------");
+        return new ResultBean(entity, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by department" }));
     }
 
     /**

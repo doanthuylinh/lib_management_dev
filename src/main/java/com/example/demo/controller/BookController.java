@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.BookService;
+import com.example.demo.utils.MessageUtils;
 import com.example.demo.utils.ResponseUtils;
 
 /**
@@ -33,6 +33,7 @@ import com.example.demo.utils.ResponseUtils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/09      LinhDT             Create new
+ * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 @RestController
 @RequestMapping(value = "/api")
@@ -114,7 +115,7 @@ public class BookController {
      * @return
      */
     @RequestMapping(value = "/getbooksbycategory", method = RequestMethod.GET)
-    public ResponseEntity<ResultBean> getBooksByCategory(@RequestParam("q") String query) {
+    public ResponseEntity<ResultBean> getBooksByCategory(@RequestParam("q") Integer query) {
         LOGGER.info("----------Get Book By Category START with query: " + query);
         ResultBean resultBean = null;
         try {
@@ -123,9 +124,31 @@ public class BookController {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            resultBean = new ResultBean("500", "Internal server error");
+            resultBean = new ResultBean("500", MessageUtils.getMessage("ERR17"));
         }
         LOGGER.info("----------Get Book By Category END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
+
+    /**
+     * getBooksByDepartment
+     * @author: LinhDT
+     * @param query
+     * @return
+     */
+    @RequestMapping(value = "/getbooksbydepartment", method = RequestMethod.GET)
+    public ResponseEntity<ResultBean> getBooksByDepartment(@RequestParam("q") Integer query) {
+        LOGGER.info("----------Get Book By Department START with query: " + query);
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookService.getBooksByDepartment(query);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", MessageUtils.getMessage("ERR17"));
+        }
+        LOGGER.info("----------Get Book By Department END----------");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 

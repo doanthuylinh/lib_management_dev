@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,8 @@ package com.example.demo.utils;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/08      LinhDT       	  Create new
+ * 001       1.0       2021/04/08      LinhDT             Create new
+ * 001       1.0       2021/05/06      LinhDT             Add new columns
 */
 public class ConstantColumn {
 
@@ -38,7 +39,8 @@ public class ConstantColumn {
     public final static String DEPARTMENT_NAME = "department_name";
     public final static String PUBLICATION_DATE = "publication_date";
 
-    public final static String QUERY_SEARCH = "query";
+    public final static String QUERY_SEARCH = "query search";
+    public final static String QUERY = "query";
 
     public final static String BARCODE = "barcode";
 

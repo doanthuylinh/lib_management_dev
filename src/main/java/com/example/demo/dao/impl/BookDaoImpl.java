@@ -20,7 +20,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.bean.BookEntity;
-import com.example.demo.bean.CategoryEntity;
 import com.example.demo.dao.BookDao;
 import com.example.demo.response.BookResponse;
 import com.example.demo.utils.DataUtils;
@@ -33,7 +32,8 @@ import com.example.demo.utils.DataUtils;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
+ * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 @Repository
 @Transactional
@@ -207,70 +207,41 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * getCategoryByName
+     * getBooksByDepartment
      * @author: LinhDT
-     * @param categoryName
+     * @param departmentId
      * @return
      */
-    public CategoryEntity getCategoryByName(String categoryName) {
-        LOGGER.info("----------getCategoryByName START----------");
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<BookEntity> getBooksByDepartment(Integer departmentId) {
+        LOGGER.info("----------getBooksByDepartment START----------");
         StringBuilder sql = new StringBuilder();
         sql.append(" FROM ");
-        sql.append("    CategoryEntity ce ");
+        sql.append("    BookEntity be ");
         sql.append(" WHERE ");
-        sql.append("    ce.categoryName = :categoryName ");
+        sql.append("    be.departmentId = :departmentId ");
 
         Query query = this.entityManager.createQuery(sql.toString());
-        query.setParameter("categoryName", categoryName);
-        CategoryEntity categoryEntity = null;
-        try {
-            categoryEntity = (CategoryEntity) query.getSingleResult();
-        } catch (NoResultException e) {
-        }
-
-        LOGGER.info("----------getCategoryByName END----------");
-        return categoryEntity;
+        query.setParameter("departmentId", departmentId);
+        List<BookEntity> entity = null;
+        entity = query.getResultList();
+        LOGGER.info("----------getBooksByDepartment END----------");
+        return entity;
     }
 
     /**
      * getBooksByCategory
      * @author: LinhDT
-     * @param categoryName
+     * @param categoryId
      * @return
      */
     @SuppressWarnings("unchecked")
-    public List<BookEntity> getBooksByCategory(String categoryName) {
+    public List<BookEntity> getBooksByCategory(Integer categoryId) {
         LOGGER.info("----------getBooksByCategory START----------");
-        CategoryEntity categoryEntity = getCategoryByName(categoryName);
-        Integer categoryId = null;
-        try {
-            categoryId = categoryEntity.getCategoryId();
-        } catch (NullPointerException e) {
-        }
-
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new com.example.demo.response.BookResponse(");
-        sql.append("    be.bookId, ");
-        sql.append("    be.bookName, ");
-        sql.append("    be.description, ");
-        sql.append("    be.language, ");
-        sql.append("    be.author, ");
-        sql.append("    ce.categoryName, ");
-        sql.append("    de.departmentName, ");
-        sql.append("    be.publicationDate, ");
-        sql.append("    be.thumbnail, ");
-        sql.append("    be.price, ");
-        sql.append("    be.rentCost) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
-        sql.append(" LEFT JOIN ");
-        sql.append("    DepartmentEntity de ");
-        sql.append(" ON ");
-        sql.append("    be.departmentId = de.departmentId ");
-        sql.append(" LEFT JOIN ");
-        sql.append("    CategoryEntity ce ");
-        sql.append(" ON ");
-        sql.append("    be.categoryId = ce.categoryId ");
         sql.append(" WHERE ");
         sql.append("    be.categoryId = :categoryId ");
 

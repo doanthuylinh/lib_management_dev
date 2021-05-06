@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/21      LinhDT       Create new
+ * 001       1.0       2021/04/21      LinhDT             Create new
 */
 @Entity
 @Table(name = "ReservationDetails")

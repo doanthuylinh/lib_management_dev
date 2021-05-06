@@ -17,7 +17,8 @@ import com.example.demo.exception.ApiValidateException;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
+ * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 public interface BookService {
 
@@ -49,11 +50,20 @@ public interface BookService {
     /**
      * getBooksByCategory
      * @author: LinhDT
-     * @param category
+     * @param categoryId
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean getBooksByCategory(String category) throws ApiValidateException;
+    public ResultBean getBooksByCategory(Integer categoryId) throws ApiValidateException;
+    
+    /**
+     * getBooksByDepartment
+     * @author: LinhDT
+     * @param departmentId
+     * @return
+     * @throws ApiValidateException
+     */
+    public ResultBean getBooksByDepartment(Integer departmentId) throws ApiValidateException;
 
     /**
     * getBookByPublicationDate

@@ -28,7 +28,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
 */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
