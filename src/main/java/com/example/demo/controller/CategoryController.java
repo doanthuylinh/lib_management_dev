@@ -51,10 +51,10 @@ public class CategoryController {
         try {
             entity = categoryService.getListCategories();
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.OK);
         }
         LOGGER.info("----------getListCategories END----------");
         return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);

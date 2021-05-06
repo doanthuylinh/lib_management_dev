@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +21,6 @@ import com.example.demo.bean.ResultBean;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.BookItemService;
 import com.example.demo.utils.ResponseUtils;
-import com.google.gson.JsonObject;
 
 /**
  * [OVERVIEW] Book Item Controller.
@@ -32,7 +30,7 @@ import com.google.gson.JsonObject;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
 */
 @RestController
 @RequestMapping(value = "/api")
@@ -57,7 +55,7 @@ public class BookItemController {
             resultBean = bookItemService.getListBookItemByBookId(bookId);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.OK);
         }
         LOGGER.info("----------getListBookItemByBookId END----------");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
@@ -79,7 +77,7 @@ public class BookItemController {
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
 
     }
-    
+
     @RequestMapping(value = "/bookitem", method = RequestMethod.POST)
     public ResponseEntity<ResultBean> addBookItem(@RequestBody String data) {
         LOGGER.info("----------addBookItem START----------");
@@ -96,21 +94,21 @@ public class BookItemController {
         LOGGER.info("----------addBookItem END----------");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
+
     @RequestMapping(value = "/bookitem", method = RequestMethod.PUT)
     public ResponseEntity<ResultBean> updateBookItem(@RequestBody String data) {
-    	LOGGER.info("----------updateBookItem START----------");
-    	ResultBean resultBean = null;
-    	try {
+        LOGGER.info("----------updateBookItem START----------");
+        ResultBean resultBean = null;
+        try {
             resultBean = bookItemService.updateBookItem(data);
         } catch (ApiValidateException e) {
-        	resultBean = new ResultBean(e.getCode(), e.getMessage());
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             resultBean = new ResultBean("500", "Internal server error");
         }
-    	
-    	LOGGER.info("----------updateBookItem END----------");
-    	return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+
+        LOGGER.info("----------updateBookItem END----------");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 }

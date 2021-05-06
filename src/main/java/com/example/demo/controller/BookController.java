@@ -58,7 +58,7 @@ public class BookController {
             entity = bookService.getBookById(bookId);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(entity, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
         }
         LOGGER.info("----------getBookById END----------");
         return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
