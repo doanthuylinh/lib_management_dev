@@ -30,25 +30,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LogoutController {
-	
-	private static final Logger LOGGER = LogManager.getLogger(LogoutController.class);
 
-	/**
-	 * Log out
-	 * @author: LinhDT
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-		LOGGER.info("----------logoutPage START----------");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			new SecurityContextLogoutHandler().logout(request, response, auth);
-		}
-		LOGGER.info("----------logoutPage END----------");
-		return "redirect:/api/login";
+    private static final Logger LOGGER = LogManager.getLogger(LogoutController.class);
 
-	}
+    /**
+     * Log out
+     * @author: LinhDT
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        LOGGER.info("----------logoutPage START----------");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        LOGGER.info("----------logoutPage END----------");
+        return "redirect:/api/login";
+
+    }
 }
