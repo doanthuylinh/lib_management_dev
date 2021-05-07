@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,8 @@ import com.example.demo.response.UserResponse;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
+ * 002       1.1       2021/05/07      LinhDT             Add getUserByEmail
 */
 public interface UserDao {
 
@@ -26,7 +27,7 @@ public interface UserDao {
      * @author: LinhDT
      * @param entity
      */
-    public void addUser(UserEntity entity);
+    public UserEntity addUser(UserEntity entity);
 
     /**
      * updateUser
@@ -66,5 +67,13 @@ public interface UserDao {
      * @return
      */
     public UserEntity getUserByPhone(String phone);
+
+    /**
+     * getUserByEmail
+     * @author: LinhDT
+     * @param email
+     * @return
+     */
+    public UserEntity getUserByEmail(String email);
 
 }

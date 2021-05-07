@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
 import com.example.demo.utils.MessageUtils;
 import com.example.demo.utils.Regex;
+import com.example.demo.utils.ValidateUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -66,127 +66,41 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     /**
-     * addUser (Registration)
-     * 
+     * addUser (Registration)     * 
      * @author: LinhDT
-     * @param json
+     * @param data
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean addUser(String json) throws ApiValidateException {
-        LOGGER.info("----------addUser START----------");
+    @Override
+    public ResultBean addUser(String data) throws ApiValidateException {
 
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
+        UserEntity user = DataUtils.getEntityByJsonString(data, UserEntity.class);
+        ValidateUtils.validateAddUser(user, user.getRole());
 
-        // Check whether user name is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.USERNAME)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.USERNAME }));
-        }
-
-        // Get user name and check validation.
-        String username = DataUtils.getAsStringByJson(jObject, ConstantColumn.USERNAME);
-        if (!username.matches(Regex.NAME_PATTERN)) {
-            throw new ApiValidateException("ERR06", MessageUtils.getMessage("ERR06"));
-        }
-
-        // Get user name and check whether user name has already existed in database, if
-        // yes, throw a message.
-        UserEntity userEntity = userDao.getUserEntityByUsername(username);
+        // Get user name and check whether user name has already existed in database, if yes, throw a message.
+        UserEntity userEntity = userDao.getUserEntityByUsername(user.getUsername());
         if (!Objects.isNull(userEntity)) {
             throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.USERNAME }));
         }
 
-        // Check whether password is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PASSWORD)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.PASSWORD }));
+        // Get email and check whether email has already existed in database, if yes, throw a message.
+        userEntity = userDao.getUserByEmail(user.getEmail());
+        if (!Objects.isNull(userEntity)) {
+            throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.EMAIL }));
         }
 
-        // Get password and check validation.
-        String password = DataUtils.getAsStringByJson(jObject, ConstantColumn.PASSWORD);
-        if (!password.matches(Regex.PASSWORD_PATTERN)) {
-            throw new ApiValidateException("ERR07", MessageUtils.getMessage("ERR07"));
-        }
-
-        // Check whether email is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.EMAIL)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.EMAIL }));
-        }
-
-        // Get email and check validation.
-        String email = DataUtils.getAsStringByJson(jObject, ConstantColumn.EMAIL);
-        if (!email.matches(Regex.EMAIL_PATTERN)) {
-            throw new ApiValidateException("ERR08", MessageUtils.getMessage("ERR08"));
-        }
-
-        // Check whether phone is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PHONE)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.PHONE }));
-        }
-
-        // Get phone and check validation.
-        String phone = DataUtils.getAsStringByJson(jObject, ConstantColumn.PHONE);
-        if (!phone.matches(Regex.PHONE_PATTERN)) {
-            throw new ApiValidateException("ERR09", MessageUtils.getMessage("ERR09"));
-        }
-
-        // Check whether phone has already existed in database, if phone has existed,
-        // throw message.
-        // Get user by phone.
-        UserEntity user = userDao.getUserByPhone(phone);
-        if (!Objects.isNull(user)) {
+        // Check whether phone has already existed in database, if phone has existed, throw message.
+        userEntity = userDao.getUserByPhone(user.getPhone());
+        if (!Objects.isNull(userEntity)) {
             throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.PHONE }));
         }
-
-        // Check whether date of birth is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.DOB)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.DOB }));
-        }
-
-        // Get date of birth and check validation.
-        String dob = DataUtils.getAsStringByJson(jObject, ConstantColumn.DOB);
-        if (!dob.matches(Regex.DATE_PATTERN)) {
-            throw new ApiValidateException("ERR10", MessageUtils.getMessage("ERR10", new Object[] { "date" }));
-        }
-
-        // Check whether address is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.ADDRESS)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.ADDRESS }));
-        }
-
-        // Get address.
-        String address = DataUtils.getAsStringByJson(jObject, ConstantColumn.ADDRESS);
-
-        // Check whether role is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.ROLE)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.ROLE }));
-        }
-
-        // Get role and check validation.
-        Integer role = DataUtils.getAsIntegerByJson(jObject, ConstantColumn.ROLE);
-//        if (!role.matches(Regex.ROLE_PATTERN)) {
-//            throw new ApiValidateException("ERR16", MessageUtils.getMessage("ERR16"));
-//        }
-
-        UserEntity entity = new UserEntity();
-        entity.setUsername(username);
-        entity.setPassword(webSecurityConfig.passwordEncoder().encode(password));
-        entity.setEmail(email);
-        entity.setPhone(phone);
-        entity.setDob(dob);
-        entity.setAddress(address);
-        entity.setRole(role);
-        userDao.addUser(entity);
-
-        UserEntity resultClone = SerializationUtils.clone(entity);
-        resultClone.setPassword(null);
-
-        LOGGER.info("----------addUser END----------");
-        return new ResultBean(resultClone, "201", MessageUtils.getMessage("MSG02", new Object[] { "user" }));
+        user.setPassword(webSecurityConfig.passwordEncoder().encode(user.getPassword()));
+        return new ResultBean(userDao.addUser(user), "201", MessageUtils.getMessage("MSG02", "user"));
     }
 
     /**
      * updateUser
-     * 
      * @author: LinhDT
      * @param json
      * @throws ApiValidateException

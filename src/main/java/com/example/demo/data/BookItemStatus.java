@@ -6,10 +6,8 @@
 
 package com.example.demo.data;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 /**
- * [OVERVIEW] State.
+ * [OVERVIEW] Book Item Status.
  *
  * @author: LinhDT
  * @version: 1.0
@@ -20,30 +18,27 @@ import com.fasterxml.jackson.annotation.JsonValue;
 */
 public enum BookItemStatus {
 
-	UNDEFINED(-1),
-    NOT_AVAILABLE(0),
-    AVAILABLE(1),
-    LOST(2);
-	
-	private final Integer value;
+    UNDEFINED(-1), NOT_AVAILABLE(0), AVAILABLE(1), LOST(2);
 
-	BookItemStatus(Integer i) {
-		value = i;
-	}
-	
-	public Integer value() {
-		return value;
-	}
-	
-	public static BookItemStatus parse(Integer i) {
-		BookItemStatus state = BookItemStatus.UNDEFINED;
-		for (BookItemStatus item : BookItemStatus.values()) {
-			if (item.value().equals(i)) {
-				state = item;
-				break;
-			}
-		}
-		
-		return state;
-	}
+    private final Integer value;
+
+    BookItemStatus(Integer i) {
+        value = i;
+    }
+
+    public Integer value() {
+        return value;
+    }
+
+    public static BookItemStatus parse(Integer i) {
+        BookItemStatus state = BookItemStatus.UNDEFINED;
+        for (BookItemStatus item : BookItemStatus.values()) {
+            if (item.value().equals(i)) {
+                state = item;
+                break;
+            }
+        }
+
+        return state;
+    }
 }

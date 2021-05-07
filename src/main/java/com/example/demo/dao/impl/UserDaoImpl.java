@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,8 @@ import com.example.demo.response.UserResponse;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
+ * 002       1.1       2021/05/07      LinhDT             Add getUserByEmail
 */
 @Repository
 @Transactional
@@ -46,10 +47,11 @@ public class UserDaoImpl implements UserDao {
      * @author: LinhDT
      * @param entity
      */
-    public void addUser(UserEntity entity) {
+    public UserEntity addUser(UserEntity entity) {
         LOGGER.info("----------addUser START----------");
         this.entityManager.persist(entity);
         LOGGER.info("----------addUser END----------");
+        return entity;
     }
 
     /**
@@ -150,6 +152,12 @@ public class UserDaoImpl implements UserDao {
         return entity;
     }
 
+    /**
+     * getUserEntityById
+     * @author: LinhDT
+     * @param id
+     * @return
+     */
     public UserEntity getUserEntityById(Integer userId) {
         LOGGER.info("----------getUserEntityById START----------");
         StringBuilder sql = new StringBuilder();
@@ -168,6 +176,32 @@ public class UserDaoImpl implements UserDao {
         }
 
         LOGGER.info("----------getUserEntityById END----------");
+        return entity;
+    }
+
+    /**
+     * getUserByEmail
+     * @author: LinhDT
+     * @param email
+     * @return
+     */
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        LOGGER.info("----------getUserByEmail START----------");
+        StringBuilder sql = new StringBuilder();
+        sql.append(" FROM ");
+        sql.append("    UserEntity ue ");
+        sql.append(" WHERE ");
+        sql.append("    ue.email = :email ");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("email", email);
+        UserEntity entity = null;
+        try {
+            entity = (UserEntity) query.getSingleResult();
+        } catch (NoResultException e) {
+        }
+        LOGGER.info("----------getUserByEmail END----------");
         return entity;
     }
 

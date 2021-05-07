@@ -231,7 +231,7 @@ public class BookController {
      */
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public ResponseEntity<ResultBean> addBook(@RequestBody String data) {
-        LOGGER.info("--- Update book START ---");
+        LOGGER.info("--- Add book START ---");
 
         ResultBean resultBean = null;
         try {
@@ -243,7 +243,7 @@ public class BookController {
             resultBean = new ResultBean("500", "Internal server error");
         }
 
-        LOGGER.info("--- Update book END ---");
+        LOGGER.info("--- Add book END ---");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -18,10 +18,17 @@ import java.util.ResourceBundle;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/06      LinhDT       	  Create new
+ * 001       1.0       2021/04/06      LinhDT             Create new
 */
 public class MessageUtils {
 
+    /**
+     * getMessage
+     * @author: LinhDT
+     * @param key
+     * @param param
+     * @return
+     */
     public static String getMessage(String key, Object... param) {
         ResourceBundle rsMessages;
         // Load all message from message.properties
@@ -45,6 +52,13 @@ public class MessageUtils {
         return message;
     }
 
+    /**
+     * getLink
+     * @author: LinhDT
+     * @param key
+     * @param param
+     * @return
+     */
     public static String getLink(String key, Object... param) {
         ResourceBundle rsMessages;
         // Load all message from link.properties
