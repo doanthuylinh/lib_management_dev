@@ -45,7 +45,8 @@ import com.google.gson.JsonObject;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/09      LinhDT       	  Create new
+ * 001       1.0       2021/04/09      LinhDT             Create new
+ * 001       1.1       2021/05/10      LinhDT             Update addUser, updateUser
 */
 @Service
 @Transactional(rollbackFor = { Exception.class, ApiValidateException.class })
@@ -105,6 +106,7 @@ public class UserServiceImpl implements UserService {
      * @param json
      * @throws ApiValidateException
      */
+
     public void updateUser(String json) throws ApiValidateException {
         LOGGER.info("-----------updateUser START----------");
 
@@ -122,7 +124,17 @@ public class UserServiceImpl implements UserService {
         if (!email.matches(Regex.EMAIL_PATTERN)) {
             throw new ApiValidateException("ERR08", MessageUtils.getMessage("ERR08", new Object[] { ConstantColumn.EMAIL }));
         }
-        entity.setEmail(email);
+        // Check whether new email is the same as the current email, if they are
+        // different then check whether the new email exists in database.
+        if (!entity.getEmail().equals(email)) {
+            UserEntity userEntity = userDao.getUserByEmail(email);
+
+            // Check whether new email exists in database, if yes, throw message.
+            if (!Objects.isNull(userEntity)) {
+                throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.EMAIL }));
+            }
+            entity.setEmail(email);
+        }
 
         // Check whether phone is null.
         if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PHONE)) {
@@ -273,4 +285,5 @@ public class UserServiceImpl implements UserService {
 
         LOGGER.info("-----------changePassword END----------");
     }
+
 }

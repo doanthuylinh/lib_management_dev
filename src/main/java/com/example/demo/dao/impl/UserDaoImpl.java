@@ -58,11 +58,13 @@ public class UserDaoImpl implements UserDao {
      * updateUser
      * @author: LinhDT
      * @param entity
+     * @return
      */
-    public void updateUser(UserEntity entity) {
+    public UserEntity updateUser(UserEntity entity) {
         LOGGER.info("----------updateUser START----------");
         this.entityManager.merge(entity);
         LOGGER.info("----------updateUser END----------");
+        return entity;
     }
 
     /**

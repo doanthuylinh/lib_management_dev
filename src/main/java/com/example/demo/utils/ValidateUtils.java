@@ -146,4 +146,5 @@ public class ValidateUtils {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.ROLE));
         }
     }
+
 }

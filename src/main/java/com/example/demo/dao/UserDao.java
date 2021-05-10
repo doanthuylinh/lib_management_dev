@@ -33,8 +33,9 @@ public interface UserDao {
      * updateUser
      * @author: LinhDT
      * @param entity
+     * @return
      */
-    public void updateUser(UserEntity entity);
+    public UserEntity updateUser(UserEntity entity);
 
     /**
      * getUserByUsername
