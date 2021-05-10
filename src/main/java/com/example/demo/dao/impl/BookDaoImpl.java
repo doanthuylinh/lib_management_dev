@@ -33,7 +33,7 @@ import com.example.demo.utils.DataUtils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/15      LinhDT             Create new
- * 002       1.0       2021/05/06      LinhDT             Add getBooksByDepartment
+ * 002       1.1       2021/05/06      LinhDT             Add getBooksByDepartment
 */
 @Repository
 @Transactional

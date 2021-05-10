@@ -108,7 +108,7 @@ public class ValidateUtils {
      * @param userRole
      * @throws ApiValidateException
      */
-    public static void validateAddUser(UserEntity userEntity, UserRole userRole) throws ApiValidateException {
+    public static void validateAddUser(UserEntity userEntity) throws ApiValidateException {
 
         if (DataUtils.isNullOrEmpty(userEntity.getUsername())) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.USERNAME));
@@ -142,8 +142,27 @@ public class ValidateUtils {
             throw new ApiValidateException("ERR09", MessageUtils.getMessage("ERR09"));
         }
 
-        if (userRole == null) {
+        if (userEntity.getRole() == null) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.ROLE));
+        }
+    }
+
+    public static void validateUpdateUser(UserEntity userEntity) throws ApiValidateException {
+
+        if (DataUtils.isNullOrEmpty(userEntity.getEmail())) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.EMAIL));
+        }
+
+        if (!userEntity.getEmail().matches(Regex.EMAIL_PATTERN)) {
+            throw new ApiValidateException("ERR08", MessageUtils.getMessage("ERR08"));
+        }
+
+        if (DataUtils.isNullOrEmpty(userEntity.getPhone())) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.PHONE));
+        }
+
+        if (!userEntity.getPhone().matches(Regex.PHONE_PATTERN)) {
+            throw new ApiValidateException("ERR09", MessageUtils.getMessage("ERR09"));
         }
     }
 

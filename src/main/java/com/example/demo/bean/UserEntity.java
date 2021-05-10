@@ -7,6 +7,7 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.Table;
 
 import com.example.demo.data.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * [OVERVIEW] User Entity.
@@ -34,28 +37,38 @@ public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     @Column(name = "user_id")
+    @SerializedName("user_id")
+    @JsonProperty("user_id")
     protected Integer userId;
-
+    
+    @JsonProperty("username")
     @Column(name = "username")
     protected String username;
-
+    
+    @JsonProperty("password")
     @Column(name = "password")
     @JsonIgnore
     protected String password;
 
+    @JsonProperty("email")
     @Column(name = "email")
     protected String email;
 
+    @JsonProperty("phone")
     @Column(name = "phone")
     protected String phone;
 
+    @JsonProperty("dob")
     @Column(name = "dob")
-    protected String dob;
+    protected Date dob;
 
+    @JsonProperty("address")
     @Column(name = "address")
     protected String address;
 
+    @JsonProperty("role")
     @Column(name = "role")
     protected Integer role;
 
@@ -99,11 +112,11 @@ public class UserEntity implements Serializable {
         this.phone = phone;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -131,7 +144,7 @@ public class UserEntity implements Serializable {
         super();
     }
 
-    public UserEntity(Integer userId, String username, String password, String email, String phone, String dob, String address, Integer role) {
+    public UserEntity(Integer userId, String username, String password, String email, String phone, Date dob, String address, Integer role) {
         super();
         this.userId = userId;
         this.username = username;

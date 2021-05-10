@@ -1,10 +1,12 @@
 /////////////////////////////////////////////////////////////////////////////
 //
-// � 2021 IDTU-CS3332IRFA-21TSP
+// © 2021 IDTU-CS3332IRFA-21TSP
 //
 /////////////////////////////////////////////////////////////////////////////
 
 package com.example.demo.response;
+
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,7 +31,7 @@ public class UserResponse {
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("dob")
-    private String dob;
+    private Date dob;
     @JsonProperty("address")
     private String address;
     @JsonProperty("role")
@@ -67,11 +69,11 @@ public class UserResponse {
         this.phone = phone;
     }
 
-    public String getDob() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(Date dob) {
         this.dob = dob;
     }
 
@@ -91,7 +93,7 @@ public class UserResponse {
         this.role = role;
     }
 
-    public UserResponse(Integer userId, String username, String email, String phone, String dob, String address, Integer role) {
+    public UserResponse(Integer userId, String username, String email, String phone, Date dob, String address, Integer role) {
         super();
         this.userId = userId;
         this.username = username;

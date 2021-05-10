@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable() // Prevent request from another domain.
                 .authorizeRequests()
                 // User
-                .antMatchers(HttpMethod.POST, "/api/user/registration", "/api/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/registration","/api/user/registration/admin", "/api/login").permitAll()
                 // Book
                 .antMatchers("/api/book/{bookId}", "/api/getbookbyname", "/api/getbooksbyauthor", "/api/getbooksbycategory", "/api/getbooksbydepartment",
                         "/api/getbookbypublicationdate", "/api/book")

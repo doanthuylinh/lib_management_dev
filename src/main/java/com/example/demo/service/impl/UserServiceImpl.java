@@ -25,9 +25,10 @@ import com.example.demo.bean.UserDetail;
 import com.example.demo.bean.UserEntity;
 import com.example.demo.config.WebSecurityConfig;
 import com.example.demo.dao.UserDao;
+import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.jwt.JwtTokenProvider;
-import com.example.demo.response.UserResponse;
+import com.example.demo.service.SecurityService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ConstantColumn;
 import com.example.demo.utils.DataUtils;
@@ -64,20 +65,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     WebSecurityConfig webSecurityConfig;
 
+    @Autowired
+    SecurityService securityService;
+
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     /**
-     * addUser (Registration)     * 
+     * addUser (Registration)
      * @author: LinhDT
      * @param data
      * @return
      * @throws ApiValidateException
      */
-    @Override
-    public ResultBean addUser(String data) throws ApiValidateException {
 
+    @Override
+    public ResultBean addUser(String data, UserRole role) throws ApiValidateException {
         UserEntity user = DataUtils.getEntityByJsonString(data, UserEntity.class);
-        ValidateUtils.validateAddUser(user, user.getRole());
+        user.setRole(role == null ? UserRole.MEMBER : role);
+
+        ValidateUtils.validateAddUser(user);
 
         // Get user name and check whether user name has already existed in database, if yes, throw a message.
         UserEntity userEntity = userDao.getUserEntityByUsername(user.getUsername());
@@ -106,78 +112,39 @@ public class UserServiceImpl implements UserService {
      * @param json
      * @throws ApiValidateException
      */
-
     public void updateUser(String json) throws ApiValidateException {
         LOGGER.info("-----------updateUser START----------");
 
-        UserEntity entity = userDao.getUserEntityByUsername(DataUtils.getUsernameByToken());
+        UserEntity entity = securityService.getCurrentUserEntity();
 
-        JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
+        UserEntity jObject = DataUtils.getEntityByJsonString(json, UserEntity.class);
 
-        // Check whether email is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.EMAIL)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.EMAIL }));
-        }
+        ValidateUtils.validateUpdateUser(jObject);
 
-        // Get email and check validation.
-        String email = DataUtils.getAsStringByJson(jObject, ConstantColumn.EMAIL);
-        if (!email.matches(Regex.EMAIL_PATTERN)) {
-            throw new ApiValidateException("ERR08", MessageUtils.getMessage("ERR08", new Object[] { ConstantColumn.EMAIL }));
-        }
-        // Check whether new email is the same as the current email, if they are
-        // different then check whether the new email exists in database.
-        if (!entity.getEmail().equals(email)) {
-            UserEntity userEntity = userDao.getUserByEmail(email);
+        // Check whether new email is the same as the current email, if they are different then check whether the new email exists in database.
+        if (!entity.getEmail().equals(jObject.getEmail())) {
+            UserEntity userEntity = userDao.getUserByEmail(jObject.getEmail());
 
             // Check whether new email exists in database, if yes, throw message.
             if (!Objects.isNull(userEntity)) {
                 throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.EMAIL }));
             }
-            entity.setEmail(email);
-        }
-
-        // Check whether phone is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PHONE)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.PHONE }));
-        }
-
-        // Get phone and check validation.
-        String phone = DataUtils.getAsStringByJson(jObject, ConstantColumn.PHONE);
-        if (!phone.matches(Regex.PHONE_PATTERN)) {
-            throw new ApiValidateException("ERR09", MessageUtils.getMessage("ERR09"));
+            entity.setEmail(jObject.getEmail());
         }
 
         // Check whether new phone is the same as the current phone, if they are
         // different then check whether the new phone exists in database.
-        if (!entity.getPhone().equals(phone)) {
-            UserEntity userEntity = userDao.getUserByPhone(phone);
+        if (!entity.getPhone().equals(jObject.getPhone())) {
+            UserEntity userEntity = userDao.getUserByPhone(jObject.getPhone());
             // Check whether new phone exists in database, if yes, throw message.
             if (!Objects.isNull(userEntity)) {
                 throw new ApiValidateException("ERR03", MessageUtils.getMessage("ERR03", new Object[] { ConstantColumn.PHONE }));
             }
-            entity.setPhone(phone);
+            entity.setPhone(jObject.getPhone());
         }
 
-        // Check whether date of birth is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.DOB)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.DOB }));
-        }
-
-        // Get date of birth and check validation.
-        String dob = DataUtils.getAsStringByJson(jObject, ConstantColumn.DOB);
-        if (!dob.matches(Regex.DATE_PATTERN)) {
-            throw new ApiValidateException("ERR10", MessageUtils.getMessage("ERR10", new Object[] { "date" }));
-        }
-        entity.setDob(dob);
-
-        // Check whether address is null.
-        if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.ADDRESS)) {
-            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.ADDRESS }));
-        }
-
-        // Get address.
-        String address = DataUtils.getAsStringByJson(jObject, ConstantColumn.ADDRESS);
-        entity.setAddress(address);
+        entity.setDob(jObject.getDob());
+        entity.setAddress(jObject.getAddress());
 
         userDao.updateUser(entity);
 
@@ -192,9 +159,10 @@ public class UserServiceImpl implements UserService {
      */
     public ResultBean viewProfile() throws ApiValidateException {
         LOGGER.info("-----------viewProfile START----------");
-        UserResponse userResponse = userDao.getUserByUsername(DataUtils.getUsernameByToken());
+        //UserResponse userResponse = userDao.getUserByUsername(DataUtils.getUsernameByToken());
+        UserEntity userEntity = securityService.getCurrentUserEntity();
         LOGGER.info("-----------viewProfile END----------");
-        return new ResultBean(userResponse, "200", MessageUtils.getMessage("MSG01", new Object[] { "user profile" }));
+        return new ResultBean(userEntity, "200", MessageUtils.getMessage("MSG01", new Object[] { "user profile" }));
     }
 
     /**

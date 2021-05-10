@@ -9,6 +9,7 @@ package com.example.demo.service;
 import java.util.Map;
 
 import com.example.demo.bean.ResultBean;
+import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
 
 /**
@@ -24,13 +25,14 @@ import com.example.demo.exception.ApiValidateException;
 public interface UserService {
 
     /**
-     * addUser (Registration)
+     * addUser
      * @author: LinhDT
-     * @param entity
+     * @param data
+     * @param role
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean addUser(String entity) throws ApiValidateException;
+    public ResultBean addUser(String data, UserRole role) throws ApiValidateException;
 
     /**
      * updateUser
@@ -63,4 +65,5 @@ public interface UserService {
      * @throws ApiValidateException
      */
     public void changePassword(String json) throws ApiValidateException;
+
 }

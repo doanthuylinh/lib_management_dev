@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.bean.ResultBean;
+import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.MessageUtils;
@@ -34,7 +35,7 @@ import com.example.demo.utils.MessageUtils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/09      LinhDT             Create new (Registration, login)
- * 002       1.0       2021/04/11      LinhDT             View profile, change password, update profile
+ * 002       1.1       2021/04/11      LinhDT             View profile, change password, update profile
 */
 @RestController
 @RequestMapping(value = "/api")
@@ -56,7 +57,29 @@ public class UserController {
         LOGGER.info("----------addUser START----------");
         ResultBean resultBean = null;
         try {
-            resultBean = userService.addUser(entity);
+            resultBean = userService.addUser(entity, UserRole.MEMBER);
+        } catch (ApiValidateException e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        LOGGER.info("----------addUser END----------");
+        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+    }
+    
+    /**
+     * addUserAdmin
+     * @author: LinhDT
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/user/registration/admin", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> addUserAdmin(@RequestBody String entity) {
+        LOGGER.info("----------addUser START----------");
+        ResultBean resultBean = null;
+        try {
+            resultBean = userService.addUser(entity, UserRole.ADMIN);
         } catch (ApiValidateException e) {
             return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
         } catch (Exception e) {
