@@ -8,6 +8,7 @@ package com.example.demo.response;
 
 import java.util.Date;
 
+import com.example.demo.bean.UserEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -36,8 +37,28 @@ public class UserResponse {
     private String address;
     @JsonProperty("role")
     private Integer role;
+    @JsonProperty("token")
+    private String token;
+    @JsonProperty("token_type")
+    private String tokenType;
 
-    public Integer getUserId() {
+    public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getTokenType() {
+		return tokenType;
+	}
+
+	public void setTokenType(String tokenType) {
+		this.tokenType = tokenType;
+	}
+
+	public Integer getUserId() {
         return userId;
     }
 
@@ -102,6 +123,16 @@ public class UserResponse {
         this.dob = dob;
         this.address = address;
         this.role = role;
+    }
+    
+    public UserResponse(UserEntity entity) {
+    	this.userId = entity.getUserId();
+    	this.address = entity.getAddress();
+    	this.dob = entity.getDob();
+    	this.email = entity.getEmail();
+    	this.phone = entity.getPhone();
+    	this.username = entity.getUsername();
+    	this.role = entity.getRole().value();
     }
 
 }

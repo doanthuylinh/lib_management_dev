@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
+import com.example.demo.response.UserResponse;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.MessageUtils;
 
@@ -121,7 +122,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> login(@RequestBody String entity) {
         LOGGER.info("----------login START----------");
-        Map<String, String> result = null;
+        UserResponse result = null;
         try {
             result = userService.login(entity);
         } catch (ApiValidateException e) {

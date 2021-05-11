@@ -11,6 +11,7 @@ import java.util.Map;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
+import com.example.demo.response.UserResponse;
 
 /**
  * [OVERVIEW] UserService.
@@ -56,7 +57,7 @@ public interface UserService {
      * @return
      * @throws ApiValidateException
      */
-    public Map<String, String> login(String entity) throws ApiValidateException;
+    public UserResponse login(String entity) throws ApiValidateException;
 
     /**
      * changePassword

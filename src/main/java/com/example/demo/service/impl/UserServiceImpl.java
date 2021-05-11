@@ -28,6 +28,7 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.response.UserResponse;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.ConstantColumn;
@@ -173,26 +174,27 @@ public class UserServiceImpl implements UserService {
      * @return
      * @throws ApiValidateException
      */
-    public Map<String, String> login(String json) throws ApiValidateException {
+    public UserResponse login(String json) throws ApiValidateException {
         LOGGER.info("-----------login START----------");
         JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
         String username = jObject.get("username").getAsString();
         String password = jObject.get("password").getAsString();
-        String temp = "";
+        String token = "";
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             // If there is no exception, it means the information is valid.
             // Set information of authentication into Security Context.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            temp = tokenProvider.generateToken((UserDetail) authentication.getPrincipal());
+            token = tokenProvider.generateToken((UserDetail) authentication.getPrincipal());
         } catch (Exception e) {
             throw new ApiValidateException("ERR05", MessageUtils.getMessage("ERR05"));
         }
-        Map<String, String> result = new HashMap<String, String>();
-        result.put("type", "Bearer");
-        result.put("token", temp);
+        UserResponse user = new UserResponse(userDao.getUserEntityByUsername(username));
+        user.setTokenType("Bearer");
+        user.setToken(token);
+        
         LOGGER.info("-----------login END----------");
-        return result;
+        return user;
     }
 
     /**
