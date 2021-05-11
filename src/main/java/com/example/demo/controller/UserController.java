@@ -60,7 +60,7 @@ public class UserController {
         try {
             resultBean = userService.addUser(entity, UserRole.MEMBER);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +68,7 @@ public class UserController {
         LOGGER.info("----------addUser END----------");
         return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
     }
-    
+
     /**
      * addUserAdmin
      * @author: LinhDT
@@ -82,7 +82,7 @@ public class UserController {
         try {
             resultBean = userService.addUser(entity, UserRole.ADMIN);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -103,7 +103,7 @@ public class UserController {
         try {
             userService.updateUser(entity);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -126,7 +126,7 @@ public class UserController {
         try {
             result = userService.login(entity);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -148,7 +148,7 @@ public class UserController {
         try {
             userService.changePassword(entity);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
