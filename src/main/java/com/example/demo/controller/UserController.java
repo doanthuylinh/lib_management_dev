@@ -103,17 +103,17 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> updateUser(@RequestBody String entity) {
         LOGGER.info("----------updateUser START----------");
+        
+        ResultBean resultBean = null;
         try {
-            userService.updateUser(entity);
-        } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        	userService.updateUser(entity);
+        	resultBean = new ResultBean("200", MessageUtils.getMessage("MSG04"));
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+           resultBean = ResponseUtils.handleError(e);
         }
 
         LOGGER.info("----------updateUser END----------");
-        return new ResponseEntity<ResultBean>(new ResultBean("200", MessageUtils.getMessage("MSG04")), HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
