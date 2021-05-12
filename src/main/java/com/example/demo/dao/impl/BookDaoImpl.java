@@ -297,14 +297,12 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public List<BookEntity> searchBook(String q) {
-        return this.searchBook(q, 0, 100);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public List<BookEntity> searchBook(String q, Integer from, Integer limit) {
+    public List<BookEntity> searchBook(String q, Integer from, Integer limit) {    	
         boolean isQueryEmpty = DataUtils.isNullOrEmpty(q);
+        from = from == null ? 0 : from;
+    	limit = limit == null ? 1000 : limit;
+        
         StringBuilder sql = new StringBuilder();
         sql.append(" FROM ");
         sql.append("    BookEntity be ");

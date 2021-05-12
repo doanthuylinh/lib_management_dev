@@ -194,8 +194,7 @@ public class BookServiceImpl implements BookService {
      */
     public ResultBean searchBook(String query, Integer from, Integer limit) throws ApiValidateException {
 
-        List<BookEntity> entitys = (DataUtils.isNullOrEmpty(from) || DataUtils.isNullOrEmpty(limit)) ? bookDao.searchBook(query)
-                : bookDao.searchBook(query, from, limit);
+        List<BookEntity> entitys = bookDao.searchBook(query, from, limit);
 
         if (Objects.isNull(entitys)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
