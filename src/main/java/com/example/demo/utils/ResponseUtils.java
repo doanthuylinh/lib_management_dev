@@ -7,8 +7,10 @@
 package com.example.demo.utils;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.example.demo.bean.ResultBean;
+import com.example.demo.exception.LibException;
 
 /**
  * [OVERVIEW] Response Utils.
@@ -30,5 +32,17 @@ public class ResponseUtils {
 //        }
 
         return HttpStatus.OK;
+    }
+    
+    public static ResultBean handleError(Exception e) {
+    	ResultBean resultBean = null;
+    	if (e instanceof AccessDeniedException)
+    		return new ResultBean("401", e.getMessage());
+    	if (e instanceof LibException) {
+    		return new ResultBean(((LibException)e).getCode(), e.getMessage());
+    	}
+    	
+    	e.printStackTrace();
+        return new ResultBean("500", e.getMessage());
     }
 }

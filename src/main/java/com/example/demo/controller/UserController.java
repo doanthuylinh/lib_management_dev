@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
+import com.example.demo.exception.LibException;
 import com.example.demo.response.UserResponse;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.MessageUtils;
+import com.example.demo.utils.ResponseUtils;
 
 /**
  * [OVERVIEW] User Controller.
@@ -122,17 +125,16 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> login(@RequestBody String entity) {
         LOGGER.info("----------login START----------");
-        UserResponse result = null;
+        UserResponse user = null;
+        ResultBean resultBean = null;
         try {
-            result = userService.login(entity);
-        } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        	user = userService.login(entity);
+        	resultBean = new ResultBean(user, "200", MessageUtils.getMessage("MSG03"));
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+           resultBean = ResponseUtils.handleError(e);
         }
         LOGGER.info("----------login END----------");
-        return new ResponseEntity<ResultBean>(new ResultBean(result, "200", MessageUtils.getMessage("MSG03")), HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
