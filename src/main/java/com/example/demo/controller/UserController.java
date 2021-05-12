@@ -107,7 +107,7 @@ public class UserController {
         ResultBean resultBean = null;
         try {
         	userService.updateUser(entity);
-        	resultBean = new ResultBean("200", MessageUtils.getMessage("MSG04"));
+        	resultBean = new ResultBean(entity, "200", MessageUtils.getMessage("MSG04"));
         } catch (Exception e) {
            resultBean = ResponseUtils.handleError(e);
         }
