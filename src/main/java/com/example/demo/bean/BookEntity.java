@@ -104,13 +104,13 @@ public class BookEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
-    @JsonProperty("category_entity")
+    @JsonProperty("category")
     @JsonInclude(Include.NON_NULL)
     private CategoryEntity categoryEntity;
 
     @ManyToOne
     @JoinColumn(name = "department_id", insertable = false, updatable = false)
-    @JsonProperty("department_entity")
+    @JsonProperty("department")
     @JsonInclude(Include.NON_NULL)
     private DepartmentEntity departmentEntity;
 
