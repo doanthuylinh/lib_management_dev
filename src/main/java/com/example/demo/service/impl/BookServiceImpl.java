@@ -228,7 +228,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public ResultBean removeBook(String data) throws ApiValidateException {
-		Integer bookId = DataUtils.getAsIntegerByJson(data, "book_id");
+		Integer bookId = DataUtils.getAsIntegerByJsonString(data, "book_id");
 		long countBookItem = bookItemDao.countBookItem(bookId);
 		if (countBookItem > 0) {
 			throw new ApiValidateException("ERR04", "Book have bookitems");
