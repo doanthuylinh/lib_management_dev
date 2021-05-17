@@ -249,11 +249,11 @@ public class BookController {
     
     @RequestMapping(value = "/book", method = RequestMethod.DELETE)
     public ResponseEntity<ResultBean> removeBook(@RequestBody String data) {
-        LOGGER.info("--- Add book START ---");
+        LOGGER.info("--- remove book START ---");
 
         ResultBean resultBean = null;
         try {
-            resultBean = bookService.addBook(data);
+            resultBean = bookService.removeBook(data);
         } catch (ApiValidateException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
@@ -261,7 +261,7 @@ public class BookController {
             resultBean = new ResultBean("500", "Internal server error");
         }
 
-        LOGGER.info("--- Add book END ---");
+        LOGGER.info("--- remove book END ---");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
