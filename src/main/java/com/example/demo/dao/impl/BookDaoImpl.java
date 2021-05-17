@@ -343,4 +343,18 @@ public class BookDaoImpl implements BookDao {
         return entity;
     }
 
+	@Override
+	public void removeBook(Integer bookId) {
+		StringBuilder sql = new StringBuilder();
+        sql.append(" DELETE FROM ");
+        sql.append("    BookEntity be ");
+
+        sql.append(" WHERE be.bookId = :bookId");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookId", bookId);
+        List<BookEntity> entity = null;
+        entity = query.getResultList();
+	}
+
 }

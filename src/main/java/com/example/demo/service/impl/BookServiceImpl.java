@@ -222,4 +222,13 @@ public class BookServiceImpl implements BookService {
         return new ResultBean(bookDao.addBook(book), "201", MessageUtils.getMessage("MSG02", "book"));
     }
 
+	@Override
+	public ResultBean removeBook(String data) throws ApiValidateException {
+		BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+		
+		bookDao.removeBook(book.getBookId());
+		
+		return new ResultBean("Remove book success!", "200",  MessageUtils.getMessage("MSG04", "book"));
+	}
+
 }

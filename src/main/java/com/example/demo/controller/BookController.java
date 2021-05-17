@@ -246,5 +246,23 @@ public class BookController {
         LOGGER.info("--- Add book END ---");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
+    
+    @RequestMapping(value = "/book", method = RequestMethod.DELETE)
+    public ResponseEntity<ResultBean> removeBook(@RequestBody String data) {
+        LOGGER.info("--- Add book START ---");
+
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookService.addBook(data);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+
+        LOGGER.info("--- Add book END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
 
 }
