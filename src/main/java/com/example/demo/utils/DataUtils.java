@@ -144,4 +144,11 @@ public class DataUtils {
 
         return entity;
     }
+    
+    public static Integer getAsIntegerByJsonString(String data, String member) throws ApiValidateException {
+    	JsonObject obj = new Gson().fromJson(data, JsonObject.class);
+    	
+    	
+        return getAsIntegerByJson(obj, member);
+    }
 }
