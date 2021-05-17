@@ -236,7 +236,7 @@ public class BookServiceImpl implements BookService {
 		
 		bookDao.removeBook(bookId);
 		
-		return new ResultBean("Remove book success!", "200",  MessageUtils.getMessage("MSG04", "book"));
+		return new ResultBean("200",  MessageUtils.getMessage("MSG04", "book"));
 	}
 
 }
