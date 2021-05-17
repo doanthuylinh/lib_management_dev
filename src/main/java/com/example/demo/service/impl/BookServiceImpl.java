@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.dao.BookDao;
+import com.example.demo.dao.BookItemDao;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.response.BookResponse;
 import com.example.demo.service.BookService;
@@ -44,6 +45,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookDao bookDao;
+    
+    @Autowired
+    private BookItemDao bookItemDao;
 
     private static final Logger LOGGER = LogManager.getLogger(BookServiceImpl.class);
 
@@ -224,9 +228,13 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public ResultBean removeBook(String data) throws ApiValidateException {
-		BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
+		Integer bookId = DataUtils.getAsIntegerByJson(data, "book_id");
+		long countBookItem = bookItemDao.countBookItem(bookId);
+		if (countBookItem > 0) {
+			throw new ApiValidateException("ERR04", "Book have bookitems");
+		}
 		
-		bookDao.removeBook(book.getBookId());
+		bookDao.removeBook(bookId);
 		
 		return new ResultBean("Remove book success!", "200",  MessageUtils.getMessage("MSG04", "book"));
 	}
