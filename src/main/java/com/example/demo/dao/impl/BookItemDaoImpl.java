@@ -142,4 +142,19 @@ public class BookItemDaoImpl implements BookItemDao {
 		return entity;
 	}
 
+	@Transactional
+	@Override
+	public void removeBookItemId(Integer bookItemId) {
+		// TODO Auto-generated method stub
+		StringBuilder sql = new StringBuilder();
+        sql.append(" DELETE FROM ");
+        sql.append("    BookItemEntity be ");
+
+        sql.append(" WHERE be.bookItemId = :bookItemId");
+
+        Query query = this.entityManager.createQuery(sql.toString());
+        query.setParameter("bookItemId", bookItemId);
+        query.executeUpdate();
+	}
+
 }

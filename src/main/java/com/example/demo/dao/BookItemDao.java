@@ -51,6 +51,8 @@ public interface BookItemDao {
     public BookItemEntity updateBookItem(BookItemEntity entity);
     
     public BookItemEntity addBookItem(BookItemEntity entity);
+    
+    public void removeBookItemId(Integer bookItemId);
 
 	List<BookItemEntity> getListBookItemWithStatusByBookId(Integer bookId, Integer statusValue);
 

@@ -65,4 +65,6 @@ public interface BookItemService {
      * @throws ApiValidateException
      */
     public ResultBean updateBookItem(String data) throws ApiValidateException;
+    
+    public ResultBean removeBookItem(String data) throws ApiValidateException;
 }

@@ -111,4 +111,22 @@ public class BookItemController {
         LOGGER.info("----------updateBookItem END----------");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
+    
+    @RequestMapping(value = "/bookitem", method = RequestMethod.DELETE)
+    public ResponseEntity<ResultBean> removeBook(@RequestBody String data) {
+        LOGGER.info("--- remove bookitem START ---");
+
+        ResultBean resultBean = null;
+        try {
+            resultBean = bookItemService.removeBookItem(data);
+        } catch (ApiValidateException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+
+        LOGGER.info("--- remove bookitem END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
 }
