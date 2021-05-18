@@ -100,4 +100,6 @@ public interface BookService {
      * @throws ApiValidateException
      */
     public ResultBean updateBook(String data) throws ApiValidateException;
+    
+    public ResultBean removeBook(String data) throws ApiValidateException;
 }

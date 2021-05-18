@@ -105,5 +105,7 @@ public interface BookDao {
      * @return
      */
     public BookEntity addBook(BookEntity entity);
+    
+    public void removeBook(Integer bookId);
 
 }
