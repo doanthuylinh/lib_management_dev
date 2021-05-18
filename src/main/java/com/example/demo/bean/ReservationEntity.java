@@ -187,7 +187,7 @@ public class ReservationEntity implements Serializable {
     
     @JsonGetter("status")
     public Integer getStatusValue() {
-    	return this.status;
+    	return this.status; 
     }
 
     public void setStatus(Integer status) {
