@@ -6,8 +6,6 @@
 
 package com.example.demo.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
@@ -192,7 +190,7 @@ public class UserServiceImpl implements UserService {
         UserResponse user = new UserResponse(userDao.getUserEntityByUsername(username));
         user.setTokenType("Bearer");
         user.setToken(token);
-        
+
         LOGGER.info("-----------login END----------");
         return user;
     }
