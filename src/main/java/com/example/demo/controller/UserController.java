@@ -6,8 +6,6 @@
 
 package com.example.demo.controller;
 
-import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,7 @@ import com.example.demo.utils.ResponseUtils;
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/09      LinhDT             Create new (Registration, login)
  * 002       1.1       2021/04/11      LinhDT             View profile, change password, update profile
+ * 003       1.2       2021/05/18      LinhDT             Refactor controllers
 */
 @RestController
 @RequestMapping(value = "/api")
@@ -63,13 +62,13 @@ public class UserController {
         try {
             resultBean = userService.addUser(entity, UserRole.MEMBER);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resultBean = new ResultBean("500", e.getMessage());
         }
         LOGGER.info("----------addUser END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
@@ -85,13 +84,13 @@ public class UserController {
         try {
             resultBean = userService.addUser(entity, UserRole.ADMIN);
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resultBean = new ResultBean("500", e.getMessage());
         }
         LOGGER.info("----------addUser END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
@@ -103,13 +102,13 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> updateUser(@RequestBody String entity) {
         LOGGER.info("----------updateUser START----------");
-        
+
         ResultBean resultBean = null;
         try {
-        	userService.updateUser(entity);
-        	resultBean = new ResultBean("200", MessageUtils.getMessage("MSG04"));
+            userService.updateUser(entity);
+            resultBean = new ResultBean("200", MessageUtils.getMessage("MSG04"));
         } catch (Exception e) {
-           resultBean = ResponseUtils.handleError(e);
+            resultBean = ResponseUtils.handleError(e);
         }
 
         LOGGER.info("----------updateUser END----------");
@@ -128,10 +127,10 @@ public class UserController {
         UserResponse user = null;
         ResultBean resultBean = null;
         try {
-        	user = userService.login(entity);
-        	resultBean = new ResultBean(user, "200", MessageUtils.getMessage("MSG03"));
+            user = userService.login(entity);
+            resultBean = new ResultBean(user, "200", MessageUtils.getMessage("MSG03"));
         } catch (Exception e) {
-           resultBean = ResponseUtils.handleError(e);
+            resultBean = ResponseUtils.handleError(e);
         }
         LOGGER.info("----------login END----------");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
@@ -169,14 +168,18 @@ public class UserController {
     @PreAuthorize("@appAuthorizer.authorize(authentication,'VIEW',this)")
     public ResponseEntity<ResultBean> viewProfile() {
         LOGGER.info("----------viewProfile START----------");
-        ResultBean entity = null;
+        ResultBean resultBean = null;
         try {
-            entity = userService.viewProfile();
+            resultBean = userService.viewProfile();
+        } catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+            resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------viewProfile END----------");
-        return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 }
