@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.example.demo.data.BookItemStatus;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -136,6 +137,11 @@ public class BookItemEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+    
+    @JsonGetter("status")
+    public Integer getStatusValue() {
+    	return this.status;
     }
 
     public void setStatus(BookItemStatus status) {

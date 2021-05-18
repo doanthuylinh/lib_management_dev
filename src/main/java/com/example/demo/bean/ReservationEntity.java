@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.example.demo.data.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -182,6 +183,11 @@ public class ReservationEntity implements Serializable {
 
     public ReservationStatus getStatus() {
         return ReservationStatus.parse(this.status);
+    }
+    
+    @JsonGetter("status")
+    public Integer getStatusValue() {
+    	return this.status;
     }
 
     public void setStatus(Integer status) {
