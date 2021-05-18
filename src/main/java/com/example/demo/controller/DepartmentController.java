@@ -9,7 +9,6 @@ package com.example.demo.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.DepartmentService;
+import com.example.demo.utils.ResponseUtils;
 
 /**
  * [OVERVIEW] Department Controller.
@@ -47,19 +47,19 @@ public class DepartmentController {
     @RequestMapping(value = "/departments-list", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> getListDepartments() {
         LOGGER.info("----------getListDepartments START----------");
-        ResultBean entity = null;
+        ResultBean resultBean = null;
         try {
-            entity = departmentService.getListDepartments();
+            resultBean = departmentService.getListDepartments();
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------getListDepartments END----------");
-        return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
-    
+
     /**
      * addDepartment
      * @author: LinhDT
@@ -79,7 +79,7 @@ public class DepartmentController {
             resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------addDepartment END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
 }

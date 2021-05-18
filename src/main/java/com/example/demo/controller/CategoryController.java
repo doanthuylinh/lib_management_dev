@@ -9,7 +9,6 @@ package com.example.demo.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.bean.ResultBean;
 import com.example.demo.exception.ApiValidateException;
 import com.example.demo.service.CategoryService;
+import com.example.demo.utils.ResponseUtils;
 
 /**
  * [OVERVIEW] Category Controller.
@@ -47,17 +47,17 @@ public class CategoryController {
     @RequestMapping(value = "/categories-list", method = RequestMethod.GET)
     public ResponseEntity<ResultBean> getListCategories() {
         LOGGER.info("----------getListCategories START----------");
-        ResultBean entity = null;
+        ResultBean resultBean = null;
         try {
-            entity = categoryService.getListCategories();
+            resultBean = categoryService.getListCategories();
         } catch (ApiValidateException e) {
-            return new ResponseEntity<ResultBean>(new ResultBean(e.getCode(), e.getMessage()), HttpStatus.OK);
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<ResultBean>(new ResultBean("500", "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
+            resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------getListCategories END----------");
-        return new ResponseEntity<ResultBean>(entity, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
     /**
@@ -79,7 +79,7 @@ public class CategoryController {
             resultBean = new ResultBean("500", "Internal server error");
         }
         LOGGER.info("----------addCategory END----------");
-        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
 
 }
