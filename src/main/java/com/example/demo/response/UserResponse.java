@@ -6,9 +6,12 @@
 
 package com.example.demo.response;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.example.demo.bean.UserEntity;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -43,22 +46,22 @@ public class UserResponse {
     private String tokenType;
 
     public String getToken() {
-		return token;
-	}
+        return token;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	public String getTokenType() {
-		return tokenType;
-	}
+    public String getTokenType() {
+        return tokenType;
+    }
 
-	public void setTokenType(String tokenType) {
-		this.tokenType = tokenType;
-	}
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
 
-	public Integer getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -94,6 +97,13 @@ public class UserResponse {
         return dob;
     }
 
+    @JsonGetter("dob")
+    public String getDobValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dob);
+        return dateValue;
+    }
+
     public void setDob(Date dob) {
         this.dob = dob;
     }
@@ -124,15 +134,15 @@ public class UserResponse {
         this.address = address;
         this.role = role;
     }
-    
+
     public UserResponse(UserEntity entity) {
-    	this.userId = entity.getUserId();
-    	this.address = entity.getAddress();
-    	this.dob = entity.getDob();
-    	this.email = entity.getEmail();
-    	this.phone = entity.getPhone();
-    	this.username = entity.getUsername();
-    	this.role = entity.getRole().value();
+        this.userId = entity.getUserId();
+        this.address = entity.getAddress();
+        this.dob = entity.getDob();
+        this.email = entity.getEmail();
+        this.phone = entity.getPhone();
+        this.username = entity.getUsername();
+        this.role = entity.getRole().value();
     }
 
 }
