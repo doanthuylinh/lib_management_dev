@@ -7,6 +7,9 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -118,6 +121,13 @@ public class UserEntity implements Serializable {
     public Date getDob() {
         return dob;
     }
+    
+    @JsonGetter("dob")
+    public String getDobValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dob);
+        return dateValue;
+    }
 
     public void setDob(Date dob) {
         this.dob = dob;
@@ -163,5 +173,6 @@ public class UserEntity implements Serializable {
         this.address = address;
         this.role = role;
     }
+    
 
 }
