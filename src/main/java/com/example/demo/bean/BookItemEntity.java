@@ -79,8 +79,8 @@ public class BookItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
+	@JsonProperty("book")
     @JsonInclude(Include.NON_NULL)
-    @JsonIgnore
     private BookEntity bookEntity;
 
     public Integer getBookItemId() {

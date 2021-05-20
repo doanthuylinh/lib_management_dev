@@ -150,9 +150,6 @@ public class ReservationServiceImpl implements ReservationService {
         List<BookItemEntity> bookItems = entity.getBookItemEntities().stream().filter(item -> item.getBookId().equals(bookId)).limit(amount)
                 .collect(Collectors.toList());
 
-        double bookFee = bookDao.getBookById(bookId).getRentCost();
-        double totalFee = entity.getTotalFee() - bookItems.size() * bookFee;
-
         bookItems.forEach(item -> {
             item.setStatus(BookItemStatus.AVAILABLE);
             bookItemDao.updateBookItem(item);
@@ -160,6 +157,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<BookItemEntity> newBookItems = entity.getBookItemEntities().stream().filter(item -> !bookItems.contains(item)).collect(Collectors.toList());
 
+        double totalFee = newBookItems.stream()
+    			.mapToDouble(bookItem -> bookItem.getBookEntity().getRentCost())
+    			.sum();
+        
         entity.setBookItemEntities(newBookItems);
         entity.setTotalFee(totalFee);
 
