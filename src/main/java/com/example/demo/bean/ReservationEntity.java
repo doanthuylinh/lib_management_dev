@@ -7,6 +7,8 @@
 package com.example.demo.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -145,12 +147,30 @@ public class ReservationEntity implements Serializable {
         return reservedTime;
     }
 
+    @JsonGetter("reserved_time")
+    public String getReservedTimeValue() {
+    	if (reservedTime == null) return null;
+    	
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(reservedTime);
+        return dateValue;
+    }
+
     public void setReservedTime(Date reservedTime) {
         this.reservedTime = reservedTime;
     }
 
     public Date getExpectedReturnDate() {
         return expectedReturnDate;
+    }
+    
+    @JsonGetter("expected_return_date")
+    public String getExpectedReturnDateValue() {
+    	if (expectedReturnDate == null) return null; 
+    	
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(expectedReturnDate);
+        return dateValue;
     }
 
     public void setExpectedReturnDate(Date expectedReturnDate) {
@@ -159,6 +179,15 @@ public class ReservationEntity implements Serializable {
 
     public Date getReturnedDate() {
         return returnedDate;
+    }
+    
+    @JsonGetter("returned_date")
+    public String getReturnedDateValue() {
+    	if (returnedDate == null) return null;
+    	
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(returnedDate);
+        return dateValue;
     }
 
     public void setReturnedDate(Date returnedDate) {
@@ -173,8 +202,19 @@ public class ReservationEntity implements Serializable {
         this.totalFee = totalFee;
     }
 
-    public LocalDateTime getCreatedTime() {
-        return LocalDateTime.now();
+    public Date getCreatedTime() {
+		if (this.createdTime == null) {
+			this.createdTime = new Date();
+		}
+    	
+        return this.createdTime;
+    }
+    
+    @JsonGetter("created_time")
+    public String getCreatedTimeValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(getCreatedTime());
+        return dateValue;
     }
 
     public void setCreatedTime(Date createdTime) {

@@ -333,6 +333,10 @@ public class ReservationServiceImpl implements ReservationService {
         if (!entity.getStatus().equals(ReservationStatus.TEMP)) {
             throw new BusinessException("402", "the book status is not temp");
         }
+        
+        if (entity.getBookItemEntities().size() < 1) {
+        	throw new BusinessException("402", "This cart is empty.");
+        }
 
         return this.changeReservationStatus(entity, ReservationStatus.BORROWING);
     }

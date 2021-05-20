@@ -6,6 +6,8 @@
 
 package com.example.demo.bean;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -110,6 +112,15 @@ public class BookItemEntity {
     public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
+    
+    @JsonGetter("date_of_purchase")
+    public String getDateOfPurchaseValue() {
+    	if (dateOfPurchase == null) return null;
+    	
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateOfPurchase);
+        return dateValue;
+    }
 
     public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
@@ -117,6 +128,15 @@ public class BookItemEntity {
 
     public Date getDateAddedToLibrary() {
         return dateAddedToLibrary;
+    }
+    
+    @JsonGetter("date_added_to_library")
+    public String getDateAddedToLibraryValue() {
+    	if (dateAddedToLibrary == null) return null;
+    	
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateAddedToLibrary);
+        return dateValue;
     }
 
     public void setDateAddedToLibrary(Date dateAddedToLibrary) {
