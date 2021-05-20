@@ -90,8 +90,8 @@ public class ReservationEntity implements Serializable {
 
     @ManyToMany
     @JoinColumn(name = "book_item_id")
-    @SerializedName("book_item_entities")
-    @JsonProperty("book_item_entities")
+    @SerializedName("book_items")
+    @JsonProperty("book_items")
     private List<BookItemEntity> bookItemEntities;
 
     @SerializedName("book_entities")
