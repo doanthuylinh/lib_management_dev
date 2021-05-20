@@ -101,7 +101,7 @@ public class ReservationEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @JsonProperty("user_entity")
+    @JsonProperty("user")
     @JsonInclude(Include.NON_NULL)
     private UserEntity userEntity;
 

@@ -113,7 +113,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @throws ApiValidateException
      */
     @Override
-    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException {
+    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws LibException {
         List<BookItemEntity> bookItems = bookItemDao.getListBookItemWithStatusByBookId(bookId, BookItemStatus.AVAILABLE);
         double totalFee = entity.getTotalFee();
 
@@ -126,6 +126,8 @@ public class ReservationServiceImpl implements ReservationService {
 
             entity.getBookItemEntities().add(bookItem);
             entity.setTotalFee(totalFee);
+        } else {
+        	throw new BusinessException("NONE", "This book does't have available bookitems.");
         }
 
         return this.updateReservation(entity);
@@ -228,11 +230,11 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationEntity entity = new ReservationEntity();
         entity.setUserId(userId);
         entity.setCreatedTime(new Date());
-        entity.setTotalFee(0d);
+        entity.setTotalFee(	0d);
         entity.setBookItemEntities(new ArrayList<BookItemEntity>());
         entity.setStatus(ReservationStatus.TEMP);
 
-        return entity;
+        return reservationDao.addReservation(entity);
     }
 
     /**

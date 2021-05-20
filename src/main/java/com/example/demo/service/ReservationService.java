@@ -120,7 +120,7 @@ public interface ReservationService {
      * @return
      * @throws ApiValidateException
      */
-    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException;
+    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws LibException;
 
     /**
      * addItemReservation
