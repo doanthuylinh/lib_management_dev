@@ -119,4 +119,13 @@ public class BookItemServiceImpl implements BookItemService {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public ResultBean removeBookItem(String data) throws ApiValidateException {
+		Integer bookItemId = DataUtils.getAsIntegerByJsonString(data, "book_item_id");
+		
+		bookItemDao.removeBookItemId(bookItemId);
+		
+		return new ResultBean("200",  MessageUtils.getMessage("MSG04", "book"));
+	}
 }

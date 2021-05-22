@@ -81,8 +81,8 @@ public class BookItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
+	@JsonProperty("book")
     @JsonInclude(Include.NON_NULL)
-    @JsonIgnore
     private BookEntity bookEntity;
 
     public Integer getBookItemId() {
@@ -115,6 +115,8 @@ public class BookItemEntity {
     
     @JsonGetter("date_of_purchase")
     public String getDateOfPurchaseValue() {
+    	if (dateOfPurchase == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(dateOfPurchase);
         return dateValue;
@@ -130,6 +132,8 @@ public class BookItemEntity {
     
     @JsonGetter("date_added_to_library")
     public String getDateAddedToLibraryValue() {
+    	if (dateAddedToLibrary == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(dateAddedToLibrary);
         return dateValue;
@@ -153,6 +157,11 @@ public class BookItemEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+    
+    @JsonGetter("status")
+    public Integer getStatusValue() {
+    	return this.status;
     }
 
     public void setStatus(BookItemStatus status) {

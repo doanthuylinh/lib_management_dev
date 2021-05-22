@@ -113,7 +113,7 @@ public class ReservationServiceImpl implements ReservationService {
      * @throws ApiValidateException
      */
     @Override
-    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws ApiValidateException {
+    public ResultBean addItemReservation(ReservationEntity entity, Integer bookId) throws LibException {
         List<BookItemEntity> bookItems = bookItemDao.getListBookItemWithStatusByBookId(bookId, BookItemStatus.AVAILABLE);
         double totalFee = entity.getTotalFee();
 
@@ -126,6 +126,8 @@ public class ReservationServiceImpl implements ReservationService {
 
             entity.getBookItemEntities().add(bookItem);
             entity.setTotalFee(totalFee);
+        } else {
+        	throw new BusinessException("NONE", "This book does't have available bookitems.");
         }
 
         return this.updateReservation(entity);
@@ -148,9 +150,6 @@ public class ReservationServiceImpl implements ReservationService {
         List<BookItemEntity> bookItems = entity.getBookItemEntities().stream().filter(item -> item.getBookId().equals(bookId)).limit(amount)
                 .collect(Collectors.toList());
 
-        double bookFee = bookDao.getBookById(bookId).getRentCost();
-        double totalFee = entity.getTotalFee() - bookItems.size() * bookFee;
-
         bookItems.forEach(item -> {
             item.setStatus(BookItemStatus.AVAILABLE);
             bookItemDao.updateBookItem(item);
@@ -158,6 +157,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         List<BookItemEntity> newBookItems = entity.getBookItemEntities().stream().filter(item -> !bookItems.contains(item)).collect(Collectors.toList());
 
+        double totalFee = newBookItems.stream()
+    			.mapToDouble(bookItem -> bookItem.getBookEntity().getRentCost())
+    			.sum();
+        
         entity.setBookItemEntities(newBookItems);
         entity.setTotalFee(totalFee);
 
@@ -228,11 +231,11 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationEntity entity = new ReservationEntity();
         entity.setUserId(userId);
         entity.setCreatedTime(new Date());
-        entity.setTotalFee(0d);
+        entity.setTotalFee(	0d);
         entity.setBookItemEntities(new ArrayList<BookItemEntity>());
         entity.setStatus(ReservationStatus.TEMP);
 
-        return entity;
+        return reservationDao.addReservation(entity);
     }
 
     /**
@@ -329,6 +332,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (!entity.getStatus().equals(ReservationStatus.TEMP)) {
             throw new BusinessException("402", "the book status is not temp");
+        }
+        
+        if (entity.getBookItemEntities().size() < 1) {
+        	throw new BusinessException("402", "This cart is empty.");
         }
 
         return this.changeReservationStatus(entity, ReservationStatus.BORROWING);

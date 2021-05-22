@@ -94,8 +94,8 @@ public class BookDaoImpl implements BookDao {
         sql.append("    de.departmentName, ");
         sql.append("    be.publicationDate, ");
         sql.append("    be.thumbnail, ");
-        sql.append("    be.price, ");
         sql.append("    be.rentCost, ");
+        sql.append("    be.price, ");
         sql.append("    be.createDate) ");
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
