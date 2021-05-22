@@ -6,6 +6,8 @@
 
 package com.example.demo.bean;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.example.demo.data.BookItemStatus;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -109,6 +112,13 @@ public class BookItemEntity {
     public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
+    
+    @JsonGetter("date_of_purchase")
+    public String getDateOfPurchaseValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateOfPurchase);
+        return dateValue;
+    }
 
     public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
@@ -116,6 +126,13 @@ public class BookItemEntity {
 
     public Date getDateAddedToLibrary() {
         return dateAddedToLibrary;
+    }
+    
+    @JsonGetter("date_added_to_library")
+    public String getDateAddedToLibraryValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateAddedToLibrary);
+        return dateValue;
     }
 
     public void setDateAddedToLibrary(Date dateAddedToLibrary) {

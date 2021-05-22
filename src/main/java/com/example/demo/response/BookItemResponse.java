@@ -6,8 +6,11 @@
 
 package com.example.demo.response;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -28,9 +31,9 @@ public class BookItemResponse extends BookResponse {
     @JsonProperty("barcode")
     private String barcode;
     @JsonProperty("date_of_purchase")
-    private String dateOfPurchase;
+    private Date dateOfPurchase;
     @JsonProperty("date_added_to_library")
-    private String dateAddedToLibrary;
+    private Date dateAddedToLibrary;
     @JsonProperty("location")
     private String location;
     @JsonProperty("state")
@@ -52,19 +55,33 @@ public class BookItemResponse extends BookResponse {
         this.barcode = barcode;
     }
 
-    public String getDateOfPurchase() {
+    public Date getDateOfPurchase() {
         return dateOfPurchase;
     }
+    
+    @JsonGetter("date_of_purchase")
+    public String getDateOfPurchaseValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateOfPurchase);
+        return dateValue;
+    }
 
-    public void setDateOfPurchase(String dateOfPurchase) {
+    public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 
-    public String getDateAddedToLibrary() {
+    public Date getDateAddedToLibrary() {
         return dateAddedToLibrary;
     }
+    
+    @JsonGetter("date_added_to_library")
+    public String getDateAddedToLibraryValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(dateAddedToLibrary);
+        return dateValue;
+    }
 
-    public void setDateAddedToLibrary(String dateAddedToLibrary) {
+    public void setDateAddedToLibrary(Date dateAddedToLibrary) {
         this.dateAddedToLibrary = dateAddedToLibrary;
     }
 
@@ -85,7 +102,7 @@ public class BookItemResponse extends BookResponse {
     }
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double price, Integer bookItemId, String barcode, String dateOfPurchase, String dateAddedToLibrary,
+            Date publicationDate, String thumbnail, Double price, Integer bookItemId, String barcode, Date dateOfPurchase, Date dateAddedToLibrary,
             String location, Double rentCost, Date createDate, Integer state) {
         super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price, createDate);
         this.bookItemId = bookItemId;
@@ -101,7 +118,7 @@ public class BookItemResponse extends BookResponse {
     }
 
     public BookItemResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double rentCost, Date createDate, Double price) {
+            Date publicationDate, String thumbnail, Double rentCost, Date createDate, Double price) {
         super(bookId, bookName, description, language, author, categoryName, departmentName, publicationDate, thumbnail, rentCost, price, createDate);
 
     }

@@ -6,8 +6,11 @@
 
 package com.example.demo.response;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -18,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @History
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
- * 001       1.0       2021/04/15      LinhDT       	  Create new
+ * 001       1.0       2021/04/15      LinhDT             Create new
  * 002       1.1       2021/04/21      LinhDT             Update Json Properties
 */
 public class BookResponse {
@@ -38,7 +41,7 @@ public class BookResponse {
     @JsonProperty("department_name")
     protected String departmentName;
     @JsonProperty("publication_date")
-    protected String publicationDate;
+    protected Date publicationDate;
     @JsonProperty("thumbnail")
     protected String thumbnail;
     @JsonProperty("rent_cost")
@@ -104,11 +107,18 @@ public class BookResponse {
         this.departmentName = departmentName;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
+    
+    @JsonGetter("publication_date")
+    public String getPublicationDateValue() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String dateValue = df.format(publicationDate);
+        return dateValue;
+    }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 
@@ -145,7 +155,7 @@ public class BookResponse {
     }
 
     public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {
+            Date publicationDate, String thumbnail, Double rentCost, Double price, Date createDate) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
@@ -162,7 +172,7 @@ public class BookResponse {
     }
 
     public BookResponse(Integer bookId, String bookName, String description, String language, String author, String categoryName, String departmentName,
-            String publicationDate, String thumbnail, Double rentCost, Double price) {
+            Date publicationDate, String thumbnail, Double rentCost, Double price) {
         super();
         this.bookId = bookId;
         this.bookName = bookName;
