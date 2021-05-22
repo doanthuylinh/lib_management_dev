@@ -15,7 +15,6 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +48,12 @@ public class BookDaoImpl implements BookDao {
 
     private static final Logger LOGGER = LogManager.getLogger(BookDaoImpl.class);
 
+    /**
+     * getBookEntityById
+     * @author: LinhDT
+     * @param bookId
+     * @return
+     */
     @Override
     public BookEntity getBookEntityById(Integer bookId) {
         LOGGER.info("----------getBookById START----------");
@@ -299,11 +304,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<BookEntity> searchBook(String q, Integer from, Integer limit) {    	
+    public List<BookEntity> searchBook(String q, Integer from, Integer limit) {
         boolean isQueryEmpty = DataUtils.isNullOrEmpty(q);
         from = from == null ? 0 : from;
-    	limit = limit == null ? 1000 : limit;
-        
+        limit = limit == null ? 1000 : limit;
+
         StringBuilder sql = new StringBuilder();
         sql.append(" FROM ");
         sql.append("    BookEntity be ");
@@ -345,10 +350,10 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Transactional
-	@Override
-	public void removeBook(Integer bookId) {
-		
-		StringBuilder sql = new StringBuilder();
+    @Override
+    public void removeBook(Integer bookId) {
+
+        StringBuilder sql = new StringBuilder();
         sql.append(" DELETE FROM ");
         sql.append("    BookEntity be ");
 
@@ -357,6 +362,6 @@ public class BookDaoImpl implements BookDao {
         Query query = this.entityManager.createQuery(sql.toString());
         query.setParameter("bookId", bookId);
         query.executeUpdate();
-	}
+    }
 
 }

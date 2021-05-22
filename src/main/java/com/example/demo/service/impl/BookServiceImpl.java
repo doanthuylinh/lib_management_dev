@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ResultBean getBookById(Integer bookId) {
         LOGGER.info("----------getBookById START----------");
-        BookResponse entity = bookDao.getBookById(bookId);
+        BookEntity entity = bookDao.getBookEntityById(bookId);
         if (Objects.isNull(entity)) {
             return new ResultBean("ERR14", MessageUtils.getMessage("ERR14"));
         }
