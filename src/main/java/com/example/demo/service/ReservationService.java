@@ -77,7 +77,7 @@ public interface ReservationService {
      * @throws AccessDeniedException
      */
     @PreAuthorize("hasAuthority('MEMBER')")
-    public ResultBean borrowReservation(Integer reservationId) throws LibException, AccessDeniedException;
+    public ResultBean borrowReservation(ReservationEntity reservation) throws LibException, AccessDeniedException;
 
     /**
      * issueReservation
@@ -99,7 +99,7 @@ public interface ReservationService {
      * @throws AccessDeniedException
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResultBean returnReservation(Integer reservationId) throws LibException, AccessDeniedException;
+    public ResultBean returnReservation(ReservationEntity reservation) throws LibException, AccessDeniedException;
 
     /**
      * cancelBorrowingReservation

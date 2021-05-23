@@ -95,7 +95,7 @@ public class ReservationController {
     @RequestMapping(value = "/issue", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResultBean> getIssueReservation() {
-        return this.getReservation(null, ReservationStatus.BORROWING);
+        return this.getReservation(null, ReservationStatus.RESERVED);
     }
 
     /**
@@ -106,7 +106,7 @@ public class ReservationController {
     @RequestMapping(value = "/return", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResultBean> getReturnReservation() {
-        return this.getReservation(null, ReservationStatus.RESERVED);
+        return this.getReservation(null, ReservationStatus.BORROWING);
     }
 
     /**
@@ -147,12 +147,8 @@ public class ReservationController {
         LOGGER.info("--- borrowReservation START ---");
         ResultBean resultBean = null;
         try {
-            JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
-
-            // TO DO: validate this
-            Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
-
-            resultBean = reservationService.borrowReservation(reservationId);
+        	ReservationEntity reservation = DataUtils.getEntityByJsonString(data, ReservationEntity.class);
+            resultBean = reservationService.borrowReservation(reservation);
         } catch (AccessDeniedException e) {
             resultBean = new ResultBean("401", e.getMessage());
         } catch (LibException e) {
@@ -209,12 +205,8 @@ public class ReservationController {
         LOGGER.info("--- returnReservation START ---");
         ResultBean resultBean = null;
         try {
-            JsonObject obj = DataUtils.getEntityByJsonString(data, JsonObject.class);
-
-            // TO DO: validate this
-            Integer reservationId = DataUtils.getAsIntegerByJson(obj, "reservation_id");
-
-            resultBean = reservationService.returnReservation(reservationId);
+            ReservationEntity reservation = DataUtils.getEntityByJsonString(data, ReservationEntity.class);
+            resultBean = reservationService.returnReservation(reservation);
         } catch (AccessDeniedException e) {
             resultBean = new ResultBean("401", e.getMessage());
         } catch (LibException e) {

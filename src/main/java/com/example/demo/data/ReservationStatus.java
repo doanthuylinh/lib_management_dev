@@ -18,7 +18,7 @@ package com.example.demo.data;
 */
 public enum ReservationStatus {
 
-    UNDEFINED(-1), TEMP(0), BORROWING(1), RESERVED(2), CLOSED(3), CANCELED(4);
+    UNDEFINED(-1), TEMP(0), RESERVED(1), BORROWING(2), CLOSED(3), CANCELED(4);
 
     private final Integer value;
 
