@@ -420,4 +420,29 @@ public class ReservationServiceImpl implements ReservationService {
         return this.changeReservationStatus(entity, ReservationStatus.CANCELED);
     }
 
+	@Override
+	public ResultBean extendReservation(ReservationEntity reservation) throws LibException, AccessDeniedException {
+		ReservationEntity entity = reservationDao.getReservationById(reservation.getReservationId());
+        
+		Date newExpectedReturnDate = reservation.getExpectedReturnDate();
+        if (newExpectedReturnDate == null || 
+        		entity.getExpectedReturnDate().compareTo(newExpectedReturnDate) < 0) {
+        	throw new BusinessException("402", "the new expected return date is not invalid");
+        }
+
+        if (!entity.getStatus().equals(ReservationStatus.BORROWING)) {
+            throw new BusinessException("402", "the book status is not borrowing");
+        }
+        
+        entity.setExpectedReturnDate(newExpectedReturnDate);
+
+        List<BookItemEntity> newBookItems = entity.getBookItemEntities();
+        newBookItems.forEach(item -> {
+            item.setStatus(BookItemStatus.AVAILABLE);
+        });
+
+        entity.setBookItemEntities(newBookItems);
+
+        return new ResultBean(reservationDao.updateReservation(entity), "201", MessageUtils.getMessage("MSG04", "reservation"));
+	}
 }

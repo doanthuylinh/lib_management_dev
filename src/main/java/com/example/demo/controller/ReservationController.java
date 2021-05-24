@@ -161,6 +161,27 @@ public class ReservationController {
         LOGGER.info("--- borrowReservation END ---");
         return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
     }
+    
+    @RequestMapping(value = "/extend", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('MEMBER')")
+    public ResponseEntity<ResultBean> extendReservation(@RequestBody String data) {
+        LOGGER.info("--- extendReservation START ---");
+        ResultBean resultBean = null;
+        try {
+        	ReservationEntity reservation = DataUtils.getEntityByJsonString(data, ReservationEntity.class);
+            resultBean = reservationService.extendReservation(reservation);
+        } catch (AccessDeniedException e) {
+            resultBean = new ResultBean("401", e.getMessage());
+        } catch (LibException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultBean = new ResultBean("500", "Internal server error");
+        }
+
+        LOGGER.info("--- extendReservation END ---");
+        return new ResponseEntity<ResultBean>(resultBean, ResponseUtils.getResponseStatus(resultBean));
+    }
 
     /**
      * issueReservation
