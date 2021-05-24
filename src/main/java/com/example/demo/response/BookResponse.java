@@ -113,6 +113,8 @@ public class BookResponse {
     
     @JsonGetter("publication_date")
     public String getPublicationDateValue() {
+    	if (publicationDate == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(publicationDate);
         return dateValue;

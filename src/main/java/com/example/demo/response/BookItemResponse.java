@@ -61,6 +61,8 @@ public class BookItemResponse extends BookResponse {
     
     @JsonGetter("date_of_purchase")
     public String getDateOfPurchaseValue() {
+    	if (dateOfPurchase == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(dateOfPurchase);
         return dateValue;
@@ -76,6 +78,8 @@ public class BookItemResponse extends BookResponse {
     
     @JsonGetter("date_added_to_library")
     public String getDateAddedToLibraryValue() {
+    	if (dateAddedToLibrary == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(dateAddedToLibrary);
         return dateValue;

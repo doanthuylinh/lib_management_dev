@@ -124,6 +124,8 @@ public class UserEntity implements Serializable {
     
     @JsonGetter("dob")
     public String getDobValue() {
+    	if (dob == null) return null;
+    	
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String dateValue = df.format(dob);
         return dateValue;
