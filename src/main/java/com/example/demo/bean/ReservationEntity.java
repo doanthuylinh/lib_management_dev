@@ -89,8 +89,13 @@ public class ReservationEntity implements Serializable {
     @SerializedName("status")
     @JsonProperty("status")
     private Integer status;
+    
+    @Column(name = "is_extended")
+    @SerializedName("is_extended")
+    @JsonProperty("is_extended")
+    private Boolean isExtended;
 
-    @ManyToMany
+	@ManyToMany
     @JoinColumn(name = "book_item_id")
     @SerializedName("book_items")
     @JsonProperty("book_items")
@@ -238,6 +243,17 @@ public class ReservationEntity implements Serializable {
         this.status = status.value();
     }
 
+    public Boolean getIsExtended() {
+    	if (isExtended == null)
+    		return false;
+    	
+		return isExtended;
+	}
+
+	public void setIsExtended(Boolean isExtended) {
+		this.isExtended = isExtended;
+	}
+    
     public ReservationEntity(Integer reservationId, Integer userId, Date reservedTime, Date expectedReturnDate, Date returnedDate, Double totalFee,
             Date createdTime, Integer status) {
         super();

@@ -425,24 +425,23 @@ public class ReservationServiceImpl implements ReservationService {
 		ReservationEntity entity = reservationDao.getReservationById(reservation.getReservationId());
         
 		Date newExpectedReturnDate = reservation.getExpectedReturnDate();
+		
+		if (entity.getIsExtended()) {
+			throw new BusinessException("402", "the reservation must be have one time extend.");
+		}
+		
         if (newExpectedReturnDate == null || 
-        		entity.getExpectedReturnDate().compareTo(newExpectedReturnDate) < 0) {
-        	throw new BusinessException("402", "the new expected return date is not invalid");
+        		entity.getExpectedReturnDate().compareTo(newExpectedReturnDate) > 0) {
+        	throw new BusinessException("402", "the new expected return date is not invalid.");
         }
 
         if (!entity.getStatus().equals(ReservationStatus.BORROWING)) {
-            throw new BusinessException("402", "the book status is not borrowing");
+            throw new BusinessException("402", "the book status is not borrowing.");
         }
         
         entity.setExpectedReturnDate(newExpectedReturnDate);
-
-        List<BookItemEntity> newBookItems = entity.getBookItemEntities();
-        newBookItems.forEach(item -> {
-            item.setStatus(BookItemStatus.AVAILABLE);
-        });
-
-        entity.setBookItemEntities(newBookItems);
-
+        entity.setIsExtended(true);
+        
         return new ResultBean(reservationDao.updateReservation(entity), "201", MessageUtils.getMessage("MSG04", "reservation"));
 	}
 }
