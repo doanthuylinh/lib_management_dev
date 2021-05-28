@@ -205,52 +205,39 @@ public class UserServiceImpl implements UserService {
     public void changePassword(String json) throws ApiValidateException {
         LOGGER.info("-----------changePassword START----------");
         JsonObject jObject = new Gson().fromJson(json, JsonObject.class);
-
         UserEntity userEntity = userDao.getUserEntityByUsername(DataUtils.getUsernameByToken());
-
         if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.CURRENT_PASSWORD)) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.CURRENT_PASSWORD }));
         }
-
         if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.PASSWORD)) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.PASSWORD }));
         }
-
         if (DataUtils.isNullWithMemberNameByJson(jObject, ConstantColumn.CONFIRMED_PASSWORD)) {
             throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", new Object[] { ConstantColumn.CONFIRMED_PASSWORD }));
         }
-
-        // Check whether current password, which has just been input, is the same as old
-        // password.
+        // Check whether current password, which has just been input, is the same as old password.
         String currentPassword = DataUtils.getAsStringByJson(jObject, ConstantColumn.CURRENT_PASSWORD);
         if (!webSecurityConfig.passwordEncoder().matches(currentPassword, userEntity.getPassword())) {
             throw new ApiValidateException("ERR11", MessageUtils.getMessage("ERR11", new Object[] { ConstantColumn.PASSWORD }));
         }
-
         // Get new password and check validation.
         String password = DataUtils.getAsStringByJson(jObject, ConstantColumn.PASSWORD);
         if (!password.matches(Regex.PASSWORD_PATTERN)) {
             throw new ApiValidateException("ERR07", MessageUtils.getMessage("ERR07"));
         }
-
         // Get new confirmed password.
         String confirmerPassword = DataUtils.getAsStringByJson(jObject, ConstantColumn.CONFIRMED_PASSWORD);
-
-        // Check password matches confirmed password. If they do not match, throw
-        // message.
+        // Check password matches confirmed password. If they do not match, throw message.
         if (!password.equals(confirmerPassword)) {
             throw new ApiValidateException("ERR12", MessageUtils.getMessage("ERR12"));
         }
-
         // Check whether the new password is the same as the current one, if yes, throw
         // message.
         if (webSecurityConfig.passwordEncoder().matches(password, userEntity.getPassword())) {
             throw new ApiValidateException("ERR13", MessageUtils.getMessage("ERR13"));
         }
-
         userEntity.setPassword(webSecurityConfig.passwordEncoder().encode(password));
         userDao.updateUser(userEntity);
-
         LOGGER.info("-----------changePassword END----------");
     }
 
