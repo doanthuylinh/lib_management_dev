@@ -84,8 +84,12 @@ public class ReservationDaoImpl implements ReservationDao {
         query.setParameter("reservationId", id);
         query.setMaxResults(1);
 
-        ReservationEntity entity = null;
-        entity = (ReservationEntity) query.getSingleResult();
+        ReservationEntity entity;
+        try {
+            entity = (ReservationEntity) query.getSingleResult();
+        } catch (Exception e) {
+            entity = null;
+        }
 
         return entity;
     }

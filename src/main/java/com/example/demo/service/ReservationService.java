@@ -112,6 +112,14 @@ public interface ReservationService {
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MEMBER')")
     public ResultBean cancelBorrowingReservation(Integer reservationId) throws LibException, AccessDeniedException;
     
+    /**
+     * extendReservation
+     * @author: LinhDT
+     * @param reservation
+     * @return
+     * @throws LibException
+     * @throws AccessDeniedException
+     */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MEMBER')")
     public ResultBean extendReservation(ReservationEntity reservation) throws LibException, AccessDeniedException;
 

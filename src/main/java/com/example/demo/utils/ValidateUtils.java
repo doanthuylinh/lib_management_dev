@@ -9,8 +9,8 @@ package com.example.demo.utils;
 import com.example.demo.bean.BookEntity;
 import com.example.demo.bean.BookItemEntity;
 import com.example.demo.bean.UserEntity;
-import com.example.demo.data.UserRole;
 import com.example.demo.exception.ApiValidateException;
+import com.google.gson.JsonObject;
 
 /**
  * [OVERVIEW] Validate Utils.
@@ -21,6 +21,7 @@ import com.example.demo.exception.ApiValidateException;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/09      LinhDT             Create new
+ * 001       1.1       2021/06/01      LinhDT             Update validations
 */
 public class ValidateUtils {
 
@@ -147,6 +148,12 @@ public class ValidateUtils {
         }
     }
 
+    /**
+     * validateUpdateUser
+     * @author: LinhDT
+     * @param userEntity
+     * @throws ApiValidateException
+     */
     public static void validateUpdateUser(UserEntity userEntity) throws ApiValidateException {
 
         if (DataUtils.isNullOrEmpty(userEntity.getEmail())) {
@@ -166,4 +173,44 @@ public class ValidateUtils {
         }
     }
 
+    /**
+     * validateIssueBook
+     * @author: LinhDT
+     * @param obj
+     * @throws ApiValidateException
+     */
+    public static void validateIssueBook(JsonObject obj) throws ApiValidateException {
+        if (DataUtils.isNullOrEmpty(obj.get(ConstantColumn.RESERVATION_ID))) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.RESERVATION_ID));
+        }
+    }
+
+    /**
+     * validateCancelBorrowingReservation
+     * @author: LinhDT
+     * @param obj
+     * @throws ApiValidateException
+     */
+    public static void validateCancelBorrowingReservation(JsonObject obj) throws ApiValidateException {
+        if (DataUtils.isNullOrEmpty(obj.get(ConstantColumn.RESERVATION_ID))) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.RESERVATION_ID));
+        }
+    }
+
+    /**
+     * validateAddReservationItem
+     * @author: LinhDT
+     * @param obj
+     * @throws ApiValidateException
+     */
+    public static void validateReservationItem(JsonObject obj) throws ApiValidateException {
+
+        if (DataUtils.isNullOrEmpty(obj.get(ConstantColumn.USER_ID))) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.USER_ID));
+        }
+
+        if (DataUtils.isNullOrEmpty(obj.get(ConstantColumn.BOOK_ID))) {
+            throw new ApiValidateException("ERR04", MessageUtils.getMessage("ERR04", ConstantColumn.BOOK_ID));
+        }
+    }
 }

@@ -207,6 +207,13 @@ public class BookServiceImpl implements BookService {
         return new ResultBean(entitys, "200", MessageUtils.getMessage("MSG01", new Object[] { "book(s) by search book" }));
     }
 
+    /**
+     * updateBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean updateBook(String data) throws ApiValidateException {
         BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
@@ -216,6 +223,13 @@ public class BookServiceImpl implements BookService {
         return new ResultBean(bookDao.updateBook(book), "200", MessageUtils.getMessage("MSG04", "book"));
     }
 
+    /**
+     * addBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean addBook(String data) throws ApiValidateException {
         BookEntity book = DataUtils.getEntityByJsonString(data, BookEntity.class);
@@ -226,6 +240,13 @@ public class BookServiceImpl implements BookService {
         return new ResultBean(bookDao.addBook(book), "201", MessageUtils.getMessage("MSG02", "book"));
     }
 
+    /**
+     * removeBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     @Override
     public ResultBean removeBook(String data) throws ApiValidateException {
         Integer bookId = DataUtils.getAsIntegerByJsonString(data, "book_id");

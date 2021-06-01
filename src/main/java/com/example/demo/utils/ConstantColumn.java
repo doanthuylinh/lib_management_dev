@@ -15,10 +15,12 @@ package com.example.demo.utils;
  * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
  * --------------------------------------------------------------------------
  * 001       1.0       2021/04/08      LinhDT             Create new
- * 001       1.0       2021/05/06      LinhDT             Add new columns
+ * 002       1.1       2021/05/06      LinhDT             Add new columns
+ * 003       1.2       2021/06/01      LinhDT             Add new columns
 */
 public class ConstantColumn {
 
+    public final static String USER_ID = "user_id";
     public final static String PHONE = "phone";
     public final static String USERNAME = "username";
     public final static String PASSWORD = "password";
@@ -46,4 +48,7 @@ public class ConstantColumn {
 
     public final static String TRANSACTION_TYPE_ID = "transaction_type_id";
     public final static String TRANSACTION_TYPE_NAME = "transaction_type_name";
+    
+    public final static String RESERVATION_ID = "reservation_id";
+    public final static String AMOUNT = "amount";
 }

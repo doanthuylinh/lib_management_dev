@@ -101,5 +101,12 @@ public interface BookService {
      */
     public ResultBean updateBook(String data) throws ApiValidateException;
     
+    /**
+     * removeBook
+     * @author: LinhDT
+     * @param data
+     * @return
+     * @throws ApiValidateException
+     */
     public ResultBean removeBook(String data) throws ApiValidateException;
 }

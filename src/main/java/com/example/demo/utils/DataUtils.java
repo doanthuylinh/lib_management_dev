@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.example.demo.exception.ApiValidateException;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
@@ -137,6 +138,13 @@ public class DataUtils {
         return false;
     }
 
+    public static boolean isNullOrEmpty(JsonElement data) {
+        if (data == null) {
+            return true;
+        }
+        return false;
+    }
+
     public static <T> T getEntityByJsonString(String data, Class<T> typeoff) throws ApiValidateException {
         ValidateUtils.validateDataBody(data);
 
@@ -144,11 +152,11 @@ public class DataUtils {
 
         return entity;
     }
-    
+
     public static Integer getAsIntegerByJsonString(String data, String member) throws ApiValidateException {
-    	JsonObject obj = new Gson().fromJson(data, JsonObject.class);
-    	
-    	
+        JsonObject obj = new Gson().fromJson(data, JsonObject.class);
+
         return getAsIntegerByJson(obj, member);
     }
+
 }
